@@ -1,6 +1,9 @@
 import 'package:CTAMA/backend/database.dart';
 import 'package:CTAMA/models/user.dart';
 import 'package:CTAMA/screens/Saved_Parcelle.dart';
+import 'package:CTAMA/screens/SinistreScreen.dart';
+import 'package:CTAMA/screens/agri-risques.dart';
+import 'package:CTAMA/screens/sinistre.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -20,49 +23,51 @@ class _AgrProfileState extends State<AgrProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-          child: widget.uid==null? Column(
-        children: [
-          _getHeader(),
-          SizedBox(height: 10),
-          _profilename(widget.myuser.name),
-          SizedBox(height: 30),
-          _heading("Informations personnelles"),
-          SizedBox(height: 6),
-          _detailsCard(widget.myuser.email,widget.myuser.name,"6445454"),
-          SizedBox(height: 10),
-          _heading("Informations professionelles"),
-          _settingsCard(widget.myuser.id),
-        ],
-      ):FutureBuilder(
-                  future: DatabaseService().getUserFuture(widget.uid),
-                  builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-                      if (snapshot.hasData&&snapshot.data!=null){
-                        if (snapshot.data.data()!=null){
-                            return Center(child: Text("ERROR"),);
-                          }else{
-                            final Myuser myuser = Myuser.fromMap(snapshot.data.data());
-                              return Column(
-                                    children: [
-                                      _getHeader(),
-                                      SizedBox(height: 10),
-                                      _profilename(myuser.name),
-                                      SizedBox(height: 30),
-                                      _heading("Informations personnelles"),
-                                      SizedBox(height: 6),
-                                      _detailsCard(myuser.email,myuser.name,"57878784"),
-                                      SizedBox(height: 10),
-                                      _heading("Informations professionelles"),
-                                      _settingsCard(myuser.id),
-                                    ],
-                              );
-                                  }
-                              }
-                              return Center(
-                                child: CircularProgressIndicator(),
-                              );
-                          },
-                        ),
+      body: SingleChildScrollView(
+              child: SafeArea(
+            child: widget.uid==null? Column(
+          children: [
+            _getHeader(widget.myuser.imageUrl),
+            SizedBox(height: 10),
+            _profilename(widget.myuser.name),
+            SizedBox(height: 30),
+            _heading("Informations personnelles"),
+            SizedBox(height: 6),
+            _detailsCard(widget.myuser.email,widget.myuser.name,widget.myuser.cin),
+            SizedBox(height: 10),
+            _heading("Informations professionelles"),
+            _settingsCard(widget.myuser.id,widget.myuser.nbSinisitre),
+          ],
+        ):FutureBuilder(
+                    future: DatabaseService().getUserFuture(widget.uid),
+                    builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+                        if (snapshot.hasData&&snapshot.data!=null){
+                          if (snapshot.data.data()==null){
+                              return Center(child: Text("ERROR"),);
+                            }else{
+                              final Myuser myuser = Myuser.fromMap(snapshot.data.data());
+                                return Column(
+                                      children: [
+                                        _getHeader(myuser.imageUrl),
+                                        SizedBox(height: 10),
+                                        _profilename(myuser.name),
+                                        SizedBox(height: 30),
+                                        _heading("Informations personnelles"),
+                                        SizedBox(height: 6),
+                                        _detailsCard(myuser.email,myuser.name,myuser.cin),
+                                        SizedBox(height: 10),
+                                        _heading("Informations professionelles"),
+                                        _settingsCard(myuser.id,myuser.nbSinisitre),
+                                      ],
+                                );
+                                    }
+                                }
+                                return Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                            },
+                          ),
+        ),
       ),
     );
   }
@@ -124,7 +129,7 @@ class _AgrProfileState extends State<AgrProfile> {
     );
   }
 
-  Widget _settingsCard(String id) {
+  Widget _settingsCard(String id,int nbsin) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
@@ -147,9 +152,49 @@ class _AgrProfileState extends State<AgrProfile> {
               height: 6,
               color: Colors.black87,
             ),
-            ListTile(
-              leading: Icon(Icons.dangerous),
-              title: Text("Sinistre"),
+            GestureDetector(
+              onTap: (){
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (cntx)=>SinistreView(
+                    uid: id,
+                    readOnly: true,
+                  ))
+                  );
+              },
+                child: ListTile(
+                leading: Icon(Icons.dangerous,color: nbsin>0? Colors.red:Colors.grey),
+                title: Text("Sinistre",),
+                trailing: Container(
+                  child: Text("$nbsin",style: TextStyle(color: Colors.white),),
+                  padding: EdgeInsets.all(5.0),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.grey,
+                  ),
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: (){
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (cntx)=>AgriRisques(
+                    uid: id,
+                  )
+                  )
+                  );
+              },
+                child: ListTile(
+                leading: Icon(Icons.dangerous,color: nbsin>0? Colors.red:Colors.grey),
+                title: Text("Sinistre",),
+                trailing: Container(
+                  child: Text("$nbsin",style: TextStyle(color: Colors.white),),
+                  padding: EdgeInsets.all(5.0),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.grey,
+                  ),
+                ),
+              ),
             ),
             Divider(
               height: 6,
@@ -165,7 +210,7 @@ class _AgrProfileState extends State<AgrProfile> {
     );
   }
 
-  Widget _getHeader() {
+  Widget _getHeader(String imageUrl) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -179,7 +224,7 @@ class _AgrProfileState extends State<AgrProfile> {
                 image: DecorationImage(
                   fit: BoxFit.fill,
                   image: NetworkImage(
-                     widget.myuser.imageUrl!=null? widget.myuser.imageUrl : "https://fiverr-res.cloudinary.com/images/q_auto,f_auto/gigs2/112692698/original/31a5d2469689575beee06ffcf4e9e76abab3abe2/logo-design-for-profile-picture-dessin-pour-photo-de-profil.png"
+                    imageUrl!=null? imageUrl : "https://fiverr-res.cloudinary.com/images/q_auto,f_auto/gigs2/112692698/original/31a5d2469689575beee06ffcf4e9e76abab3abe2/logo-design-for-profile-picture-dessin-pour-photo-de-profil.png"
                     ),
                 )),
           ),

@@ -47,18 +47,24 @@ class AuthenticationService {
   
 
 // THIS FUNCTION RETURN A BOOLEAN VALUE TRUE IF signup SUCCESS OTHERWISE RETURN FALSE
-  Future<bool> signUp({String name, String email, String password,int role}) async {
+  Future<bool> signUp({String name, String email, String password,int role,String cin}) async {
     try {
 
-      return await _firebaseAuth
+      final bool excist = await DatabaseService().isUserAlreadyExcist(cin);
+
+      if (excist!=null){
+        if (!excist){
+          return await _firebaseAuth
       .createUserWithEmailAndPassword(email: email, password: password)
       .then((value)async{
         if (value!=null){
             final Myuser myuser = Myuser(
+                nbSinisitre: 0,
                 accepted: false,
                 email: value.user.email,
                 name: name,
                 id: value.user.uid,
+                cin: cin,
                 imageUrl: null,
                 pass: password,
                 role: role,
@@ -66,13 +72,27 @@ class AuthenticationService {
         return await DatabaseService().addUserToDB(myuser);
         }
       }).onError((error, stackTrace) => false);
+        }else{
+             toast.Fluttertoast.showToast(
+                      msg: "compte already excist!",
+                             timeInSecForIosWeb: 3,
+                             backgroundColor: Colors.red.withOpacity(0.8),
+                      gravity: toast.ToastGravity.TOP
+          );
+        }
+      }
       
+  return false;
 
     } catch (e) {
       print(e.message);
       return false;
     }
   }
+
+
+
+  
 
   Future<bool> signOut() async {
     try {

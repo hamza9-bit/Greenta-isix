@@ -28,6 +28,7 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
   String name = '';
   String email = '';
   String error = '';
+  String cin;
 
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
 
@@ -44,7 +45,7 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
 
       formkey.currentState.save();
       authenticationService
-          .signUp(name: name, email: email, password: password,role: _radioValue)
+          .signUp(name: name, email: email, password: password,role: _radioValue,cin:cin)
           .then((value) =>
               value ? pushNavToDash(context: context) : print("FAIL")
               );
@@ -158,6 +159,19 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                                 errorText:
                                     "Veuillez saisir une adresse mail valid"),
                           ])),
+                          TextInputField(
+                          icon: FontAwesomeIcons.envelope,
+                          hint: 'Cin',
+                          inputType: TextInputType.number,
+                          inputAction: TextInputAction.next,
+                          onSaved: (String mycin) => cin = mycin,
+                          validator:(string){
+                            if (string.length!=8){
+                              return "cin invalid";
+                            }else{
+                              return null;
+                            }
+                          }),
                       PasswordInput(
                         onSaved: (String mypass) => password = mypass,
                         icon: FontAwesomeIcons.lock,

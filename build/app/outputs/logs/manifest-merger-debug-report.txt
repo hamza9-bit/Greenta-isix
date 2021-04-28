@@ -11,6 +11,7 @@ MERGED from [:firebase_storage] C:\PFE\CTAMA\build\firebase_storage\intermediate
 MERGED from [:google_maps_flutter] C:\PFE\CTAMA\build\google_maps_flutter\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:flutter_plugin_android_lifecycle] C:\PFE\CTAMA\build\flutter_plugin_android_lifecycle\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:geolocator] C:\PFE\CTAMA\build\geolocator\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
+MERGED from [:url_launcher] C:\PFE\CTAMA\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-14:12
 MERGED from [:path_provider] C:\PFE\CTAMA\build\path_provider\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:cloud_firestore] C:\PFE\CTAMA\build\cloud_firestore\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-15:12
 MERGED from [:permission_handler] C:\PFE\CTAMA\build\permission_handler\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
@@ -106,6 +107,8 @@ application
 ADDED from C:\PFE\CTAMA\android\app\src\main\AndroidManifest.xml:14:5-55:19
 MERGED from [:firebase_storage] C:\PFE\CTAMA\build\firebase_storage\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-13:19
 MERGED from [:firebase_storage] C:\PFE\CTAMA\build\firebase_storage\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-13:19
+MERGED from [:url_launcher] C:\PFE\CTAMA\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-12:19
+MERGED from [:url_launcher] C:\PFE\CTAMA\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-12:19
 MERGED from [:cloud_firestore] C:\PFE\CTAMA\build\cloud_firestore\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-13:19
 MERGED from [:cloud_firestore] C:\PFE\CTAMA\build\cloud_firestore\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-13:19
 MERGED from [:location] C:\PFE\CTAMA\build\location\intermediates\library_manifest\debug\AndroidManifest.xml:10:5-16:19
@@ -216,6 +219,8 @@ MERGED from [:flutter_plugin_android_lifecycle] C:\PFE\CTAMA\build\flutter_plugi
 MERGED from [:flutter_plugin_android_lifecycle] C:\PFE\CTAMA\build\flutter_plugin_android_lifecycle\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:geolocator] C:\PFE\CTAMA\build\geolocator\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:geolocator] C:\PFE\CTAMA\build\geolocator\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:url_launcher] C:\PFE\CTAMA\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:url_launcher] C:\PFE\CTAMA\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:path_provider] C:\PFE\CTAMA\build\path_provider\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:path_provider] C:\PFE\CTAMA\build\path_provider\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:cloud_firestore] C:\PFE\CTAMA\build\cloud_firestore\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
@@ -330,6 +335,14 @@ ADDED from [:firebase_storage] C:\PFE\CTAMA\build\firebase_storage\intermediates
 		ADDED from [:firebase_storage] C:\PFE\CTAMA\build\firebase_storage\intermediates\library_manifest\debug\AndroidManifest.xml:11:17-82
 	android:name
 		ADDED from [:firebase_storage] C:\PFE\CTAMA\build\firebase_storage\intermediates\library_manifest\debug\AndroidManifest.xml:10:17-126
+activity#io.flutter.plugins.urllauncher.WebViewActivity
+ADDED from [:url_launcher] C:\PFE\CTAMA\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:8:9-11:74
+	android:exported
+		ADDED from [:url_launcher] C:\PFE\CTAMA\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:10:13-37
+	android:theme
+		ADDED from [:url_launcher] C:\PFE\CTAMA\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:11:13-71
+	android:name
+		ADDED from [:url_launcher] C:\PFE\CTAMA\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:9:13-74
 meta-data#com.google.firebase.components:io.flutter.plugins.firebase.firestore.FlutterFirebaseFirestoreRegistrar
 ADDED from [:cloud_firestore] C:\PFE\CTAMA\build\cloud_firestore\intermediates\library_manifest\debug\AndroidManifest.xml:9:13-11:85
 	android:value

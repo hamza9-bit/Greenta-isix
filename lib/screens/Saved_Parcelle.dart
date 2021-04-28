@@ -1,6 +1,7 @@
 import 'package:CTAMA/backend/database.dart';
 import 'package:CTAMA/models/myMarker.dart';
 import 'package:CTAMA/models/parcelle_poly.dart';
+import 'package:CTAMA/models/user.dart';
 import 'package:CTAMA/screens/SavedPar_View.dart';
 import 'package:CTAMA/screens/parcelle.dart';
 import 'package:flutter/material.dart';
@@ -10,8 +11,12 @@ import 'package:CTAMA/screens/Agent/saved_agences_view.dart';
 
 class SavedParcelle extends StatelessWidget {
   final bool iamagri;
-
-  SavedParcelle({Key key, this.uid, this.iamagri = false}) : super(key: key);
+  final String uid;
+  SavedParcelle({
+    Key key,
+    this.uid,
+    this.iamagri = false,
+  }) : super(key: key);
 
   Future<bool> createDialog(BuildContext context, String id) async {
     final GlobalKey<FormState> globalKey = GlobalKey<FormState>();
@@ -56,7 +61,6 @@ class SavedParcelle extends StatelessWidget {
     );
   }
 
-  final String uid;
   final DatabaseService databaseService = DatabaseService();
 
   @override
@@ -89,7 +93,7 @@ class SavedParcelle extends StatelessWidget {
           if (snapshot.hasData && snapshot.data != null) {
             if (snapshot.data.docs.isEmpty) {
               return Center(
-                child: Text("Aucune parcelles ajoutés.",
+                child: Text("Aucune parcelles ajoutées.",
                     style: TextStyle(fontSize: 23)),
               );
             } else {
@@ -112,7 +116,7 @@ class SavedParcelle extends StatelessWidget {
                                   myPpolygon.reference != null
                                       ? "Parcelle n° ${myPpolygon.reference}"
                                       : "Parcelle n° $index",
-                                  style: TextStyle(fontSize: 29)),
+                                  style: TextStyle(fontSize: 24)),
                               trailing: Container(
                                 width: 100,
                                 child: Row(

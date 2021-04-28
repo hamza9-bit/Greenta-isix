@@ -3,8 +3,7 @@ import 'package:CTAMA/screens/Agent/Agences.dart';
 import 'package:CTAMA/screens/Agent/Agent-panel.dart';
 import 'package:CTAMA/screens/WaitingScreen.dart';
 import 'package:CTAMA/screens/ajouter-agence.dart';
-import 'package:CTAMA/screens/expert/accueil.dart';
-import 'package:CTAMA/screens/expert/aide.dart';
+
 import 'package:CTAMA/screens/goomap.dart';
 import 'package:CTAMA/screens/expert/rapport.dart';
 import 'package:firebase_auth/firebase_auth.dart';

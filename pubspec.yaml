@@ -47,6 +47,7 @@ dev_dependencies:
   carousel_pro: ^1.0.0
   file_picker: ^1.1.1
   path_provider: ^2.0.1
+  url_launcher: ^6.0.3
 
 #  polymaker: ^1.0.2
 # For information on the generic Dart part of this file, see the

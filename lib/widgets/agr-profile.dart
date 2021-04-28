@@ -8,13 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AgrProfile extends StatefulWidget {
-
-
-final Myuser myuser;
-final String uid;
+  final Myuser myuser;
+  final String uid;
 
   const AgrProfile({Key key, this.myuser, this.uid}) : super(key: key);
-  
+
   @override
   _AgrProfileState createState() => _AgrProfileState();
 }
@@ -24,54 +22,60 @@ class _AgrProfileState extends State<AgrProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-              child: SafeArea(
-            child: widget.uid==null? Column(
-          children: [
-            _getHeader(widget.myuser.imageUrl),
-            SizedBox(height: 10),
-            _profilename(widget.myuser.name),
-            SizedBox(height: 30),
-            _heading("Informations personnelles"),
-            SizedBox(height: 6),
-            _detailsCard(widget.myuser.email,widget.myuser.name,widget.myuser.cin),
-            SizedBox(height: 10),
-            _heading("Informations professionelles"),
-            _settingsCard(widget.myuser.id,widget.myuser.nbSinisitre),
-          ],
-        ):FutureBuilder(
-                    future: DatabaseService().getUserFuture(widget.uid),
-                    builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-                        if (snapshot.hasData&&snapshot.data!=null){
-                          if (snapshot.data.data()==null){
-                              return Center(child: Text("ERROR"),);
-                            }else{
-                              final Myuser myuser = Myuser.fromMap(snapshot.data.data());
-                                return Column(
-                                      children: [
-                                        _getHeader(myuser.imageUrl),
-                                        SizedBox(height: 10),
-                                        _profilename(myuser.name),
-                                        SizedBox(height: 30),
-                                        _heading("Informations personnelles"),
-                                        SizedBox(height: 6),
-                                        _detailsCard(myuser.email,myuser.name,myuser.cin),
-                                        SizedBox(height: 10),
-                                        _heading("Informations professionelles"),
-                                        _settingsCard(myuser.id,myuser.nbSinisitre),
-                                      ],
-                                );
-                                    }
-                                }
-                                return Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                            },
-                          ),
+        child: SafeArea(
+          child: widget.uid == null
+              ? Column(
+                  children: [
+                    _getHeader(widget.myuser.imageUrl),
+                    SizedBox(height: 10),
+                    _profilename(widget.myuser.name),
+                    SizedBox(height: 30),
+                    _heading("Informations personnelles"),
+                    SizedBox(height: 6),
+                    _detailsCard(widget.myuser.email, widget.myuser.name,
+                        widget.myuser.cin),
+                    SizedBox(height: 10),
+                    _heading("Informations professionelles"),
+                    _settingsCard(widget.myuser.id, widget.myuser.nbSinisitre),
+                  ],
+                )
+              : FutureBuilder(
+                  future: DatabaseService().getUserFuture(widget.uid),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<DocumentSnapshot> snapshot) {
+                    if (snapshot.hasData && snapshot.data != null) {
+                      if (snapshot.data.data() == null) {
+                        return Center(
+                          child: Text("ERROR"),
+                        );
+                      } else {
+                        final Myuser myuser =
+                            Myuser.fromMap(snapshot.data.data());
+                        return Column(
+                          children: [
+                            _getHeader(myuser.imageUrl),
+                            SizedBox(height: 10),
+                            _profilename(myuser.name),
+                            SizedBox(height: 30),
+                            _heading("Informations personnelles"),
+                            SizedBox(height: 6),
+                            _detailsCard(myuser.email, myuser.name, myuser.cin),
+                            SizedBox(height: 10),
+                            _heading("Informations professionelles"),
+                            _settingsCard(myuser.id, myuser.nbSinisitre),
+                          ],
+                        );
+                      }
+                    }
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  },
+                ),
         ),
       ),
     );
   }
-
 
   Widget _profilename(String name) {
     return Container(
@@ -96,7 +100,7 @@ class _AgrProfileState extends State<AgrProfile> {
     );
   }
 
-  Widget _detailsCard(String email,String name,String identity) {
+  Widget _detailsCard(String email, String name, String identity) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
@@ -129,7 +133,7 @@ class _AgrProfileState extends State<AgrProfile> {
     );
   }
 
-  Widget _settingsCard(String id,int nbsin) {
+  Widget _settingsCard(String id, int nbsin) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
@@ -137,13 +141,13 @@ class _AgrProfileState extends State<AgrProfile> {
         child: Column(
           children: [
             GestureDetector(
-              onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (cntx)=>SavedParcelle(
-                    uid: id)
-                    )
-                );
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (cntx) => SavedParcelle(uid: id)));
               },
-                child: ListTile(
+              child: ListTile(
                 leading: Icon(Icons.landscape_outlined),
                 title: Text("Parcelle"),
               ),
@@ -153,19 +157,24 @@ class _AgrProfileState extends State<AgrProfile> {
               color: Colors.black87,
             ),
             GestureDetector(
-              onTap: (){
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (cntx)=>SinistreView(
-                    uid: id,
-                    readOnly: true,
-                  ))
-                  );
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (cntx) => SinistreView(
+                          uid: id,
+                          readOnly: true,
+                        )));
               },
-                child: ListTile(
-                leading: Icon(Icons.dangerous,color: nbsin>0? Colors.red:Colors.grey),
-                title: Text("Sinistre",),
+              child: ListTile(
+                leading: Icon(Icons.dangerous,
+                    color: nbsin > 0 ? Colors.red : Colors.grey),
+                title: Text(
+                  "Sinistre",
+                ),
                 trailing: Container(
-                  child: Text("$nbsin",style: TextStyle(color: Colors.white),),
+                  child: Text(
+                    "$nbsin",
+                    style: TextStyle(color: Colors.white),
+                  ),
                   padding: EdgeInsets.all(5.0),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
@@ -175,19 +184,23 @@ class _AgrProfileState extends State<AgrProfile> {
               ),
             ),
             GestureDetector(
-              onTap: (){
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (cntx)=>AgriRisques(
-                    uid: id,
-                  )
-                  )
-                  );
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (cntx) => AgriRisques(
+                          uid: id,
+                        )));
               },
-                child: ListTile(
-                leading: Icon(Icons.dangerous,color: nbsin>0? Colors.red:Colors.grey),
-                title: Text("Sinistre",),
+              child: ListTile(
+                leading: Icon(Icons.dangerous,
+                    color: nbsin > 0 ? Colors.red : Colors.grey),
+                title: Text(
+                  "Sinistre",
+                ),
                 trailing: Container(
-                  child: Text("$nbsin",style: TextStyle(color: Colors.white),),
+                  child: Text(
+                    "$nbsin",
+                    style: TextStyle(color: Colors.white),
+                  ),
                   padding: EdgeInsets.all(5.0),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
@@ -223,9 +236,9 @@ class _AgrProfileState extends State<AgrProfile> {
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   fit: BoxFit.fill,
-                  image: NetworkImage(
-                    imageUrl!=null? imageUrl : "https://fiverr-res.cloudinary.com/images/q_auto,f_auto/gigs2/112692698/original/31a5d2469689575beee06ffcf4e9e76abab3abe2/logo-design-for-profile-picture-dessin-pour-photo-de-profil.png"
-                    ),
+                  image: NetworkImage(imageUrl != null
+                      ? imageUrl
+                      : "https://fiverr-res.cloudinary.com/images/q_auto,f_auto/gigs2/112692698/original/31a5d2469689575beee06ffcf4e9e76abab3abe2/logo-design-for-profile-picture-dessin-pour-photo-de-profil.png"),
                 )),
           ),
         )

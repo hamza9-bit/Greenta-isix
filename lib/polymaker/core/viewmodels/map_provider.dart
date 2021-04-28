@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:CTAMA/backend/authentication_services.dart';
 import 'package:CTAMA/backend/database.dart';
 import 'package:CTAMA/models/parcelle_poly.dart';
+import 'package:CTAMA/models/user.dart';
 import 'package:CTAMA/screens/Agriculteur-screen.dart';
 import 'package:fluttertoast/fluttertoast.dart' as toast;
 import 'dart:math';
@@ -16,8 +17,6 @@ import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-
 
 class MapProvider extends ChangeNotifier {
   ///------------------------///
@@ -126,6 +125,8 @@ class MapProvider extends ChangeNotifier {
   ///Check if initialize camera success
   bool _onInitCamera = false;
   bool get onInitCamera => _onInitCamera;
+  Myuser myuser;
+  String id;
 
   ///------------------------///
   ///   FUNCTION SECTIONS   ///
@@ -451,8 +452,7 @@ class MapProvider extends ChangeNotifier {
         points: _tempLocation,
         strokeWidth: 3,
         fillColor: _polygonColor.withOpacity(0.3),
-        strokeColor: _polygonColor
-        ));
+        strokeColor: _polygonColor));
 
     _polygons = _tempPolygons;
     notifyListeners();
@@ -475,36 +475,39 @@ class MapProvider extends ChangeNotifier {
   }
 
   ///Function to save tracking points to database
-  void saveTracking(BuildContext context) async{
+  void saveTracking(BuildContext context) async {
     if (_tempLocation.length > 2) {
-      DatabaseService().addParcelleToDB(
-        MyPpolygon(
-          uid: AuthenticationService().getCurrentUser().uid,
-          id: "",
-          myPolygonP: List.generate(_tempLocation.length, (index) => GeoPoint(
-            _tempLocation[index].latitude,
-            _tempLocation[index].longitude
-          )) 
-        )
-      ).then((value){
+      DatabaseService()
+          .addParcelleToDB(MyPpolygon(
+              uid: AuthenticationService().getCurrentUser().uid,
+              id: "",
+              myPolygonP: List.generate(
+                  _tempLocation.length,
+                  (index) => GeoPoint(_tempLocation[index].latitude,
+                      _tempLocation[index].longitude))))
+          .then((value) {
         if (value)
-        Navigator.pushAndRemoveUntil(
-          context, 
-          MaterialPageRoute(builder: (cntx)=>Dashboard()), 
-          (route) => false);else toast.Fluttertoast.showToast(
-         msg: "an error was occured !",
-         backgroundColor: Colors.red.withOpacity(0.8),
-         gravity: toast.ToastGravity.TOP
-         );
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                  builder: (cntx) => Dashboard(
+                        id: myuser.id,
+                        myuser: myuser,
+                      )),
+              (route) => false);
+        else
+          toast.Fluttertoast.showToast(
+              msg: "an error was occured !",
+              backgroundColor: Colors.red.withOpacity(0.8),
+              gravity: toast.ToastGravity.TOP);
       });
       //Navigator.pop(context, _tempLocation);
       print("PASS");
     } else {
-        toast.Fluttertoast.showToast(
-         msg: "preciser votre parcelle premièrement !",
-         backgroundColor: Colors.red.withOpacity(0.8),
-         gravity: toast.ToastGravity.TOP
-         );
+      toast.Fluttertoast.showToast(
+          msg: "preciser votre parcelle premièrement !",
+          backgroundColor: Colors.red.withOpacity(0.8),
+          gravity: toast.ToastGravity.TOP);
       //Navigator.pop(context, null);
     }
   }

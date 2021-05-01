@@ -1,3 +1,4 @@
+import 'package:CTAMA/models/user.dart';
 import 'package:CTAMA/polymaker/core/models/trackingmode.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -5,10 +6,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import '../../core/viewmodels/map_provider.dart';
 
-
 class MapScreen extends StatefulWidget {
   ///Property to customize tool color
   final Color toolColor;
+
+  final Myuser user;
 
   ///Property to customize polygon color
   final Color polygonColor;
@@ -47,6 +49,7 @@ class MapScreen extends StatefulWidget {
 
   MapScreen(
       {this.toolColor,
+      this.user,
       this.polygonColor,
       this.iconLocation,
       this.iconEditMode,
@@ -78,7 +81,7 @@ class _MapScreenState extends State<MapScreen> {
       body: MultiProvider(
         providers: [
           ChangeNotifierProvider(
-            create: (context) => MapProvider(),
+            create: (context) => MapProvider(widget.user),
           )
         ],
         child: Consumer<MapProvider>(
@@ -115,9 +118,8 @@ class _MapScreenState extends State<MapScreen> {
                             compassEnabled: false,
                             tiltGesturesEnabled: false,
                             markers: mapProv.markers,
-                            mapType: isSatellite
-                                ? MapType.satellite
-                                : MapType.normal,
+                            mapType:
+                                isSatellite ? MapType.hybrid : MapType.normal,
                             initialCameraPosition: mapProv.cameraPosition,
                             onMapCreated: mapProv.onMapCreated,
                             mapToolbarEnabled: false,
@@ -276,8 +278,8 @@ class _MapScreenState extends State<MapScreen> {
                             ),
                             SizedBox(width: 10),
                             InkWell(
-                              onTap: () => mapProv.changeCameraPosition(
-                                  mapProv.sourceLocation),
+                              onTap: () => mapProv
+                                  .changeCameraPosition(mapProv.sourceLocation),
                               child: Container(
                                 width: 40,
                                 height: 40,
@@ -327,21 +329,23 @@ class _MapScreenState extends State<MapScreen> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: FloatingActionButton.extended(
-          onPressed: () =>mapProv.saveTracking(context),
-          backgroundColor: Colors.blue,
-          label: Row(
-            children: <Widget>[
-              Text(
-                'CONTINUE',
-                style: TextStyle(color: Colors.black87),
-              ),
-              SizedBox(width: 3,),
-              Icon(
-                Icons.arrow_forward_ios_rounded,
-                color: Colors.black87,
-              ),
-            ],
-          )),
+                          onPressed: () => mapProv.saveTracking(context),
+                          backgroundColor: Colors.blue,
+                          label: Row(
+                            children: <Widget>[
+                              Text(
+                                'CONTINUE',
+                                style: TextStyle(color: Colors.black87),
+                              ),
+                              SizedBox(
+                                width: 3,
+                              ),
+                              Icon(
+                                Icons.arrow_forward_ios_rounded,
+                                color: Colors.black87,
+                              ),
+                            ],
+                          )),
                     ),
                   )
                   /*widget.targetCameraPosition == null && mapProv.isEditMode

@@ -1,4 +1,4 @@
-
+import 'package:CTAMA/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import './ui/screens/map_screen.dart';
@@ -7,6 +7,8 @@ import './core/models/trackingmode.dart';
 class PolyMaker {
   ///BuildContext property
   BuildContext context;
+
+  final Myuser user;
 
   ///Property to customize tool color
   final Color toolColor;
@@ -47,7 +49,7 @@ class PolyMaker {
   final bool enableDragMarker;
 
   PolyMaker(
-      {
+      {this.user,
       @required this.context,
       this.toolColor,
       this.polygonColor,
@@ -67,6 +69,7 @@ class PolyMaker {
   Future<List<LatLng>> getLocation() async {
     final result = await Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => MapScreen(
+              user: user,
               toolColor: toolColor,
               polygonColor: polygonColor,
               iconLocation: iconLocation,
@@ -88,6 +91,7 @@ class PolyMaker {
 ///Function to open location maker
 Future<List<LatLng>> getLocation(BuildContext context,
     {Color toolColor,
+    Myuser myuser,
     Color polygonColor,
     IconData iconLocation,
     IconData iconEditMode,
@@ -101,6 +105,7 @@ Future<List<LatLng>> getLocation(BuildContext context,
     TrackingMode trackingMode,
     bool enableDragMarker}) async {
   return await PolyMaker(
+          user: myuser,
           context: context,
           toolColor: toolColor != null ? toolColor : Colors.black87,
           polygonColor: polygonColor != null ? polygonColor : Colors.red,

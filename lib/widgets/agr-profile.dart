@@ -159,35 +159,29 @@ class _AgrProfileState extends State<AgrProfile> {
             GestureDetector(
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (cntx) => SinistreView(
+                    builder: (cntx) => AgriRisques(
                           uid: id,
-                          readOnly: true,
                         )));
               },
               child: ListTile(
-                leading: Icon(Icons.dangerous,
-                    color: nbsin > 0 ? Colors.red : Colors.grey),
-                title: Text(
-                  "Sinistre",
+                leading: Icon(
+                  Icons.dangerous,
                 ),
-                trailing: Container(
-                  child: Text(
-                    "$nbsin",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  padding: EdgeInsets.all(5.0),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.grey,
-                  ),
+                title: Text(
+                  "Risques",
                 ),
               ),
+            ),
+            Divider(
+              height: 6,
+              color: Colors.black87,
             ),
             GestureDetector(
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (cntx) => AgriRisques(
+                    builder: (cntx) => SinistreView(
                           uid: id,
+                          readOnly: true,
                         )));
               },
               child: ListTile(

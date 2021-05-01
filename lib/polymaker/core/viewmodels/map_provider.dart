@@ -23,8 +23,13 @@ class MapProvider extends ChangeNotifier {
   ///   PROPERTY SECTIONS    ///
   ///------------------------///
 
+  final Myuser user;
+
   ///Property zoom camera
   double _cameraZoom = 16;
+
+  MapProvider(this.user);
+
   double get cameraZoom => _cameraZoom;
 
   ///Property camera position
@@ -125,13 +130,10 @@ class MapProvider extends ChangeNotifier {
   ///Check if initialize camera success
   bool _onInitCamera = false;
   bool get onInitCamera => _onInitCamera;
-  Myuser myuser;
-  String id;
 
   ///------------------------///
   ///   FUNCTION SECTIONS   ///
   ///------------------------///
-
   ///Function to initialize camera
   void initCamera(bool autoEditMode, bool pointDist,
       {LatLng targetCameraPosition, bool dragMarker}) async {
@@ -479,6 +481,7 @@ class MapProvider extends ChangeNotifier {
     if (_tempLocation.length > 2) {
       DatabaseService()
           .addParcelleToDB(MyPpolygon(
+              reference: "null",
               uid: AuthenticationService().getCurrentUser().uid,
               id: "",
               myPolygonP: List.generate(
@@ -487,14 +490,15 @@ class MapProvider extends ChangeNotifier {
                       _tempLocation[index].longitude))))
           .then((value) {
         if (value)
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                  builder: (cntx) => Dashboard(
-                        id: myuser.id,
-                        myuser: myuser,
-                      )),
-              (route) => false);
+          user != null
+              ? Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                      builder: (cntx) => Dashboard(
+                            myuser: user,
+                          )),
+                  (route) => false)
+              : Navigator.of(context).pop();
         else
           toast.Fluttertoast.showToast(
               msg: "an error was occured !",

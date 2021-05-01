@@ -14,33 +14,26 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Rapportexpertise extends StatefulWidget {
-  
-  
   final String parcelle;
   final String sinistre;
 
-  const Rapportexpertise({Key key, this.parcelle, this.sinistre}) : super(key: key);
+  const Rapportexpertise({Key key, this.parcelle, this.sinistre})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
     return RapportexpertiseState();
   }
-
-
 }
 
 class RapportexpertiseState extends State<Rapportexpertise> {
-
   Widget _buildparcelle() {
-
     return Container(
       child: Text(widget.parcelle),
       padding: EdgeInsets.all(10.0),
       decoration: BoxDecoration(
-        border: Border.fromBorderSide(BorderSide(color: Colors.grey))
-      ),
+          border: Border.fromBorderSide(BorderSide(color: Colors.grey))),
     );
-
   }
 
   Widget _buildsinistre() {
@@ -48,8 +41,7 @@ class RapportexpertiseState extends State<Rapportexpertise> {
       child: Text(widget.sinistre),
       padding: EdgeInsets.all(10.0),
       decoration: BoxDecoration(
-        border: Border.fromBorderSide(BorderSide(color: Colors.grey))
-      ),
+          border: Border.fromBorderSide(BorderSide(color: Colors.grey))),
     );
   }
 
@@ -58,29 +50,28 @@ class RapportexpertiseState extends State<Rapportexpertise> {
       child: Text(DateTime.now().toString()),
       padding: EdgeInsets.all(10.0),
       decoration: BoxDecoration(
-        border: Border.fromBorderSide(BorderSide(color: Colors.grey))
-      ),
+          border: Border.fromBorderSide(BorderSide(color: Colors.grey))),
     );
   }
 
   File file;
 
-   void openFileExplorer() async {
-      perm.Permission.storage.request().then((value)async{
-          if (value==perm.PermissionStatus.granted){
-        file=null;
-      try {
-        file= (await FilePicker.getFile());
-            setState(() {});
+  void openFileExplorer() async {
+    perm.Permission.storage.request().then((value) async {
+      if (value == perm.PermissionStatus.granted) {
+        file = null;
+        try {
+          file = (await FilePicker.getFile());
+          setState(() {});
         } on PlatformException catch (e) {
-        print("Unsupported operation" + e.toString());
-       }
-      if (!mounted) return;
-      }else{
+          print("Unsupported operation" + e.toString());
+        }
+        if (!mounted) return;
+      } else {
         return;
       }
-  });
-    }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -117,49 +108,52 @@ class RapportexpertiseState extends State<Rapportexpertise> {
               ),
               _buildDate(),
               SizedBox(height: 25),
-               Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        FloatingActionButton.extended(
-                      label: file!=null? Text("1 file selected"):Text("no file selected"),
-                      heroTag: "HEROTAG",
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: FloatingActionButton(child: Icon(Icons.upload_outlined),onPressed: ()async=>openFileExplorer()),
-                      )
-                      ],
-                    ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  FloatingActionButton.extended(
+                    label: file != null
+                        ? Text("1 file selected")
+                        : Text("no file selected"),
+                    heroTag: "HEROTAG",
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: FloatingActionButton(
+                        child: Icon(Icons.upload_outlined),
+                        onPressed: () async => openFileExplorer()),
+                  )
+                ],
+              ),
               SizedBox(height: 25),
               ElevatedButton(
                 child: Text(
                   'Envoyer',
                   style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
-                onPressed: ()async {
-                  Navigator.push(context, MaterialPageRoute(
-                    builder: (cntx)=>LoadScreen(
-                      date: DateTime.now().toString(),
-                      path: file.path,
-                      sinistreID: widget.sinistre.split("°")[1],
-                    )
-                    )).then((value){
-                                if (value){
-                                   toast.Fluttertoast.showToast(
-                      msg: "rapport envoyé avec succes",
-                             timeInSecForIosWeb: 3,
-                             backgroundColor: Colors.green.withOpacity(0.8),
-                      gravity: toast.ToastGravity.TOP
-              );
-                                }else{
-                                   toast.Fluttertoast.showToast(
-                      msg: "an error was occured!",
-                             timeInSecForIosWeb: 3,
-                             backgroundColor: Colors.red.withOpacity(0.8),
-                      gravity: toast.ToastGravity.TOP
-                                   );
-                                }
-                              });
+                onPressed: () async {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (cntx) => LoadScreen(
+                                date: DateTime.now().toString(),
+                                path: file.path,
+                                sinistreID: widget.sinistre.split("°")[1],
+                              ))).then((value) {
+                    if (value) {
+                      toast.Fluttertoast.showToast(
+                          msg: "rapport envoyé avec succes",
+                          timeInSecForIosWeb: 3,
+                          backgroundColor: Colors.green.withOpacity(0.8),
+                          gravity: toast.ToastGravity.TOP);
+                    } else {
+                      toast.Fluttertoast.showToast(
+                          msg: "an error was occured!",
+                          timeInSecForIosWeb: 3,
+                          backgroundColor: Colors.red.withOpacity(0.8),
+                          gravity: toast.ToastGravity.TOP);
+                    }
+                  });
                 },
               )
             ],
@@ -192,31 +186,40 @@ class RapportexpertiseState extends State<Rapportexpertise> {
   }
 }
 
-
 class LoadScreen extends StatelessWidget {
+  const LoadScreen({
+    Key key,
+    this.sinistreID,
+    this.path,
+    this.date,
+  }) : super(key: key);
 
-  const LoadScreen({Key key, this.sinistreID, this.path, this.date, }) : super(key: key);
-
-final String sinistreID;
-final String path;
-final String date;
+  final String sinistreID;
+  final String path;
+  final String date;
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: ()async=>false,
-          child: Material(
-            child: FutureBuilder(
-          future: DatabaseService().sendRapport(sinistreID, date,path),
+      onWillPop: () async => false,
+      child: Material(
+        child: FutureBuilder(
+          future: DatabaseService().sendRapport(sinistreID, date, path),
           builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-            if (snapshot.hasData){
-              if (snapshot.data){
-                Navigator.of(context).pop(true);
-              }else{
-                Navigator.of(context).pop(false);
+            if (snapshot.hasData) {
+              if (snapshot.data) {
+                WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                  Navigator.of(context).pop(true);
+                });
+              } else {
+                WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                  Navigator.of(context).pop(false);
+                });
               }
             }
-            return Center(child: CircularProgressIndicator(),);
+            return Center(
+              child: CircularProgressIndicator(),
+            );
           },
         ),
       ),

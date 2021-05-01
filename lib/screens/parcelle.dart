@@ -1,3 +1,4 @@
+import 'package:CTAMA/models/user.dart';
 import 'package:flutter/material.dart';
 import '../polymaker/polymaker.dart' as polymaker;
 
@@ -5,13 +6,15 @@ import '../polymaker/polymaker.dart' as polymaker;
 //import 'package:CTAMA/screens/goomap.dart';
 
 class HomePage extends StatefulWidget {
+  final Myuser user;
+
+  const HomePage({Key key, this.user}) : super(key: key);
+
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  
-  
   //Location location = new Location();
   //bool _serviceEnabled;
   //PermissionStatus _permissionGranted;
@@ -24,7 +27,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   // Check Location Permissions, and get my location
- /* void _checkLocationPermission() async {
+  /* void _checkLocationPermission() async {
     _serviceEnabled = await location.serviceEnabled();
     if (!_serviceEnabled) {
       _serviceEnabled = await location.requestService();
@@ -52,7 +55,8 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.grey[900],
       ),
       floatingActionButton: FloatingActionButton.extended(
-          onPressed: ()async=>  polymaker.getLocation(context, enableDragMarker: true),
+          onPressed: () async => polymaker.getLocation(context,
+              enableDragMarker: true, myuser: widget.user),
           backgroundColor: Colors.orange,
           label: Row(
             children: <Widget>[

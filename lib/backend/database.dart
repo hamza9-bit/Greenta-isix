@@ -21,15 +21,15 @@ class DatabaseService {
   final CollectionReference parcelleCollection =
       FirebaseFirestore.instance.collection('NOAParcelles');
 
-  /*Future<void> userSetup(String displayName) async {
+  Future<void> userSetup(String displayName) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     String uid = auth.currentUser.uid.toString();
 
     profileList.add({'name': displayName, 'uid': uid});
     return;
-  } 
+  }
 
-   Future<void> createUserData(String name, String email, String uid) async {
+  /* Future<void> createUserData(String name, String email, String uid) async {
     return await profileList.doc(uid).set({
       'name': name,
       'email': email,
@@ -48,7 +48,9 @@ class DatabaseService {
   Future<bool> addUserToDB(Myuser myuser) async {
     return await profileList
         .doc(myuser.id)
-        .set(myuser.toMap(myuser))
+        .set(!(myuser.role != 0)
+            ? myuser.toMap(myuser)
+            : myuser.toNOAGRIMap(myuser))
         .then((value) => true)
         .onError((error, stackTrace) => false);
   }
@@ -100,7 +102,7 @@ class DatabaseService {
     return (await profileList.doc(uid).get()).data() != null;
   }
 
-  /*Future getUsersList() async {
+  Future getUsersList() async {
     List itemsList = [];
 
     try {
@@ -113,7 +115,7 @@ class DatabaseService {
     } catch (e) {
       print(e);
     }
-  }*/
+  }
 
   Future<bool> addUsersToDb(Myuser myuser) async {
     try {
@@ -221,7 +223,7 @@ class DatabaseService {
     return profileList
         .doc(uid)
         .collection("Parcelles")
-        .where("ref", isNotEqualTo: null)
+        .where("ref", isNotEqualTo: "null")
         .snapshots();
   }
 
@@ -276,18 +278,21 @@ class DatabaseService {
   Future<bool> sendRapport(String sinID, String date, String path) async {
     return await uploadFileToDb(path).then((value) async {
       if (value != null) {
-        return await sinistresCollec
-            .doc(sinID)
-            .update({
-              "check": true,
-              "date": date,
-              "filePath": value + "@${path.split("/")[1].split(".")[1]}"
-            })
-            .then((value) => true)
-            .onError((error, stackTrace) => false);
+        final String filePath =
+            value + "@${path.split("/").last.split(".")[1]}";
+        try {
+          await sinistresCollec
+              .doc(sinID)
+              .update({"check": false, "date": date, "filePath": filePath});
+          return true;
+        } catch (e) {
+          return false;
+        }
       }
       return false;
-    }).onError((error, stackTrace) => false);
+    }).onError((error, stackTrace) {
+      return false;
+    });
   }
 
   Future<bool> isUserAlreadyExcist(String cin) async {

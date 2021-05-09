@@ -7,13 +7,10 @@ import 'package:flutter/material.dart';
 import 'Agri_risque_formulaire.dart';
 import 'login-screen.dart';
 
-
 class DashboardScreen extends StatelessWidget {
-
-
   const DashboardScreen({Key key, this.myuser}) : super(key: key);
 
-final Myuser myuser;
+  final Myuser myuser;
 
   void pushNavToLoginScreen({@required BuildContext context}) {
     Navigator.pushAndRemoveUntil(
@@ -21,15 +18,19 @@ final Myuser myuser;
         MaterialPageRoute(builder: (cntx) => LoginScreen()),
         (dynamic route) => false);
   }
-  
+
   @override
   Widget build(BuildContext context) {
-    return myuser.role==1? 
-    Agent()
-    :myuser.role == 0?
-     myuser.risque? Dashboard(
-       myuser: myuser,
-     ) : FlightsStepper()
-    :Expertscreen(uid: myuser.id,);
+    return myuser.role == 1
+        ? Agent()
+        : myuser.role == 0
+            ? myuser.risque
+                ? Dashboard(
+                    myuser: myuser,
+                  )
+                : FlightsStepper(user: myuser)
+            : Expertscreen(
+                myuser: myuser,
+              );
   }
 }

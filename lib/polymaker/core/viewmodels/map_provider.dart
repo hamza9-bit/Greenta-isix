@@ -489,6 +489,7 @@ class MapProvider extends ChangeNotifier {
                   (index) => GeoPoint(_tempLocation[index].latitude,
                       _tempLocation[index].longitude))))
           .then((value) {
+        print(user);
         if (value)
           user != null
               ? Navigator.pushAndRemoveUntil(

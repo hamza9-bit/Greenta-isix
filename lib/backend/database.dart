@@ -89,6 +89,26 @@ class DatabaseService {
         .onError((error, stackTrace) => null);
   }
 
+  Future<bool> deleteNOAparcelle(String uid) async {
+    try {
+      await DatabaseService().parcelleCollection.doc(uid).delete();
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> deleteAparcelle(String uid, String id) async {
+    try {
+      await profileList.doc(uid).collection("Parcelles").doc(id).delete();
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
   Future<bool> setAcceptedT(String uid) async {
     try {
       await profileList.doc(uid).update({"accepted": true});
@@ -283,7 +303,7 @@ class DatabaseService {
         try {
           await sinistresCollec
               .doc(sinID)
-              .update({"check": false, "date": date, "filePath": filePath});
+              .update({"check": true, "date": date, "filePath": filePath});
           return true;
         } catch (e) {
           return false;

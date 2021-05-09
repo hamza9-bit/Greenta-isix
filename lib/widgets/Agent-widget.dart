@@ -1,6 +1,8 @@
+import 'package:CTAMA/models/user.dart';
 import 'package:CTAMA/screens/AffectationScreen.dart';
 import 'package:CTAMA/screens/Agent/Ag-accounts.dart';
 import 'package:CTAMA/screens/Agent/ag-experts.dart';
+import 'package:CTAMA/screens/Agri_risque_formulaire.dart';
 import 'package:CTAMA/screens/rapports.dart';
 import 'package:CTAMA/screens/SinistreScreen.dart';
 import 'package:CTAMA/screens/ajouter-agence.dart';
@@ -32,22 +34,20 @@ class _Agentpage1State extends State<Agentpage1> {
               ],
             ),
             Container(
-                  margin: EdgeInsets.only(top: 18),
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.symmetric(horizontal: 1),
-                  child: Text(
-                      name,
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: Theme.of(context).primaryColor,
-                          fontWeight: FontWeight.bold,
-                          
-                          ),
-                          textAlign: TextAlign.center,
-                          ),
+              margin: EdgeInsets.only(top: 18),
+              alignment: Alignment.center,
+              padding: EdgeInsets.symmetric(horizontal: 1),
+              child: Text(
+                name,
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Theme.of(context).primaryColor,
+                  fontWeight: FontWeight.bold,
                 ),
-              ],
-
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ],
         ),
       ),
     );

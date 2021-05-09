@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Affectation extends StatelessWidget {
-  const Affectation({Key key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +44,10 @@ class Affectation extends StatelessWidget {
                       child: Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: ListTile(
-                            trailing: Icon(Icons.arrow_forward_ios_outlined,color: Colors.black,),
+                            trailing: Icon(
+                              Icons.arrow_forward_ios_outlined,
+                              color: Colors.black,
+                            ),
                             title: Row(
                               children: <Widget>[
                                 PPWS(uid: myPpolygon.uid),
@@ -64,7 +65,7 @@ class Affectation extends StatelessWidget {
                                       height: 10,
                                     ),
                                     Text(
-                                      myPpolygon.uid,
+                                      "Non affecteé",
                                       style: TextStyle(
                                           color: Colors.grey, fontSize: 17),
                                     ),
@@ -96,7 +97,6 @@ class PPWS extends StatelessWidget {
       stream: DatabaseService().profileList.doc(uid).snapshots(),
       builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.hasData && snapshot.data != null) {
-          final Myuser myuser = Myuser.fromMap(snapshot.data.data());
           return Container(
             width: 60,
             height: 60,
@@ -105,9 +105,8 @@ class PPWS extends StatelessWidget {
               borderRadius: BorderRadius.circular(60 / 2),
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image: NetworkImage(myuser.imageUrl != null
-                    ? myuser.imageUrl
-                    : "https://st.depositphotos.com/2101611/3925/v/600/depositphotos_39258143-stock-illustration-businessman-avatar-profile-picture.jpg"),
+                image: NetworkImage(
+                    "https://th.bing.com/th/id/Rcb24d21f9165aa63e07c15817d18d11c?rik=92vqNxm%2fjXeqhw&riu=http%3a%2f%2fmedia.beam.usnews.com%2f13%2f18%2fddbead684c69af9e437eded399dc%2f141105-farm-stock.jpg&ehk=L4WREhw8MW2MjlytQAmr9Sdorr9MpZMbFGPhCn%2f%2fbKk%3d&risl=&pid=ImgRaw"),
               ),
             ),
           );

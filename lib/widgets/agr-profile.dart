@@ -3,6 +3,7 @@ import 'package:CTAMA/models/user.dart';
 import 'package:CTAMA/screens/Saved_Parcelle.dart';
 import 'package:CTAMA/screens/SinistreScreen.dart';
 import 'package:CTAMA/screens/agri-risques.dart';
+import 'package:CTAMA/screens/saved_parcelle_ag.dart';
 import 'package:CTAMA/screens/sinistre.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -145,7 +146,9 @@ class _AgrProfileState extends State<AgrProfile> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (cntx) => SavedParcelle(uid: id)));
+                        builder: (cntx) => SavedParcelle(
+                              uid: id,
+                            )));
               },
               child: ListTile(
                 leading: Icon(Icons.landscape_outlined),

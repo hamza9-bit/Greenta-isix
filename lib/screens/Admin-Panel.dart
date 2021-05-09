@@ -17,6 +17,66 @@ class _AdminState extends State<Admin> {
 
   final DatabaseService databaseService = DatabaseService();
 
+  Future<bool> createDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("voulez-vous vraiment vous supprimer ce utilisateur?"),
+            elevation: 10,
+            actions: [
+              MaterialButton(
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+                child: Text("Non"),
+              ),
+              MaterialButton(
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                },
+                child: Text(
+                  "Oui",
+                  style: TextStyle(
+                    color: Colors.red,
+                  ),
+                ),
+              )
+            ],
+          );
+        });
+  }
+
+  Future<bool> createDialog1(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("voulez-vous vraiment accepter ce utilisateur?"),
+            elevation: 10,
+            actions: [
+              MaterialButton(
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+                child: Text("Non"),
+              ),
+              MaterialButton(
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                },
+                child: Text(
+                  "Oui",
+                  style: TextStyle(
+                    color: Colors.red,
+                  ),
+                ),
+              )
+            ],
+          );
+        });
+  }
+
   Widget _buildsinglecontainer(
       {IconData icon, int count, String name, BuildContext context}) {
     return Card(
@@ -210,14 +270,29 @@ class _AdminState extends State<Admin> {
               icon: Icon(Icons.done_outline_outlined),
               color: Colors.green,
               onPressed: () async {
-                await databaseService.setAcceptedT(myuser.id);
+                createDialog1(context).then((value) async {
+                  if (value != null) {
+                    if (value) {
+                      await databaseService.setAcceptedT(myuser.id);
+                    }
+                  }
+                });
               },
             ),
             IconButton(
               icon: Icon(Icons.delete_forever_rounded),
               color: Colors.red,
               onPressed: () async {
-                await databaseService.profileList.doc(myuser.id).delete();
+                createDialog(context).then((value) async {
+                  if (value != null) {
+                    if (value) {
+                      await DatabaseService()
+                          .profileList
+                          .doc(myuser.id)
+                          .delete();
+                    }
+                  }
+                });
               },
             ),
           ],

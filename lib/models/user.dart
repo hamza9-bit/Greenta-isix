@@ -56,7 +56,7 @@ class Myuser {
 
     map["name"] = myuser.name;
     map["email"] = myuser.email;
-    map["risque"] = myuser.risque;
+
     map["role"] = myuser.role;
     map["accepted"] = myuser.accepted;
     map["pass"] = myuser.pass;

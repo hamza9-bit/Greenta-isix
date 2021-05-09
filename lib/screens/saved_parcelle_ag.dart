@@ -1,6 +1,7 @@
 import 'package:CTAMA/backend/database.dart';
 import 'package:CTAMA/models/myMarker.dart';
 import 'package:CTAMA/models/parcelle_poly.dart';
+import 'package:CTAMA/models/user.dart';
 import 'package:CTAMA/screens/SavedPar_View.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,10 +9,11 @@ import 'package:fluttertoast/fluttertoast.dart' as toast;
 import 'package:CTAMA/screens/Agent/saved_agences_view.dart';
 import '../polymaker/polymaker.dart';
 
-class SavedParcelle extends StatelessWidget {
-  final bool iamagri;
+class SavedParcelleag extends StatelessWidget {
+  final Myuser myuser;
+  final String id;
 
-  SavedParcelle({Key key, this.uid, this.iamagri = false}) : super(key: key);
+  SavedParcelleag({Key key, this.uid, this.myuser, this.id}) : super(key: key);
 
   Future<bool> createDialog(BuildContext context, String id) async {
     final GlobalKey<FormState> globalKey = GlobalKey<FormState>();
@@ -32,7 +34,7 @@ class SavedParcelle extends StatelessWidget {
                   });
                 }
               },
-              child: Text("Save"),
+              child: Text("Enregistrer"),
             )
           ],
           content: Container(
@@ -95,13 +97,11 @@ class SavedParcelle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: iamagri
-          ? FloatingActionButton(
-              onPressed: () =>
-                  getLocation(context, enableDragMarker: true, myuser: null),
-              child: Icon(Icons.add),
-            )
-          : SizedBox(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () =>
+            getLocation(context, enableDragMarker: true, myuser: null),
+        child: Icon(Icons.add),
+      ),
       appBar: AppBar(
         flexibleSpace: Container(
           decoration: BoxDecoration(
@@ -153,33 +153,6 @@ class SavedParcelle extends StatelessWidget {
                                       color: Colors.red,
                                       onPressed: () => createDialog1(
                                           context, uid, myPpolygon.id),
-                                    ),
-                                    IconButton(
-                                      icon: Icon(Icons.edit_outlined),
-                                      color: Colors.green,
-                                      onPressed: () async {
-                                        createDialog(context, myPpolygon.id)
-                                            .then((value) {
-                                          if (value) {
-                                            toast.Fluttertoast.showToast(
-                                                msg:
-                                                    "refernce ajoutée avec succés",
-                                                timeInSecForIosWeb: 3,
-                                                backgroundColor: Colors.green
-                                                    .withOpacity(0.8),
-                                                gravity:
-                                                    toast.ToastGravity.TOP);
-                                          } else {
-                                            toast.Fluttertoast.showToast(
-                                                msg: "echec",
-                                                timeInSecForIosWeb: 3,
-                                                backgroundColor:
-                                                    Colors.red.withOpacity(0.8),
-                                                gravity:
-                                                    toast.ToastGravity.TOP);
-                                          }
-                                        });
-                                      },
                                     ),
                                   ],
                                 ),

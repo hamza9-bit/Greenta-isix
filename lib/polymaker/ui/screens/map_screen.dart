@@ -72,6 +72,7 @@ class _MapScreenState extends State<MapScreen> {
   bool isSatellite = false;
   @override
   Widget build(BuildContext context) {
+    print(widget.user);
     //To modify status bar
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,

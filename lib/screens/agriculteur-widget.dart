@@ -3,6 +3,7 @@ import 'package:CTAMA/screens/Agent/rapports.dart';
 import 'package:CTAMA/screens/SinistreScreen.dart';
 import 'package:CTAMA/screens/agr-sinsitres.dart';
 import 'package:CTAMA/screens/agri-parcelle.dart';
+import 'package:CTAMA/screens/saved_parcelle_ag.dart';
 import 'package:flutter/material.dart';
 
 import 'Saved_Parcelle.dart';
@@ -75,9 +76,8 @@ class _AgriculteurwidgetState extends State<Agriculteurwidget> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => SavedParcelle(
+                        builder: (context) => SavedParcelleag(
                               uid: widget.myuser.id,
-                              iamagri: true,
                             )));
               },
               child: _buildsinglecontainer(

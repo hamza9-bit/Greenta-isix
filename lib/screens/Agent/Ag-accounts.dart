@@ -9,6 +9,36 @@ class AgAgriculteurs extends StatefulWidget {
   _AgAgriculteursState createState() => _AgAgriculteursState();
 }
 
+Future<bool> createDialog(BuildContext context) {
+  return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("voulez-vous vraiment vous supprimer ce utilisateur?"),
+          elevation: 10,
+          actions: [
+            MaterialButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+              child: Text("Non"),
+            ),
+            MaterialButton(
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+              child: Text(
+                "Oui",
+                style: TextStyle(
+                  color: Colors.red,
+                ),
+              ),
+            )
+          ],
+        );
+      });
+}
+
 class _AgAgriculteursState extends State<AgAgriculteurs> {
   @override
   Widget build(BuildContext context) {
@@ -36,35 +66,36 @@ class _AgAgriculteursState extends State<AgAgriculteurs> {
   Widget getBody() {
     return StreamBuilder(
       stream: DatabaseService().getAgriculteurs(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
-        
-        if (snapshot.hasData&&snapshot.data!=null){
-            if (snapshot.data.docs.length>0){
-              
-              final List<QueryDocumentSnapshot> query = snapshot.data.docs;
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasData && snapshot.data != null) {
+          if (snapshot.data.docs.isEmpty) {
+            return Center(
+              child: Text("No Agriculteurs encore.",
+                  style: TextStyle(fontSize: 23)),
+            );
+          } else {
+            final List<QueryDocumentSnapshot> query = snapshot.data.docs;
 
-              return ListView.builder(
+            return ListView.builder(
                 padding: const EdgeInsets.all(8.0),
-        itemCount: query.length,
-        itemBuilder: (context, index) {
-          final Myuser myuser = Myuser.fromMap(query[index].data());
-          return GestureDetector(
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AgrProfile(
-                    myuser: myuser,
-                  )));
-            },
-            child: getCard(
-              myuser
-            ),
-          );
-        });
-            }
-           return Center(
-             child: CircularProgressIndicator()
-           ); 
+                itemCount: query.length,
+                itemBuilder: (context, index) {
+                  final Myuser myuser = Myuser.fromMap(query[index].data());
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AgrProfile(
+                                    myuser: myuser,
+                                  )));
+                    },
+                    child: getCard(myuser),
+                  );
+                });
+          }
         }
+
         return Center(
           child: CircularProgressIndicator(),
         );
@@ -73,51 +104,57 @@ class _AgAgriculteursState extends State<AgAgriculteurs> {
   }
 
   Widget getCard(Myuser myuser) {
-    
     return ListTile(
-      trailing:  IconButton(
-      icon: Icon(Icons.delete_forever_rounded),
-      color: Colors.red,
-      onPressed: () async{
-       await DatabaseService().profileList.doc(myuser.id).delete();         
-      },
+      trailing: IconButton(
+        icon: Icon(Icons.delete_forever_rounded),
+        color: Colors.red,
+        onPressed: () async {
+          createDialog(context).then((value) async {
+            if (value != null) {
+              if (value) {
+                await DatabaseService().profileList.doc(myuser.id).delete();
+              }
+            }
+          });
+        },
       ),
-    title: Row(
-    children: <Widget>[
-      Container(
-        width: 60,
-        height: 60,
-        decoration: BoxDecoration(
-          color: Colors.orange[200],
-          borderRadius: BorderRadius.circular(60 / 2),
-          image: DecorationImage(
-            fit: BoxFit.cover,
-            image:  NetworkImage(
-                myuser.imageUrl!=null? myuser.imageUrl:"https://st.depositphotos.com/2101611/3925/v/600/depositphotos_39258143-stock-illustration-businessman-avatar-profile-picture.jpg"),
-          ),
-        ),
-      ),
-      SizedBox(
-        width: 20,
-      ),
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      title: Row(
         children: <Widget>[
-          Text(
-            myuser.email,
-            style: TextStyle(fontSize: 17),
+          Container(
+            width: 60,
+            height: 60,
+            decoration: BoxDecoration(
+              color: Colors.orange[200],
+              borderRadius: BorderRadius.circular(60 / 2),
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: NetworkImage(myuser.imageUrl != null
+                    ? myuser.imageUrl
+                    : "https://st.depositphotos.com/2101611/3925/v/600/depositphotos_39258143-stock-illustration-businessman-avatar-profile-picture.jpg"),
+              ),
+            ),
           ),
           SizedBox(
-            height: 10,
+            width: 20,
           ),
-           Text(
-            myuser.name,
-            style: TextStyle(color: Colors.grey, fontSize: 17),
-          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                myuser.email,
+                style: TextStyle(fontSize: 17),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                myuser.cin,
+                style: TextStyle(color: Colors.grey, fontSize: 17),
+              ),
+            ],
+          )
         ],
-      )
-    ],
-    ),
+      ),
     );
   }
 }

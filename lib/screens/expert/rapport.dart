@@ -16,8 +16,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class Rapportexpertise extends StatefulWidget {
   final String parcelle;
   final String sinistre;
-
-  const Rapportexpertise({Key key, this.parcelle, this.sinistre})
+  final String cin;
+  const Rapportexpertise({Key key, this.parcelle, this.sinistre, this.cin})
       : super(key: key);
 
   @override
@@ -136,6 +136,7 @@ class RapportexpertiseState extends State<Rapportexpertise> {
                       context,
                       MaterialPageRoute(
                           builder: (cntx) => LoadScreen(
+                                cin: widget.cin,
                                 date: DateTime.now().toString(),
                                 path: file.path,
                                 sinistreID: widget.sinistre.split("°")[1],
@@ -192,11 +193,13 @@ class LoadScreen extends StatelessWidget {
     this.sinistreID,
     this.path,
     this.date,
+    this.cin,
   }) : super(key: key);
 
   final String sinistreID;
   final String path;
   final String date;
+  final String cin;
 
   @override
   Widget build(BuildContext context) {
@@ -204,7 +207,8 @@ class LoadScreen extends StatelessWidget {
       onWillPop: () async => false,
       child: Material(
         child: FutureBuilder(
-          future: DatabaseService().sendRapport(sinistreID, date, path),
+          future:
+              DatabaseService().sendRapport(sinistreID, date + "@" + cin, path),
           builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
             if (snapshot.hasData) {
               if (snapshot.data) {

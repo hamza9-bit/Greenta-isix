@@ -6,20 +6,14 @@ import 'package:flutter/material.dart';
 import 'rapportDetails.dart';
 
 class Rapports extends StatefulWidget {
-
   @override
   _RapportsState createState() => _RapportsState();
-
 }
 
 class _RapportsState extends State<Rapports> {
-
-
-
-  bool isDownload=false;
+  bool isDownload = false;
 
   final DatabaseService databaseService = DatabaseService();
-
 
   @override
   Widget build(BuildContext context) {
@@ -47,44 +41,41 @@ class _RapportsState extends State<Rapports> {
   Widget getBody() {
     return StreamBuilder(
       stream: databaseService.getrapports(),
-      builder:
-          (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasData && snapshot.data != null) {
-          if (snapshot.data.docs.length > 0) {
+          if (snapshot.data.docs.isEmpty) {
+            return Center(
+              child:
+                  Text("Non rapports encore.", style: TextStyle(fontSize: 23)),
+            );
+          } else {
             return ListView.builder(
                 padding: const EdgeInsets.all(8.0),
                 itemCount: snapshot.data.docs.length,
                 itemBuilder: (context, index) {
-                  final Mysinistre myrapport =
-                      Mysinistre.fromCheckedMap(snapshot.data.docs[index].data());
+                  final Mysinistre myrapport = Mysinistre.fromCheckedMap(
+                      snapshot.data.docs[index].data());
                   return GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => Builder(
-                                 builder: (cntx)=>RapportView(
-                                   mysinistre: myrapport,
-                                 )
-                              )
-                              )
-                              );
+                                  builder: (cntx) => RapportView(
+                                        mysinistre: myrapport,
+                                      ))));
                     },
                     child: getCard(myrapport),
                   );
                 });
           }
-          return Center(child: CircularProgressIndicator());
         }
-        return Center(
-          child: CircularProgressIndicator(),
-        );
+        return Center(child: CircularProgressIndicator());
       },
     );
   }
 
   Widget getCard(Mysinistre myrapport) {
-    
     return ListTile(
       title: Row(
         children: <Widget>[
@@ -115,7 +106,7 @@ class _RapportsState extends State<Rapports> {
                 height: 10,
               ),
               Text(
-                myrapport.whocansee,
+                "${myrapport.date.toString().split("@")[1]}",
                 style: TextStyle(color: Colors.grey, fontSize: 17),
               ),
             ],
@@ -124,5 +115,4 @@ class _RapportsState extends State<Rapports> {
       ),
     );
   }
-
 }

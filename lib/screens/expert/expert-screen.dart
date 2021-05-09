@@ -1,15 +1,16 @@
 import 'package:CTAMA/backend/authentication_services.dart';
 import 'package:CTAMA/backend/database.dart';
 import 'package:CTAMA/models/mysinistre.dart';
+import 'package:CTAMA/models/user.dart';
 import 'package:CTAMA/screens/expert/rapport.dart';
 import 'package:CTAMA/screens/login-screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class Expertscreen extends StatefulWidget {
-  final String uid;
+  final Myuser myuser;
 
-  const Expertscreen({Key key, this.uid}) : super(key: key);
+  const Expertscreen({Key key, this.myuser}) : super(key: key);
 
   @override
   _ExpertscreenState createState() => _ExpertscreenState();
@@ -84,7 +85,7 @@ class _ExpertscreenState extends State<Expertscreen> {
 
   Widget getBody() {
     return StreamBuilder(
-      stream: databaseService.getSinistresWFiltersForExpert(widget.uid),
+      stream: databaseService.getSinistresWFiltersForExpert(widget.myuser.id),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasData && snapshot.data != null) {
           if (snapshot.data.docs.isEmpty) {
@@ -101,6 +102,7 @@ class _ExpertscreenState extends State<Expertscreen> {
                 return GestureDetector(
                     onTap: () => Navigator.of(context).push(MaterialPageRoute(
                         builder: (cntx) => Rapportexpertise(
+                              cin: widget.myuser.cin,
                               parcelle: "parcelle n°${mysinistre.parcelleRef}",
                               sinistre: "Sinistre n°${mysinistre.sinisteid}",
                             ))),

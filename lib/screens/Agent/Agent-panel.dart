@@ -1,5 +1,7 @@
 import 'package:CTAMA/backend/authentication_services.dart';
 import 'package:CTAMA/backend/database.dart';
+import 'package:CTAMA/models/user.dart';
+
 import 'package:CTAMA/screens/screens.dart';
 import 'package:CTAMA/widgets/Agent-widget.dart';
 import 'package:CTAMA/widgets/ag-profile.dart';
@@ -76,13 +78,15 @@ class _AgentState extends State<Agent> {
                 Icons.person,
                 color: Colors.white,
               ),
-              onPressed: () async{
-                AuthenticationService().signOut().then((value){
-                  if (value){
-                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (cntx)=>LoginScreen()), (route) => false);
+              onPressed: () async {
+                AuthenticationService().signOut().then((value) {
+                  if (value) {
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (cntx) => LoginScreen()),
+                        (route) => false);
                   }
-                }
-                );
+                });
               },
               label: Text(
                 'Déconnexion',

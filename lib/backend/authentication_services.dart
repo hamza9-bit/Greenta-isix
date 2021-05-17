@@ -53,10 +53,10 @@ class AuthenticationService {
       int role,
       String cin}) async {
     try {
-      final bool excist = await DatabaseService().isUserAlreadyExcist(cin);
+      final bool exist = await DatabaseService().isUserAlreadyExist(cin);
 
-      if (excist != null) {
-        if (!excist) {
+      if (exist != null) {
+        if (!exist) {
           return await _firebaseAuth
               .createUserWithEmailAndPassword(email: email, password: password)
               .then((value) async {
@@ -77,7 +77,7 @@ class AuthenticationService {
           }).onError((error, stackTrace) => false);
         } else {
           toast.Fluttertoast.showToast(
-              msg: "compte already excist!",
+              msg: "compte déja existé!",
               timeInSecForIosWeb: 3,
               backgroundColor: Colors.red.withOpacity(0.8),
               gravity: toast.ToastGravity.TOP);

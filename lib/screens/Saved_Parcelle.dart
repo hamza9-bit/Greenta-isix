@@ -13,7 +13,10 @@ class SavedParcelle extends StatelessWidget {
 
   SavedParcelle({Key key, this.uid, this.iamagri = false}) : super(key: key);
 
-  Future<bool> createDialog(BuildContext context, String id) async {
+  Future<bool> createDialog(
+    BuildContext context,
+    String id,
+  ) async {
     final GlobalKey<FormState> globalKey = GlobalKey<FormState>();
     final TextEditingController textEditingController = TextEditingController();
 
@@ -24,15 +27,33 @@ class SavedParcelle extends StatelessWidget {
           actions: [
             MaterialButton(
               onPressed: () async {
-                if (globalKey.currentState.validate()) {
-                  return await DatabaseService()
-                      .setRef(textEditingController.text, id, uid)
-                      .then((value) {
-                    Navigator.of(context).pop(value);
-                  });
+                try {
+                  final bool exist = await DatabaseService()
+                      .isrefAlreadyExist(textEditingController.text, uid);
+                  print(exist);
+                  if (exist != null) {
+                    if (!exist) {
+                      if (globalKey.currentState.validate()) {
+                        return await DatabaseService()
+                            .setRef(textEditingController.text, id, uid)
+                            .then((value) {
+                          Navigator.of(context).pop(value);
+                        });
+                      }
+                    } else {
+                      print("hello");
+                      toast.Fluttertoast.showToast(
+                          msg: "reference déja existé!",
+                          timeInSecForIosWeb: 3,
+                          backgroundColor: Colors.red.withOpacity(0.8),
+                          gravity: toast.ToastGravity.TOP);
+                    }
+                  }
+                } catch (e) {
+                  print(e);
                 }
               },
-              child: Text("Save"),
+              child: Text("Enregistrer"),
             )
           ],
           content: Container(
@@ -42,7 +63,7 @@ class SavedParcelle extends StatelessWidget {
                 controller: textEditingController,
                 validator: (String str) {
                   if (str.isEmpty) {
-                    return "longeur du Numéro de Reference doit etre superieur a 0";
+                    return "longeur du Numéro de Reference doit etre superieur à 0";
                   }
                   return null;
                 },
@@ -50,7 +71,7 @@ class SavedParcelle extends StatelessWidget {
               ),
             ),
           ),
-          title: Text("Enter Reference : "),
+          title: Text("Entrer Réference : "),
         );
       },
     );
@@ -61,7 +82,7 @@ class SavedParcelle extends StatelessWidget {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text("voulez-vous vraiment vous supprimer cette parcelle ?"),
+            title: Text("voulez-vous vraiment supprimer cette parcelle ?"),
             elevation: 10,
             actions: [
               MaterialButton(
@@ -158,12 +179,14 @@ class SavedParcelle extends StatelessWidget {
                                       icon: Icon(Icons.edit_outlined),
                                       color: Colors.green,
                                       onPressed: () async {
-                                        createDialog(context, myPpolygon.id)
-                                            .then((value) {
+                                        createDialog(
+                                          context,
+                                          myPpolygon.id,
+                                        ).then((value) {
                                           if (value) {
                                             toast.Fluttertoast.showToast(
                                                 msg:
-                                                    "refernce ajoutée avec succés",
+                                                    "reference ajoutée avec succés",
                                                 timeInSecForIosWeb: 3,
                                                 backgroundColor: Colors.green
                                                     .withOpacity(0.8),
@@ -171,7 +194,7 @@ class SavedParcelle extends StatelessWidget {
                                                     toast.ToastGravity.TOP);
                                           } else {
                                             toast.Fluttertoast.showToast(
-                                                msg: "echec",
+                                                msg: "echéc",
                                                 timeInSecForIosWeb: 3,
                                                 backgroundColor:
                                                     Colors.red.withOpacity(0.8),

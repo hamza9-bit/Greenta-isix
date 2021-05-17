@@ -3,14 +3,14 @@ import 'package:CTAMA/screens/Agent/Agences.dart';
 import 'package:CTAMA/screens/Agent/Agent-panel.dart';
 import 'package:CTAMA/screens/WaitingScreen.dart';
 import 'package:CTAMA/screens/ajouter-agence.dart';
+import 'package:CTAMA/screens/dashui.dart';
 
-import 'package:CTAMA/screens/goomap.dart';
 import 'package:CTAMA/screens/expert/rapport.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:CTAMA/screens/Agriculteur-screen.dart';
-import 'package:CTAMA/screens/parcelle.dart';
+
 import 'package:CTAMA/screens/login-screen.dart';
 import 'backend/authentication_services.dart';
 import 'screens/screens.dart';

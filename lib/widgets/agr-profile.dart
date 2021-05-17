@@ -1,8 +1,10 @@
 import 'package:CTAMA/backend/database.dart';
+import 'package:CTAMA/models/mysinistre.dart';
 import 'package:CTAMA/models/user.dart';
 import 'package:CTAMA/screens/Saved_Parcelle.dart';
 import 'package:CTAMA/screens/SinistreScreen.dart';
 import 'package:CTAMA/screens/agri-risques.dart';
+import 'package:CTAMA/screens/rapport-agri.dart';
 import 'package:CTAMA/screens/saved_parcelle_ag.dart';
 import 'package:CTAMA/screens/sinistre.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +14,11 @@ class AgrProfile extends StatefulWidget {
   final Myuser myuser;
   final String uid;
 
-  const AgrProfile({Key key, this.myuser, this.uid}) : super(key: key);
+  const AgrProfile({
+    Key key,
+    this.myuser,
+    this.uid,
+  }) : super(key: key);
 
   @override
   _AgrProfileState createState() => _AgrProfileState();
@@ -210,10 +216,15 @@ class _AgrProfileState extends State<AgrProfile> {
               height: 6,
               color: Colors.black87,
             ),
-            ListTile(
-              leading: Icon(Icons.copy_outlined),
-              title: Text("rapports"),
-            )
+            GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (cntx) => Rapportagri(uid: id)));
+                },
+                child: ListTile(
+                  leading: Icon(Icons.copy_outlined),
+                  title: Text("rapports"),
+                ))
           ],
         ),
       ),

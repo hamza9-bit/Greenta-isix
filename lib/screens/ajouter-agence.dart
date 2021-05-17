@@ -1,5 +1,5 @@
 import 'package:CTAMA/screens/Agent/Agences.dart';
-import 'package:CTAMA/screens/LoadSavedAgencesS.dart';
+
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 
@@ -9,7 +9,6 @@ class Ajoutagence extends StatefulWidget {
 }
 
 class _AjoutagenceState extends State<Ajoutagence> {
-
   Location location = new Location();
   bool _serviceEnabled;
   PermissionStatus _permissionGranted;
@@ -55,8 +54,8 @@ class _AjoutagenceState extends State<Ajoutagence> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => Agences(
-                        location: _locationData,
-                      )))
+                            location: _locationData,
+                          )))
               : null,
           backgroundColor: Colors.orange,
           label: Row(

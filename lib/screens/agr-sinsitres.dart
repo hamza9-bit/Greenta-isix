@@ -12,7 +12,13 @@ import 'package:fluttertoast/fluttertoast.dart' as toast;
 import 'package:CTAMA/screens/Agent/saved_agences_view.dart';
 
 class AgriSinistre extends StatelessWidget {
-  AgriSinistre({Key key, this.uid, this.readOnly = false, this.iamAgri = false, this.cin, this.nbsin})
+  AgriSinistre(
+      {Key key,
+      this.uid,
+      this.readOnly = false,
+      this.iamAgri = false,
+      this.cin,
+      this.nbsin})
       : super(key: key);
 
   final String uid;
@@ -43,18 +49,16 @@ class AgriSinistre extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: ()=>Navigator.push(
-          context, MaterialPageRoute(
-            builder: (cntx)=>Sinistre(
-          name: cin,
-          nbsin: nbsin ,
-          uid: uid,
-        )
-)
-        ),
+        onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (cntx) => Sinistre(
+                      name: cin,
+                      nbsin: nbsin,
+                      uid: uid,
+                    ))),
         child: Icon(Icons.add),
-
-        ),
+      ),
       appBar: AppBar(
         flexibleSpace: Container(
           decoration: BoxDecoration(
@@ -106,10 +110,8 @@ class AgriSinistre extends StatelessWidget {
                               Container(
                                 padding: EdgeInsets.all(2.0),
                                 decoration: BoxDecoration(
-                                    color: Colors.grey,
-                                    shape: BoxShape.circle),
-                                child: Text(
-                                    "+${mysinistre.imagesUrl.length}",
+                                    color: Colors.grey, shape: BoxShape.circle),
+                                child: Text("+${mysinistre.imagesUrl.length}",
                                     style: TextStyle(color: Colors.white)),
                               )
                             ],
@@ -118,8 +120,7 @@ class AgriSinistre extends StatelessWidget {
                         title: Text("${mysinistre.agriId}",
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold)),
-                        subtitle: Text(
-                            "Parcelle N°${mysinistre.parcelleRef}",
+                        subtitle: Text("Parcelle N°${mysinistre.parcelleRef}",
                             style: TextStyle(fontSize: 18)),
                       ),
                     ),

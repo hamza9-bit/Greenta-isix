@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart' as toast;
 import 'dart:io';
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart' as storage;
 import 'package:file_picker/file_picker.dart';
@@ -47,7 +48,8 @@ class RapportexpertiseState extends State<Rapportexpertise> {
 
   Widget _buildDate() {
     return Container(
-      child: Text(DateTime.now().toString()),
+      child: Text(
+          DateFormat('yyyy-MM-dd  kk:mm:ss').format(DateTime.now()).toString()),
       padding: EdgeInsets.all(10.0),
       decoration: BoxDecoration(
           border: Border.fromBorderSide(BorderSide(color: Colors.grey))),
@@ -132,29 +134,37 @@ class RapportexpertiseState extends State<Rapportexpertise> {
                   style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
                 onPressed: () async {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (cntx) => LoadScreen(
-                                cin: widget.cin,
-                                date: DateTime.now().toString(),
-                                path: file.path,
-                                sinistreID: widget.sinistre.split("°")[1],
-                              ))).then((value) {
-                    if (value) {
-                      toast.Fluttertoast.showToast(
-                          msg: "rapport envoyé avec succes",
-                          timeInSecForIosWeb: 3,
-                          backgroundColor: Colors.green.withOpacity(0.8),
-                          gravity: toast.ToastGravity.TOP);
-                    } else {
-                      toast.Fluttertoast.showToast(
-                          msg: "an error was occured!",
-                          timeInSecForIosWeb: 3,
-                          backgroundColor: Colors.red.withOpacity(0.8),
-                          gravity: toast.ToastGravity.TOP);
-                    }
-                  });
+                  if (file == null) {
+                    toast.Fluttertoast.showToast(
+                        msg: "ajouter un fichier d'abord",
+                        timeInSecForIosWeb: 3,
+                        backgroundColor: Colors.red.withOpacity(0.8),
+                        gravity: toast.ToastGravity.TOP);
+                  } else {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (cntx) => LoadScreen(
+                                  cin: widget.cin,
+                                  date: DateTime.now().toString(),
+                                  path: file.path,
+                                  sinistreID: widget.sinistre.split("°")[1],
+                                ))).then((value) {
+                      if (value) {
+                        toast.Fluttertoast.showToast(
+                            msg: "rapport envoyé avec succes",
+                            timeInSecForIosWeb: 3,
+                            backgroundColor: Colors.green.withOpacity(0.8),
+                            gravity: toast.ToastGravity.TOP);
+                      } else {
+                        toast.Fluttertoast.showToast(
+                            msg: "an error was occured!",
+                            timeInSecForIosWeb: 3,
+                            backgroundColor: Colors.red.withOpacity(0.8),
+                            gravity: toast.ToastGravity.TOP);
+                      }
+                    });
+                  }
                 },
               )
             ],

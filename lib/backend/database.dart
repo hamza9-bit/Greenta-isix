@@ -35,6 +35,7 @@ class DatabaseService {
       'email': email,
     });
   }*/
+
   Future<bool> resetpass(String password, String uid) async {
     try {
       await profileList.doc(uid).update({"pass": password});
@@ -120,21 +121,6 @@ class DatabaseService {
 
   Future<bool> isUserexit(String uid) async {
     return (await profileList.doc(uid).get()).data() != null;
-  }
-
-  Future getUsersList() async {
-    List itemsList = [];
-
-    try {
-      await profileList.get().then((querySnapshot) {
-        querySnapshot.docs.forEach((element) {
-          itemsList.add(element.data);
-        });
-      });
-      return itemsList;
-    } catch (e) {
-      print(e);
-    }
   }
 
   Future<bool> addUsersToDb(Myuser myuser) async {
@@ -231,8 +217,15 @@ class DatabaseService {
     return sinistresCollec.where("check", isEqualTo: true).snapshots();
   }
 
+  Stream<QuerySnapshot> getrapports1(String uid) {
+    return sinistresCollec
+        .where("check", isEqualTo: true)
+        .where("agriID", isEqualTo: uid)
+        .snapshots();
+  }
+
   Future<bool> deleteSinistre(String id) async {
-    return await sinistresCollec
+    await sinistresCollec
         .doc(id)
         .delete()
         .then((value) => true)
@@ -315,9 +308,21 @@ class DatabaseService {
     });
   }
 
-  Future<bool> isUserAlreadyExcist(String cin) async {
+  Future<bool> isUserAlreadyExist(String cin) async {
     return (await profileList
                 .where("cin", isEqualTo: cin)
+                .get()
+                .onError((error, stackTrace) => null))
+            .docs
+            .length ==
+        1;
+  }
+
+  Future<bool> isrefAlreadyExist(String ref, String uid) async {
+    return (await profileList
+                .doc(uid)
+                .collection("Parcelles")
+                .where("ref", isEqualTo: ref)
                 .get()
                 .onError((error, stackTrace) => null))
             .docs
@@ -341,6 +346,14 @@ class DatabaseService {
           .update(({"nbSinistre": oldsin + 1}));
       return true;
     }).onError((error, stackTrace) => false);
+  }
+
+  Future<bool> reductionSinistre(Mysinistre sinistre, int oldsin) async {
+    return await profileList
+        .doc(sinistre.agriId)
+        .update(({"nbSinistre": oldsin - 1}))
+        .then((value) => true)
+        .onError((error, stackTrace) => false);
   }
 
   Stream<QuerySnapshot> getNoAffectedParcelle() {

@@ -37,7 +37,7 @@ class _RapportViewState extends State<RapportView> {
     final String finalpath = appDocPath + "/" + path1 + "." + url.split("@")[1];
     toast.Fluttertoast.showToast(
         msg: "fichier telechargé avec succés dans $finalpath",
-        timeInSecForIosWeb: 3,
+        timeInSecForIosWeb: 10,
         backgroundColor: Colors.green.withOpacity(0.8),
         gravity: toast.ToastGravity.TOP);
   }
@@ -55,15 +55,26 @@ class _RapportViewState extends State<RapportView> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text("Parcelle ID : ${widget.mysinistre.parcelleID}"),
+            Text("date : ${widget.mysinistre.date.toString().split("@")[0]}"),
+            Text("Parcelle reference : ${widget.mysinistre.parcelleRef}"),
             Text("Agriculteur ID : ${widget.mysinistre.agriId}"),
             Text(
-                "Expert ID : ${widget.mysinistre.date.toString().split("@")[1]}"),
+                "Expert CIN : ${widget.mysinistre.date.toString().split("@")[1]}"),
             Text("Sinistre ID : ${widget.mysinistre.sinisteid}"),
             SizedBox(
               height: 30,
             ),
             GestureDetector(
+              onTap: () async {
+                setState(() {
+                  isDownload = true;
+                });
+                downloadFile(widget.mysinistre.filePath).then((value) {
+                  setState(() {
+                    isDownload = false;
+                  });
+                });
+              },
               child: AnimatedContainer(
                   height: 50,
                   width: !isDownload ? 200 : 50,
@@ -81,22 +92,6 @@ class _RapportViewState extends State<RapportView> {
                           )
                         : Text("Download attachement"),
                   )),
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            GestureDetector(
-              child: Text("ANIMATE BUTTOM"),
-              onTap: () async {
-                setState(() {
-                  isDownload = true;
-                });
-                downloadFile(widget.mysinistre.filePath).then((value) {
-                  setState(() {
-                    isDownload = false;
-                  });
-                });
-              },
             ),
           ],
         ),

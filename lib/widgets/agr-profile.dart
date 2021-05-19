@@ -13,11 +13,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class AgrProfile extends StatefulWidget {
   final Myuser myuser;
   final String uid;
+  final Mysinistre mysinis;
 
   const AgrProfile({
     Key key,
     this.myuser,
     this.uid,
+    this.mysinis,
   }) : super(key: key);
 
   @override
@@ -189,6 +191,8 @@ class _AgrProfileState extends State<AgrProfile> {
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (cntx) => SinistreView(
+                          mysinistre: widget.mysinis,
+                          myuser: widget.myuser,
                           uid: id,
                           readOnly: true,
                         )));

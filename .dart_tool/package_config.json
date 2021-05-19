@@ -158,12 +158,6 @@
       "languageVersion": "2.12"
     },
     {
-      "name": "flutter_svg",
-      "rootUri": "file:///C:/project1/flutter_windows_2.0.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_svg-0.22.0",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
       "name": "flutter_test",
       "rootUri": "file:///C:/project1/flutter_windows_2.0.5-stable/flutter/packages/flutter_test",
       "packageUri": "lib/",
@@ -290,18 +284,6 @@
       "languageVersion": "2.12"
     },
     {
-      "name": "path_drawing",
-      "rootUri": "file:///C:/project1/flutter_windows_2.0.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/path_drawing-0.5.1",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
-      "name": "path_parsing",
-      "rootUri": "file:///C:/project1/flutter_windows_2.0.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/path_parsing-0.2.1",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
       "name": "path_provider",
       "rootUri": "file:///C:/project1/flutter_windows_2.0.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider-2.0.1",
       "packageUri": "lib/",
@@ -346,12 +328,6 @@
     {
       "name": "permission_handler_platform_interface",
       "rootUri": "file:///C:/project1/flutter_windows_2.0.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/permission_handler_platform_interface-3.3.0",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
-      "name": "petitparser",
-      "rootUri": "file:///C:/project1/flutter_windows_2.0.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/petitparser-4.1.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -488,19 +464,13 @@
       "languageVersion": "2.12"
     },
     {
-      "name": "xml",
-      "rootUri": "file:///C:/project1/flutter_windows_2.0.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/xml-5.1.0",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
       "name": "CTAMA",
       "rootUri": "../",
       "packageUri": "lib/",
       "languageVersion": "2.7"
     }
   ],
-  "generated": "2021-05-15T18:52:34.203610Z",
+  "generated": "2021-05-17T19:09:05.348059Z",
   "generator": "pub",
   "generatorVersion": "2.12.3"
 }

@@ -225,7 +225,7 @@ class DatabaseService {
   }
 
   Future<bool> deleteSinistre(String id) async {
-    await sinistresCollec
+    return await sinistresCollec
         .doc(id)
         .delete()
         .then((value) => true)

@@ -7,6 +7,7 @@ import 'package:CTAMA/screens/SavedPar_View.dart';
 import 'package:CTAMA/widgets/agr-profile.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/rendering.dart';
 import 'package:fluttertoast/fluttertoast.dart' as toast;
 import 'package:CTAMA/screens/Agent/saved_agences_view.dart';
 
@@ -16,8 +17,11 @@ class SinistreView extends StatelessWidget {
     this.uid,
     this.readOnly = false,
     this.iamAgri = false,
+    this.mysinistre,
+    this.myuser,
   }) : super(key: key);
-
+  final Mysinistre mysinistre;
+  final Myuser myuser;
   final String uid;
   final bool readOnly;
   final bool iamAgri;
@@ -48,6 +52,43 @@ class SinistreView extends StatelessWidget {
         isDismissible: true,
         enableDrag: true,
         isScrollControlled: true);
+  }
+
+  Future<bool> createDialog1(
+      BuildContext context, int nbSinisitre, Mysinistre mysinistre) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("voulez-vous vraiment supprimer sinistre ?"),
+            elevation: 10,
+            actions: [
+              MaterialButton(
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+                child: Text("Non"),
+              ),
+              MaterialButton(
+                onPressed: () async {
+                  print(nbSinisitre);
+                  print(mysinistre.sinisteid);
+                  await databaseService.deleteSinistre(mysinistre.sinisteid);
+                  await databaseService.reductionSinistre(
+                      mysinistre, nbSinisitre);
+
+                  Navigator.of(context).pop(true);
+                },
+                child: Text(
+                  "Oui",
+                  style: TextStyle(
+                    color: Colors.red,
+                  ),
+                ),
+              )
+            ],
+          );
+        });
   }
 
   @override
@@ -153,10 +194,8 @@ class SinistreView extends StatelessWidget {
                                     IconButton(
                                       icon: Icon(Icons.delete_forever_outlined),
                                       color: Colors.red,
-                                      onPressed: () async {
-                                        await databaseService.deleteSinistre(
-                                            mysinistre.sinisteid);
-                                      },
+                                      onPressed: () => createDialog1(context,
+                                          myuser.nbSinisitre, mysinistre),
                                     ),
                                   ],
                                 ),
@@ -218,7 +257,6 @@ class ExpertSelector extends StatelessWidget {
 
   Widget getCard(Myuser myuser) {
     return ListTile(
-      tileColor: Colors.blue[800],
       title: Row(
         children: <Widget>[
           Container(

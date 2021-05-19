@@ -19,7 +19,6 @@ class CreateNewAccount extends StatefulWidget {
 }
 
 class _CreateNewAccountState extends State<CreateNewAccount> {
-  
   var confirmPass;
   final AuthenticationService authenticationService = AuthenticationService();
   final DatabaseService databaseService = DatabaseService();
@@ -35,31 +34,34 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
   void pushNavToDash({@required BuildContext context}) {
     Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (cntx) => WaitingS(uid: authenticationService.getCurrentUser().uid,)),
+        MaterialPageRoute(
+            builder: (cntx) => WaitingS(
+                  uid: authenticationService.getCurrentUser().uid,
+                )),
         (dynamic route) => false);
   }
 
   void validate1(BuildContext context) async {
-  
     if (formkey.currentState.validate()) {
-
       formkey.currentState.save();
       authenticationService
-          .signUp(name: name, email: email, password: password,role: _radioValue,cin:cin)
+          .signUp(
+              name: name,
+              email: email,
+              password: password,
+              role: _radioValue,
+              cin: cin)
           .then((value) =>
-              value ? pushNavToDash(context: context) : print("FAIL")
-              );
+              value ? pushNavToDash(context: context) : print("FAIL"));
     } else {
       print("not validated");
     }
-
   }
 
   TextEditingController nameController = TextEditingController();
   int _radioValue = 0;
 
   void handleRadioValueChange(int value) {
-  
     setState(() {
       _radioValue = value;
 
@@ -71,10 +73,9 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
         case 2:
           break;
       }
-  
     });
-  
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -159,16 +160,16 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                                 errorText:
                                     "Veuillez saisir une adresse mail valid"),
                           ])),
-                          TextInputField(
+                      TextInputField(
                           icon: FontAwesomeIcons.envelope,
                           hint: 'Cin',
                           inputType: TextInputType.number,
                           inputAction: TextInputAction.next,
                           onSaved: (String mycin) => cin = mycin,
-                          validator:(string){
-                            if (string.length!=8){
+                          validator: (string) {
+                            if (string.length != 8) {
                               return "cin invalid";
-                            }else{
+                            } else {
                               return null;
                             }
                           }),

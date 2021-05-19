@@ -1,8 +1,10 @@
+import 'package:CTAMA/backend/authentication_services.dart';
 import 'package:CTAMA/models/user.dart';
 import 'package:CTAMA/screens/Agent/rapports.dart';
 import 'package:CTAMA/screens/SinistreScreen.dart';
 import 'package:CTAMA/screens/agr-sinsitres.dart';
 import 'package:CTAMA/screens/agri-parcelle.dart';
+import 'package:CTAMA/screens/login-screen.dart';
 import 'package:CTAMA/screens/saved_parcelle_ag.dart';
 import 'package:flutter/material.dart';
 
@@ -105,6 +107,18 @@ class _AgriculteurwidgetState extends State<Agriculteurwidget> {
                 name: "Sinistres",
               ),
             ),
+            RaisedButton(
+              onPressed: () async {
+                AuthenticationService().signOut().then((value) {
+                  if (value) {
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (cntx) => LoginScreen()),
+                        (route) => false);
+                  }
+                });
+              },
+            )
           ],
         ),
       ),

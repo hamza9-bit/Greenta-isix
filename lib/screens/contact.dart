@@ -1,14 +1,47 @@
+import 'package:CTAMA/backend/authentication_services.dart';
 import 'package:CTAMA/screens/accueil.dart';
 import 'package:CTAMA/screens/aide.dart';
+
 import 'package:CTAMA/screens/login-screen.dart';
 import 'package:CTAMA/widgets/background-image.dart';
 import 'package:CTAMA/widgets/iconliste.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Contact extends StatefulWidget {
   @override
   _ContactState createState() => _ContactState();
+}
+
+String getResponsefromuser() {
+  final AuthenticationService authenticationService = AuthenticationService();
+  final User user = authenticationService.getCurrentUser();
+  return user != null ? "DECONNEXION" : "SE CONNECTER";
+}
+
+IconData geticonfromuser() {
+  final AuthenticationService authenticationService = AuthenticationService();
+  final User user = authenticationService.getCurrentUser();
+  return user != null ? Icons.logout : Icons.login;
+}
+
+void getauthfromuser(BuildContext context) async {
+  final AuthenticationService authenticationService = AuthenticationService();
+  final User user = authenticationService.getCurrentUser();
+  if (user == null) {
+    AuthenticationService().signOut().then((value) {
+      if (value) {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (cntx) => LoginScreen()),
+            (route) => false);
+      }
+    });
+  } else {
+    Navigator.pushAndRemoveUntil(context,
+        MaterialPageRoute(builder: (cntx) => LoginScreen()), (route) => false);
+  }
 }
 
 class _ContactState extends State<Contact> {
@@ -61,11 +94,23 @@ class _ContactState extends State<Contact> {
               ),
             ),
           ),
-          IconListTitle(Icons.home, 'ACCUEIL', () => Accueil()),
+          IconListTitle(
+            icon: Icons.home,
+            text: "Acceuol",
+            ontap: () => Accueil(),
+          ),
+
           /*IconListTitle(Icons.person,'MON COMPTE',   ()=>Profil()),*/
-          IconListTitle(Icons.contacts, 'CONTACT', () => Contact()),
-          IconListTitle(Icons.logout, 'DECONNEXION', () => LoginScreen()),
-          IconListTitle(Icons.help, 'AIDE', () => Aide()),
+          IconListTitle(
+              icon: Icons.contacts,
+              text: 'CONTACT',
+              ontap: () => Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Contact()))),
+          IconListTitle(
+              icon: Icons.logout,
+              text: "${getResponsefromuser()}",
+              ontap: () => LoginScreen()),
+          IconListTitle(icon: Icons.help, text: 'AIDE', ontap: () => Aide()),
           /*IconListTitle(Icons.feedback,'A PROPOS' ,  ()=>Propos()),*/
         ],
       )),

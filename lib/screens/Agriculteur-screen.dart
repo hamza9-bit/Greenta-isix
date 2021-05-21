@@ -32,7 +32,7 @@ class Dashboard extends StatefulWidget {
   void getauthfromuser(BuildContext context) async {
     final AuthenticationService authenticationService = AuthenticationService();
     final User user = authenticationService.getCurrentUser();
-    if (user == null) {
+    if (user != null) {
       AuthenticationService().signOut().then((value) {
         if (value) {
           Navigator.pushAndRemoveUntil(
@@ -167,23 +167,25 @@ class _DashboardState extends State<Dashboard>
               ),
             ),
             IconListTitle(
-                Icons.home,
-                'ACCUEIL',
-                () => Navigator.push(context,
+                icon: Icons.home,
+                text: 'ACCUEIL',
+                ontap: () => Navigator.push(context,
                     MaterialPageRoute(builder: (context) => Accueil()))),
 
             /*IconListTitle(Icons.person,'MON COMPTE',   ()=>Profil()),*/
             IconListTitle(
-                Icons.contacts,
-                'CONTACT',
-                () => Navigator.push(context,
+                icon: Icons.contacts,
+                text: 'CONTACT',
+                ontap: () => Navigator.push(context,
                     MaterialPageRoute(builder: (context) => Contact()))),
-            IconListTitle(widget.geticonfromuser(), "${getResponsefromuser()}",
-                () => widget.getauthfromuser(context)),
             IconListTitle(
-                Icons.help,
-                'AIDE',
-                () => Navigator.push(context,
+                icon: widget.geticonfromuser(),
+                text: "${widget.getResponsefromuser()}",
+                ontap: () => widget.getauthfromuser(context)),
+            IconListTitle(
+                icon: Icons.help,
+                text: 'AIDE',
+                ontap: () => Navigator.push(context,
                     MaterialPageRoute(builder: (context) => Accueil()))),
             /*IconListTitle(Icons.feedback,'A PROPOS' ,  ()=>Propos()),*/
           ],

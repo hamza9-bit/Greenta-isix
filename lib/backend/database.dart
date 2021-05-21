@@ -21,13 +21,13 @@ class DatabaseService {
   final CollectionReference parcelleCollection =
       FirebaseFirestore.instance.collection('NOAParcelles');
 
-  Future<void> userSetup(String displayName) async {
+  /*Future<void> userSetup(String displayName) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     String uid = auth.currentUser.uid.toString();
 
     profileList.add({'name': displayName, 'uid': uid});
     return;
-  }
+  }*/
 
   /* Future<void> createUserData(String name, String email, String uid) async {
     return await profileList.doc(uid).set({

@@ -24,26 +24,34 @@ String getResponsefromuser() {
   return user != null ? "DECONNEXION" : "SE CONNECTER";
 }
 
+IconData geticonfromuser() {
+  final AuthenticationService authenticationService = AuthenticationService();
+  final User user = authenticationService.getCurrentUser();
+  return user != null ? Icons.logout : Icons.login;
+}
+
+void getauthfromuser(BuildContext context) async {
+  final AuthenticationService authenticationService = AuthenticationService();
+  final User user = authenticationService.getCurrentUser();
+  if (user == null) {
+    AuthenticationService().signOut().then((value) {
+      if (value) {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (cntx) => LoginScreen()),
+            (route) => false);
+      }
+    });
+  } else {
+    Navigator.pushAndRemoveUntil(context,
+        MaterialPageRoute(builder: (cntx) => LoginScreen()), (route) => false);
+  }
+}
+
 class _AccueilState extends State<Accueil> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 5,
-        backgroundColor: Colors.orange[800],
-        title: Text(
-          'Accueil',
-        ),
-        actions: [
-          IconButton(
-              padding: EdgeInsets.all(5.0),
-              icon: CircleAvatar(
-                child: BackgroundImage(image: 'assets/images/logo.png'),
-                backgroundColor: Colors.white,
-              ),
-              onPressed: null),
-        ],
-      ),
       drawer: Drawer(
         //menu
         child: ListView(
@@ -71,70 +79,90 @@ class _AccueilState extends State<Accueil> {
                 ),
               ),
             ),
-            IconListTitle(Icons.home, 'ACCUEIL', () => Accueil()),
-            /*IconListTitle(Icons.person,'MON COMPTE',   ()=>Profil()),*/
-            IconListTitle(Icons.contacts, 'CONTACT', () => Contact()),
             IconListTitle(
-                Icons.logout, "${getResponsefromuser()}", () => LoginScreen()),
-            IconListTitle(Icons.help, 'AIDE', () => Aide()),
+              icon: Icons.home,
+              text: "ACCUEIL",
+              ontap: () => Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Accueil())),
+            ),
+
+            /*IconListTitle(Icons.person,'MON COMPTE',   ()=>Profil()),*/
+            IconListTitle(
+                icon: Icons.contacts,
+                text: 'CONTACT',
+                ontap: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Contact()))),
+            IconListTitle(
+                icon: geticonfromuser(),
+                text: "${getResponsefromuser()}",
+                ontap: () => getauthfromuser(context)),
+            IconListTitle(icon: Icons.help, text: 'AIDE', ontap: () => Aide()),
             /*IconListTitle(Icons.feedback,'A PROPOS' ,  ()=>Propos()),*/
           ],
         ),
       ),
       body: SafeArea(
-        // nasfah ama mo9bilika 3imlt bel vertical tsal7et chaya
-        child: SingleChildScrollView(
-          child: Container(
-            width: double.infinity,
-            height: MediaQuery.of(context).size.height,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Expanded(
-                  flex: 4,
-                  child: SizedBox(
-                      child: Carousel(
-                    dotSize: 4.0,
-                    dotSpacing: 15.0,
-                    dotColor: Colors.lightGreenAccent,
-                    indicatorBgPadding: 5.0,
-                    dotBgColor: Colors.transparent,
-                    dotPosition: DotPosition.bottomRight,
-                    images: [
-                      Image.asset(
-                        'assets/images/slide1.png',
-                        fit: BoxFit.cover,
-                      ),
-                      Image.asset(
-                        'assets/images/slide5.png',
-                        fit: BoxFit.cover,
-                      ),
-                      Image.asset(
-                        'assets/images/slide2.jpg',
-                        fit: BoxFit.cover,
-                      ),
-                      Image.asset(
-                        'assets/images/slide4.jpg',
-                        fit: BoxFit.cover,
-                      ),
-                      Image.asset(
-                        'assets/images/slide5.jpg',
-                        fit: BoxFit.cover,
-                      ),
-                      Image.asset(
-                        'assets/images/slide11.jpg',
-                        fit: BoxFit.cover,
-                      ),
-                    ],
-                  )),
-                ), //k tzid sizedbox teb3d wela kifh  ey tsawer zouz louleni yahbtou chwaya 3al slides
-
-                Expanded(flex: 6, child: Aide())
-              ],
+          child: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            backgroundColor: Colors.orange[800],
+            title: Text('Accueil'),
+            centerTitle: false,
+            floating: true,
+            pinned: true,
+            expandedHeight: 250,
+            actions: [
+              IconButton(
+                  padding: EdgeInsets.all(5.0),
+                  icon: CircleAvatar(
+                    child: BackgroundImage(image: 'assets/images/logo.png'),
+                    backgroundColor: Colors.white,
+                  ),
+                  onPressed: null),
+            ],
+            flexibleSpace: FlexibleSpaceBar(
+              background: Carousel(
+                dotSize: 4.0,
+                dotSpacing: 15.0,
+                dotColor: Colors.lightGreenAccent,
+                indicatorBgPadding: 5.0,
+                dotBgColor: Colors.transparent,
+                dotPosition: DotPosition.bottomRight,
+                images: [
+                  Image.asset(
+                    'assets/images/slide1.png',
+                    fit: BoxFit.cover,
+                  ),
+                  Image.asset(
+                    'assets/images/slide5.png',
+                    fit: BoxFit.cover,
+                  ),
+                  Image.asset(
+                    'assets/images/slide2.jpg',
+                    fit: BoxFit.cover,
+                  ),
+                  Image.asset(
+                    'assets/images/slide4.jpg',
+                    fit: BoxFit.cover,
+                  ),
+                  Image.asset(
+                    'assets/images/slide5.jpg',
+                    fit: BoxFit.cover,
+                  ),
+                  Image.asset(
+                    'assets/images/slide11.jpg',
+                    fit: BoxFit.cover,
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-      ),
+          SliverPadding(
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            sliver: Aide(),
+          ),
+        ],
+      )),
     );
   }
 }

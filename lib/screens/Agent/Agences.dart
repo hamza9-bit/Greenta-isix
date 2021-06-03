@@ -10,10 +10,7 @@ import 'package:location/location.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import 'Saved_Agence.dart';
-
 class Agences extends StatefulWidget {
-  
   final LocationData location;
 
   Agences({
@@ -34,7 +31,7 @@ class _AgencesState extends State<Agences> {
   GoogleMapController _googleMapController;
 
   Set<Marker> markers = HashSet<Marker>();
-  
+
   String searchAddr;
 
   BitmapDescriptor _markerIcon;
@@ -53,17 +50,15 @@ class _AgencesState extends State<Agences> {
     super.initState();
     // If I want to change the marker icon:
     // _setMarkerIcon();
-    DatabaseService().getSavedMarkers().then((value){
-      if (value.data()!=null){
+    DatabaseService().getSavedMarkers().then((value) {
+      if (value.data() != null) {
         setState(() {
-        markers= HashSet<Marker>.from( 
-          Mymarker.fromMap(value.data()).geoPoint.map((e){
-                return Marker(
-                  markerId: MarkerId("${e.hashCode}"),
-                  position:LatLng(e.latitude, e.longitude)
-                  );
-        })
-        );
+          markers = HashSet<Marker>.from(
+              Mymarker.fromMap(value.data()).geoPoint.map((e) {
+            return Marker(
+                markerId: MarkerId("${e.hashCode}"),
+                position: LatLng(e.latitude, e.longitude));
+          }));
         });
       }
     });
@@ -103,14 +98,13 @@ class _AgencesState extends State<Agences> {
     _googleMapController = controller;
   }
 
-   void showtoast(bool isSuccess) {
-       toast.Fluttertoast.showToast(
-         msg: isSuccess ? "Success" : "fail",
-         backgroundColor: isSuccess ? Colors.green : Colors.red,
-         gravity: toast.ToastGravity.TOP,
-         );
-    }
-
+  void showtoast(bool isSuccess) {
+    toast.Fluttertoast.showToast(
+      msg: isSuccess ? "Succes" : "échec",
+      backgroundColor: isSuccess ? Colors.green : Colors.red,
+      gravity: toast.ToastGravity.TOP,
+    );
+  }
 
   Widget _undomarker() {
     return FloatingActionButton.extended(
@@ -120,11 +114,10 @@ class _AgencesState extends State<Agences> {
         });
       },
       icon: Icon(Icons.undo),
-      label: Text('Undo point'),
-      backgroundColor: Colors.orange,
+      label: Text('Annuler'),
+      backgroundColor: Colors.orange[900],
     );
   }
-
 
   Widget _buildHoleWidget() {
     return Scaffold(
@@ -133,8 +126,7 @@ class _AgencesState extends State<Agences> {
             IconButton(
                 onPressed: () async {
                   databaseService
-                      .addMarkersToDb(
-                        Mymarker(
+                      .addMarkersToDb(Mymarker(
                           geoPoint: markers
                               .toList()
                               .map((e) => GeoPoint(
@@ -142,14 +134,13 @@ class _AgencesState extends State<Agences> {
                               .toList()))
                       .then((value) => showtoast(value));
                 },
-                  icon: Icon(Icons.save)
-                )
+                icon: Icon(Icons.save))
           ],
           title: Text('localisation agences'),
           centerTitle: true,
           backgroundColor: Colors.grey[900],
         ),
-       floatingActionButton: _undomarker(),
+        floatingActionButton: _undomarker(),
         body: Stack(
           children: <Widget>[
             GoogleMap(
@@ -167,34 +158,6 @@ class _AgencesState extends State<Agences> {
                     });
                   }
                 }),
-            Positioned(
-                top: 30.0,
-                right: 15.0,
-                left: 15.0,
-                child: Container(
-                  height: 50.0,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      color: Colors.white),
-                  child: TextField(
-                    onTap: () {},
-                    decoration: InputDecoration(
-                        hintText: 'Entrer adresse',
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.only(left: 15.0, top: 15.0),
-                        suffixIcon: IconButton(
-                          icon: Icon(Icons.search),
-                          onPressed: () async {},
-                          iconSize: 30.0,
-                        )),
-                    onChanged: (val) {
-                      setState(() {
-                        searchAddr = val;
-                      });
-                    },
-                  ),
-                )),
             Align(
               alignment: Alignment.bottomCenter,
               child: Row(
@@ -204,7 +167,7 @@ class _AgencesState extends State<Agences> {
                       onPressed: () {
                         _isMarker = true;
                       },
-                      child: Text('Marker',
+                      child: Text('Localiser',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.white))),
@@ -213,7 +176,7 @@ class _AgencesState extends State<Agences> {
             )
           ],
         ));
-  } 
+  }
 
   @override
   Widget build(BuildContext context) {

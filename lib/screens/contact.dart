@@ -1,8 +1,11 @@
 import 'package:CTAMA/backend/authentication_services.dart';
+import 'package:CTAMA/models/user.dart';
+import 'package:CTAMA/screens/Agriculteur-screen.dart';
 import 'package:CTAMA/screens/accueil.dart';
 import 'package:CTAMA/screens/aide.dart';
 
 import 'package:CTAMA/screens/login-screen.dart';
+import 'package:CTAMA/screens/viewagence.dart';
 import 'package:CTAMA/widgets/background-image.dart';
 import 'package:CTAMA/widgets/iconliste.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +13,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Contact extends StatefulWidget {
+  final Myuser myuser;
+  final String id;
+
+  const Contact({Key key, this.myuser, this.id}) : super(key: key);
   @override
   _ContactState createState() => _ContactState();
 }
@@ -26,21 +33,49 @@ IconData geticonfromuser() {
   return user != null ? Icons.logout : Icons.login;
 }
 
-void getauthfromuser(BuildContext context) async {
+void getlogfromuser(BuildContext context, String id, Myuser myuser) async {
   final AuthenticationService authenticationService = AuthenticationService();
   final User user = authenticationService.getCurrentUser();
   if (user == null) {
+    Navigator.pushAndRemoveUntil(context,
+        MaterialPageRoute(builder: (cntx) => LoginScreen()), (route) => false);
+  } else {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (cntx) => Dashboard(
+                id: id,
+                myuser: myuser,
+              )),
+    );
+  }
+}
+
+void getauthfromuser(BuildContext context, String id, Myuser myuser) async {
+  final AuthenticationService authenticationService = AuthenticationService();
+  final User user = authenticationService.getCurrentUser();
+  if (user != null) {
     AuthenticationService().signOut().then((value) {
       if (value) {
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (cntx) => LoginScreen()),
-            (route) => false);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (cntx) => LoginScreen(
+                    id: id,
+                    myuser: myuser,
+                  )),
+        );
       }
     });
   } else {
-    Navigator.pushAndRemoveUntil(context,
-        MaterialPageRoute(builder: (cntx) => LoginScreen()), (route) => false);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (cntx) => LoginScreen(
+                id: id,
+                myuser: myuser,
+              )),
+    );
   }
 }
 
@@ -95,23 +130,41 @@ class _ContactState extends State<Contact> {
             ),
           ),
           IconListTitle(
-            icon: Icons.home,
-            text: "Acceuol",
-            ontap: () => Accueil(),
-          ),
+              icon: Icons.home,
+              text: 'ACCUEIL',
+              ontap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Accueil(
+                            id: widget.id,
+                            myuser: widget.myuser,
+                          )))),
 
           /*IconListTitle(Icons.person,'MON COMPTE',   ()=>Profil()),*/
           IconListTitle(
               icon: Icons.contacts,
               text: 'CONTACT',
               ontap: () => Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Contact()))),
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Contact(
+                            id: widget.id,
+                            myuser: widget.myuser,
+                          )))),
           IconListTitle(
-              icon: Icons.logout,
+              icon: geticonfromuser(),
               text: "${getResponsefromuser()}",
-              ontap: () => LoginScreen()),
-          IconListTitle(icon: Icons.help, text: 'AIDE', ontap: () => Aide()),
-          /*IconListTitle(Icons.feedback,'A PROPOS' ,  ()=>Propos()),*/
+              ontap: () => getauthfromuser(context, widget.id, widget.myuser)),
+          IconListTitle(
+              icon: Icons.location_pin,
+              text: 'NOS AGENCES',
+              ontap: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => Viewagence()))),
+          IconListTitle(
+            icon: Icons.person,
+            text: 'MON PANNEAU',
+            ontap: () => getlogfromuser(context, widget.id, widget.myuser),
+          )
         ],
       )),
       body: GridView.count(

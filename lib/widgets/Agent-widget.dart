@@ -1,3 +1,4 @@
+import 'package:CTAMA/models/mysinistre.dart';
 import 'package:CTAMA/models/user.dart';
 import 'package:CTAMA/screens/AffectationScreen.dart';
 import 'package:CTAMA/screens/Agent/Ag-accounts.dart';
@@ -9,6 +10,9 @@ import 'package:CTAMA/screens/ajouter-agence.dart';
 import 'package:flutter/material.dart';
 
 class Agentpage1 extends StatefulWidget {
+  const Agentpage1({
+    Key key,
+  }) : super(key: key);
   @override
   _Agentpage1State createState() => _Agentpage1State();
 }
@@ -55,14 +59,17 @@ class _Agentpage1State extends State<Agentpage1> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(10.0),
+        padding: EdgeInsets.symmetric(vertical: height / 28.1),
         child: GridView.count(
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10,
+          mainAxisSpacing: height / 42.15,
+          crossAxisSpacing: width / 41.1,
           crossAxisCount: 2,
           children: [
             GestureDetector(

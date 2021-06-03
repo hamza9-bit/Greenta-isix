@@ -6,7 +6,7 @@ import 'package:CTAMA/screens/SinistreScreen.dart';
 import 'package:CTAMA/screens/agri-risques.dart';
 import 'package:CTAMA/screens/rapport-agri.dart';
 import 'package:CTAMA/screens/saved_parcelle_ag.dart';
-import 'package:CTAMA/screens/sinistre.dart';
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -30,6 +30,10 @@ class _AgrProfileState extends State<AgrProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.orange[900],
+        title: Text("Profil D'agriculteur"),
+      ),
       body: SingleChildScrollView(
         child: SafeArea(
           child: widget.uid == null
@@ -211,7 +215,7 @@ class _AgrProfileState extends State<AgrProfile> {
                   padding: EdgeInsets.all(5.0),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.grey,
+                    color: Colors.red,
                   ),
                 ),
               ),
@@ -248,9 +252,8 @@ class _AgrProfileState extends State<AgrProfile> {
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   fit: BoxFit.fill,
-                  image: NetworkImage(imageUrl != null
-                      ? imageUrl
-                      : "https://fiverr-res.cloudinary.com/images/q_auto,f_auto/gigs2/112692698/original/31a5d2469689575beee06ffcf4e9e76abab3abe2/logo-design-for-profile-picture-dessin-pour-photo-de-profil.png"),
+                  image: AssetImage(
+                      imageUrl != null ? imageUrl : "assets/images/agri.png"),
                 )),
           ),
         )

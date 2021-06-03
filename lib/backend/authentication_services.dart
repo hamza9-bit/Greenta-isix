@@ -38,7 +38,7 @@ class AuthenticationService {
       });
     } on FirebaseAuthException catch (e) {
       toast.Fluttertoast.showToast(
-          msg: e.message,
+          msg: "il n'y a pas d'utilisateur correspondant à cet identifiant",
           backgroundColor: Colors.red.withOpacity(0.8),
           gravity: toast.ToastGravity.TOP);
       return false;
@@ -77,7 +77,7 @@ class AuthenticationService {
           }).onError((error, stackTrace) => false);
         } else {
           toast.Fluttertoast.showToast(
-              msg: "compte déja existé!",
+              msg: "compte déja existant!",
               timeInSecForIosWeb: 3,
               backgroundColor: Colors.red.withOpacity(0.8),
               gravity: toast.ToastGravity.TOP);

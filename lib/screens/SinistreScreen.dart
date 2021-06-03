@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/rendering.dart';
 import 'package:fluttertoast/fluttertoast.dart' as toast;
-import 'package:CTAMA/screens/Agent/saved_agences_view.dart';
 
 class SinistreView extends StatelessWidget {
   SinistreView({
@@ -60,7 +59,7 @@ class SinistreView extends StatelessWidget {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text("voulez-vous vraiment supprimer sinistre ?"),
+            title: Text("êtes-vous sûr de vouloir supprimer ce sinsitre ?"),
             elevation: 10,
             actions: [
               MaterialButton(
@@ -95,14 +94,7 @@ class SinistreView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-            colors: [Colors.orange[900], Colors.orange[200]],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          )),
-        ),
+        backgroundColor: Colors.orange[900],
         title: Text("SINISTRES"),
       ),
       body: StreamBuilder(
@@ -149,7 +141,7 @@ class SinistreView extends StatelessWidget {
                                                   .isNotEmpty
                                               ? mysinistre.imagesUrl[0]
                                                   .toString()
-                                              : "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/250px-Image_created_with_a_mobile_phone.png")
+                                              : "https://images.fosterwebmarketing.com/438/Fire_on_Farm_Land.jpeg")
                                           .image,
                                     ),
                                     Container(
@@ -242,7 +234,7 @@ class ExpertSelector extends StatelessWidget {
                       Myuser.fromMap(snapshot.data.docs[index].data());
                   return GestureDetector(
                       onTap: () => Navigator.of(context).pop(myuser.id),
-                      child: getCard(myuser));
+                      child: card1(myuser));
                 },
               );
             }
@@ -255,44 +247,51 @@ class ExpertSelector extends StatelessWidget {
     );
   }
 
-  Widget getCard(Myuser myuser) {
-    return ListTile(
-      title: Row(
-        children: <Widget>[
-          Container(
-            width: 60,
-            height: 60,
-            decoration: BoxDecoration(
-              color: Colors.orange[200],
-              borderRadius: BorderRadius.circular(60 / 2),
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: NetworkImage(myuser.imageUrl != null
-                    ? myuser.imageUrl
-                    : "https://st.depositphotos.com/2101611/3925/v/600/depositphotos_39258143-stock-illustration-businessman-avatar-profile-picture.jpg"),
+  Widget card1(Myuser myuser) {
+    return Card(
+      child: Container(
+        height: 60,
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Flexible(
+                flex: 2,
+                child: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    child: Image(
+                      image: AssetImage(
+                        "assets/images/exp.png",
+                      ),
+                    )),
               ),
-            ),
-          ),
-          SizedBox(
-            width: 20,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                myuser.email,
-                style: TextStyle(fontSize: 17),
+              Flexible(
+                flex: 6,
+                child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 4),
+                    alignment: Alignment.centerLeft,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(myuser.email,
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.bold),
+                            softWrap: true),
+                        RichText(
+                          softWrap: true,
+                          text: TextSpan(children: [
+                            TextSpan(
+                                text: myuser.cin,
+                                style: TextStyle(
+                                    color: Colors.grey, fontSize: 14)),
+                          ]),
+                        ),
+                      ],
+                    )),
               ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                myuser.name,
-                style: TextStyle(color: Colors.grey, fontSize: 17),
-              ),
-            ],
-          )
-        ],
+            ]),
       ),
     );
   }

@@ -146,6 +146,24 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "flare_flutter",
+      "rootUri": "file:///C:/project1/flutter_windows_2.0.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/flare_flutter-3.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flare_loading",
+      "rootUri": "file:///C:/project1/flutter_windows_2.0.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/flare_loading-3.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flare_splash_screen",
+      "rootUri": "file:///C:/project1/flutter_windows_2.0.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/flare_splash_screen-4.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "flutter",
       "rootUri": "file:///C:/project1/flutter_windows_2.0.5-stable/flutter/packages/flutter",
       "packageUri": "lib/",
@@ -154,6 +172,12 @@
     {
       "name": "flutter_plugin_android_lifecycle",
       "rootUri": "file:///C:/project1/flutter_windows_2.0.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-2.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flutter_screenutil",
+      "rootUri": "file:///C:/project1/flutter_windows_2.0.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_screenutil-5.0.0+2",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -470,7 +494,7 @@
       "languageVersion": "2.7"
     }
   ],
-  "generated": "2021-05-17T19:09:05.348059Z",
+  "generated": "2021-05-23T15:51:20.968987Z",
   "generator": "pub",
   "generatorVersion": "2.12.3"
 }

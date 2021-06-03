@@ -4,12 +4,12 @@ import 'package:CTAMA/models/mysinistre.dart';
 import 'package:CTAMA/models/parcelle_poly.dart';
 import 'package:CTAMA/models/user.dart';
 import 'package:CTAMA/screens/SavedPar_View.dart';
-import 'package:CTAMA/screens/sinistre.dart';
+import 'package:CTAMA/screens/sinsitre.dart';
+
 import 'package:CTAMA/widgets/agr-profile.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart' as toast;
-import 'package:CTAMA/screens/Agent/saved_agences_view.dart';
 
 class AgriSinistre extends StatelessWidget {
   AgriSinistre(
@@ -59,17 +59,6 @@ class AgriSinistre extends StatelessWidget {
                     ))),
         child: Icon(Icons.add),
       ),
-      appBar: AppBar(
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-            colors: [Colors.orange[900], Colors.orange[200]],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          )),
-        ),
-        title: Text("SINISTRES"),
-      ),
       body: StreamBuilder(
         stream: uid != null
             ? databaseService.getSinistresWFilters(uid)
@@ -78,7 +67,7 @@ class AgriSinistre extends StatelessWidget {
           if (snapshot.hasData && snapshot.data != null) {
             if (snapshot.data.docs.isEmpty) {
               return Center(
-                child: Text("NO SINISTRES ENCORE.",
+                child: Text("Aucun Sinitre Ajouté",
                     style: TextStyle(fontSize: 23)),
               );
             } else {
@@ -104,7 +93,7 @@ class AgriSinistre extends StatelessWidget {
                                                 .imagesUrl as List<dynamic>)
                                             .isNotEmpty
                                         ? mysinistre.imagesUrl[0].toString()
-                                        : "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/250px-Image_created_with_a_mobile_phone.png")
+                                        : "https://images.fosterwebmarketing.com/438/Fire_on_Farm_Land.jpeg")
                                     .image,
                               ),
                               Container(
@@ -130,7 +119,7 @@ class AgriSinistre extends StatelessWidget {
             }
           }
           return Center(
-            child: CircularProgressIndicator(),
+            child: SizedBox(),
           );
         },
       ),

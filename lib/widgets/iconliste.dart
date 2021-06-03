@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 
-//ha4i masta3mltha ken fel class ha4eka ?? wel acceuil
 class IconListTitle extends StatelessWidget {
   final IconData icon;
   final String text;
   final Function ontap;
-  IconListTitle(
-      {this.icon,
-      this.text,
-      this.ontap}); //hne temchi tawika 5aliha ha4i zeda walet s7i7a arj3 trah arj3 tawika
+  IconListTitle({this.icon, this.text, this.ontap});
 
   @override
   Widget build(BuildContext context) {
@@ -57,10 +53,8 @@ class IconListTitle extends StatelessWidget {
 
 class NavigateIcon extends StatelessWidget {
   final IconData icon;
-  final String text;
-  final Function ontap;
 
-  const NavigateIcon({this.icon, this.text, @required this.ontap});
+  const NavigateIcon({this.icon});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -73,7 +67,6 @@ class NavigateIcon extends StatelessWidget {
         ))),
         child: InkWell(
           splashColor: Colors.blue[400],
-          onTap: ontap,
           child: Container(
             height: 40,
             child: Row(
@@ -84,16 +77,6 @@ class NavigateIcon extends StatelessWidget {
                     Icon(
                       icon,
                       color: Colors.blue[700],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        text,
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          color: Colors.blue[700],
-                        ),
-                      ),
                     ),
                   ],
                 ),

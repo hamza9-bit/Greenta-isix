@@ -5,7 +5,7 @@ import 'package:CTAMA/screens/SavedPar_View.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart' as toast;
-import 'package:CTAMA/screens/Agent/saved_agences_view.dart';
+
 import '../polymaker/polymaker.dart';
 
 class SavedParcelle extends StatelessWidget {
@@ -42,7 +42,7 @@ class SavedParcelle extends StatelessWidget {
                       }
                     } else {
                       toast.Fluttertoast.showToast(
-                          msg: "reference déja existé!",
+                          msg: "Réference existe déja",
                           timeInSecForIosWeb: 3,
                           backgroundColor: Colors.red.withOpacity(0.8),
                           gravity: toast.ToastGravity.TOP);
@@ -62,7 +62,7 @@ class SavedParcelle extends StatelessWidget {
                 controller: textEditingController,
                 validator: (String str) {
                   if (str.isEmpty) {
-                    return "longeur du Numéro de Reference doit etre superieur à 0";
+                    return "Veuillez entrez une réference ";
                   }
                   return null;
                 },
@@ -81,7 +81,7 @@ class SavedParcelle extends StatelessWidget {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text("voulez-vous vraiment supprimer cette parcelle ?"),
+            title: Text("êtes-vous sûr de vouloir supprimer cette parcelle?"),
             elevation: 10,
             actions: [
               MaterialButton(
@@ -123,15 +123,8 @@ class SavedParcelle extends StatelessWidget {
             )
           : SizedBox(),
       appBar: AppBar(
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-            colors: [Colors.orange[900], Colors.orange[200]],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          )),
-        ),
-        title: Text("SAVED PARCELLES"),
+        backgroundColor: Colors.orange[900],
+        title: Text(" PARCELLES"),
       ),
       body: StreamBuilder(
         stream: databaseService.getSavedParcelles(uid),
@@ -139,7 +132,7 @@ class SavedParcelle extends StatelessWidget {
           if (snapshot.hasData && snapshot.data != null) {
             if (snapshot.data.docs.isEmpty) {
               return Center(
-                child: Text("Aucune parcelles ajoutés.",
+                child: Text("Aucune parcelle ajoutée.",
                     style: TextStyle(fontSize: 23)),
               );
             } else {
@@ -158,11 +151,8 @@ class SavedParcelle extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: ListTile(
-                              leading: Text(
-                                  myPpolygon.reference != null
-                                      ? "Parcelle n° ${myPpolygon.reference}"
-                                      : "Parcelle n° $index",
-                                  style: TextStyle(fontSize: 29)),
+                              leading: Text(getResponsefromParcelle(myPpolygon),
+                                  style: TextStyle(fontSize: 19)),
                               trailing: Container(
                                 width: 100,
                                 child: Row(
@@ -185,7 +175,7 @@ class SavedParcelle extends StatelessWidget {
                                           if (value) {
                                             toast.Fluttertoast.showToast(
                                                 msg:
-                                                    "reference ajoutée avec succés",
+                                                    "Réference ajoutée avec succés",
                                                 timeInSecForIosWeb: 3,
                                                 backgroundColor: Colors.green
                                                     .withOpacity(0.8),
@@ -218,5 +208,13 @@ class SavedParcelle extends StatelessWidget {
         },
       ),
     );
+  }
+}
+
+String getResponsefromParcelle(MyPpolygon myPpolygon) {
+  if (myPpolygon.reference == "null") {
+    return "Parcelle non affectée";
+  } else {
+    return "Parcelle n° ${myPpolygon.reference}";
   }
 }

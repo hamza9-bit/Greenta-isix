@@ -30,29 +30,37 @@ class Rapportexpertise extends StatefulWidget {
 class RapportexpertiseState extends State<Rapportexpertise> {
   Widget _buildparcelle() {
     return Container(
-      child: Text(widget.parcelle),
+      child: Text(
+        widget.parcelle,
+        style: TextStyle(color: Colors.white, fontSize: 17),
+      ),
       padding: EdgeInsets.all(10.0),
       decoration: BoxDecoration(
-          border: Border.fromBorderSide(BorderSide(color: Colors.grey))),
+          color: Colors.blue[900],
+          border: Border.fromBorderSide(BorderSide(color: Colors.black))),
     );
   }
 
   Widget _buildsinistre() {
     return Container(
-      child: Text(widget.sinistre),
+      child: Text(widget.sinistre,
+          style: TextStyle(color: Colors.white, fontSize: 17)),
       padding: EdgeInsets.all(10.0),
       decoration: BoxDecoration(
-          border: Border.fromBorderSide(BorderSide(color: Colors.grey))),
+          color: Colors.blue[900],
+          border: Border.fromBorderSide(BorderSide(color: Colors.black))),
     );
   }
 
   Widget _buildDate() {
     return Container(
       child: Text(
-          DateFormat('yyyy-MM-dd  kk:mm:ss').format(DateTime.now()).toString()),
+          DateFormat('yyyy-MM-dd  kk:mm:ss').format(DateTime.now()).toString(),
+          style: TextStyle(color: Colors.white, fontSize: 17)),
       padding: EdgeInsets.all(10.0),
       decoration: BoxDecoration(
-          border: Border.fromBorderSide(BorderSide(color: Colors.grey))),
+          color: Colors.blue[900],
+          border: Border.fromBorderSide(BorderSide(color: Colors.black))),
     );
   }
 
@@ -79,15 +87,8 @@ class RapportexpertiseState extends State<Rapportexpertise> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("    Rapport d'expertise"),
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-            colors: [Colors.orange[900], Colors.orange[200]],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          )),
-        ),
+        title: Text(" Rapport d'expertise"),
+        backgroundColor: Colors.orange[900],
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -98,37 +99,42 @@ class RapportexpertiseState extends State<Rapportexpertise> {
             children: <Widget>[
               _getHeader(),
               SizedBox(
-                height: 20,
+                height: 30,
               ),
               _buildparcelle(),
               SizedBox(
-                height: 20,
+                height: 30,
               ),
               _buildsinistre(),
               SizedBox(
-                height: 20,
+                height: 30,
               ),
               _buildDate(),
-              SizedBox(height: 25),
+              SizedBox(height: 30),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   FloatingActionButton.extended(
+                    backgroundColor: Colors.blue[900],
                     label: file != null
-                        ? Text("1 file selected")
-                        : Text("no file selected"),
+                        ? Text("1 fichier sélectionné")
+                        : Text("Aucun fichier sélectionné"),
                     heroTag: "HEROTAG",
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: FloatingActionButton(
+                        backgroundColor: Colors.red[900],
                         child: Icon(Icons.upload_outlined),
                         onPressed: () async => openFileExplorer()),
                   )
                 ],
               ),
               SizedBox(height: 25),
-              ElevatedButton(
+              TextButton(
+                style: TextButton.styleFrom(
+                    backgroundColor: Colors.blue[900],
+                    minimumSize: Size(5, 45)),
                 child: Text(
                   'Envoyer',
                   style: TextStyle(color: Colors.white, fontSize: 16),
@@ -136,7 +142,7 @@ class RapportexpertiseState extends State<Rapportexpertise> {
                 onPressed: () async {
                   if (file == null) {
                     toast.Fluttertoast.showToast(
-                        msg: "ajouter un fichier d'abord",
+                        msg: "Ajouter un fichier D'abord",
                         timeInSecForIosWeb: 3,
                         backgroundColor: Colors.red.withOpacity(0.8),
                         gravity: toast.ToastGravity.TOP);
@@ -152,13 +158,13 @@ class RapportexpertiseState extends State<Rapportexpertise> {
                                 ))).then((value) {
                       if (value) {
                         toast.Fluttertoast.showToast(
-                            msg: "rapport envoyé avec succes",
+                            msg: "Rapport envoyé avec succés",
                             timeInSecForIosWeb: 3,
                             backgroundColor: Colors.green.withOpacity(0.8),
                             gravity: toast.ToastGravity.TOP);
                       } else {
                         toast.Fluttertoast.showToast(
-                            msg: "an error was occured!",
+                            msg: "Une erreur s'est produite!",
                             timeInSecForIosWeb: 3,
                             backgroundColor: Colors.red.withOpacity(0.8),
                             gravity: toast.ToastGravity.TOP);
@@ -187,8 +193,7 @@ class RapportexpertiseState extends State<Rapportexpertise> {
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   fit: BoxFit.fill,
-                  image: NetworkImage(
-                      "https://img-19.ccm2.net/byNncjU419IZarl3PQuTL5dUOq0=/170x/768dc2c5128d4b3ca0b28af6c3943a0c/ccm-faq/internship.png"),
+                  image: AssetImage("assets/images/rapport.png"),
                 )),
           ),
         )
@@ -232,7 +237,7 @@ class LoadScreen extends StatelessWidget {
               }
             }
             return Center(
-              child: CircularProgressIndicator(),
+              child: SizedBox(),
             );
           },
         ),

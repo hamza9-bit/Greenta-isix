@@ -1,7 +1,9 @@
 import 'package:CTAMA/backend/authentication_services.dart';
 import 'package:CTAMA/backend/database.dart';
 import 'package:CTAMA/models/mysinistre.dart';
+import 'package:CTAMA/models/parcelle_poly.dart';
 import 'package:CTAMA/models/user.dart';
+import 'package:CTAMA/screens/SavedPar_View.dart';
 import 'package:CTAMA/screens/expert/rapport.dart';
 import 'package:CTAMA/screens/login-screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -23,6 +25,7 @@ class _ExpertscreenState extends State<Expertscreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.orange[900],
         actions: <Widget>[
           TextButton.icon(
             icon: Icon(
@@ -48,19 +51,11 @@ class _ExpertscreenState extends State<Expertscreen> {
             ),
           ),
         ],
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-            colors: [Colors.orange[900], Colors.orange[200]],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          )),
-        ),
         title: Container(
           padding: EdgeInsets.symmetric(
             horizontal: 20,
           ),
-          child: Text("Expert panel"),
+          child: Text("Panneau d'expert"),
         ),
       ),
       body: getBody(),
@@ -90,7 +85,7 @@ class _ExpertscreenState extends State<Expertscreen> {
         if (snapshot.hasData && snapshot.data != null) {
           if (snapshot.data.docs.isEmpty) {
             return Center(
-              child: Text("Aucune parcelles ajoutés.",
+              child: Text("Aucun sinsitre ajouté.",
                   style: TextStyle(fontSize: 23)),
             );
           } else {
@@ -112,7 +107,7 @@ class _ExpertscreenState extends State<Expertscreen> {
           }
         }
         return Center(
-          child: CircularProgressIndicator(),
+          child: SizedBox(),
         );
       },
     );
@@ -123,8 +118,16 @@ class _ExpertscreenState extends State<Expertscreen> {
         child: Padding(
       padding: const EdgeInsets.all(10.0),
       child: ListTile(
+        trailing: IconButton(
+          icon: Icon(Icons.visibility_outlined),
+          onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+              builder: (cntx) => ParcelleViewWrapper(
+                    parcelleid: mysinistre.parcelleID,
+                    agriid: mysinistre.agriId,
+                  ))),
+        ),
         subtitle: Text(
-          "parcelle n°${mysinistre.parcelleRef}",
+          "Parcelle n°${mysinistre.parcelleRef}",
           style: TextStyle(color: Colors.grey, fontSize: 17),
         ),
         leading: GestureDetector(
@@ -156,12 +159,36 @@ class _ExpertscreenState extends State<Expertscreen> {
         title: Container(
           child: Text(
             "Sinistre n° ${mysinistre.sinisteid}",
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
         ),
       ),
     ));
+  }
+}
+
+class ParcelleViewWrapper extends StatelessWidget {
+  final String agriid;
+  final String parcelleid;
+
+  const ParcelleViewWrapper({Key key, this.agriid, this.parcelleid})
+      : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: DatabaseService().getparcelleFuture(agriid, parcelleid),
+      builder:
+          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+        if (snapshot.hasData && snapshot.data != null) {
+          final MyPpolygon myPpolygon =
+              MyPpolygon.fromMap(snapshot.data.data());
+          return SavedParcView(myPpolygon: myPpolygon);
+        }
+
+        return Center(
+          child: SizedBox(),
+        );
+      },
+    );
   }
 }

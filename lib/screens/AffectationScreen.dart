@@ -6,18 +6,43 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Affectation extends StatelessWidget {
+  Future<bool> createDialog1(BuildContext context, String id) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("êtes-vous sûr de vouloir supprimer cette parcelle?"),
+            elevation: 10,
+            actions: [
+              MaterialButton(
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+                child: Text("Non"),
+              ),
+              MaterialButton(
+                onPressed: () async {
+                  await DatabaseService().deleteNOAparcelle(id);
+
+                  Navigator.of(context).pop(true);
+                },
+                child: Text(
+                  "Oui",
+                  style: TextStyle(
+                    color: Colors.red,
+                  ),
+                ),
+              )
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-            colors: [Colors.orange[900], Colors.orange[200]],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          )),
-        ),
+        backgroundColor: Colors.orange[900],
         title: Text("AFFECTATIONS"),
       ),
       body: StreamBuilder(
@@ -26,7 +51,7 @@ class Affectation extends StatelessWidget {
           if (snapshot.hasData) {
             if (snapshot.data.docs.isEmpty) {
               return Center(
-                child: Text("Aucune affectation encore .",
+                child: Text("Aucune parcelle ajoutée.",
                     style: TextStyle(fontSize: 23)),
               );
             }
@@ -44,9 +69,11 @@ class Affectation extends StatelessWidget {
                       child: Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: ListTile(
-                            trailing: Icon(
-                              Icons.arrow_forward_ios_outlined,
-                              color: Colors.black,
+                            trailing: IconButton(
+                              icon: Icon(Icons.delete_forever_rounded),
+                              color: Colors.red,
+                              onPressed: () =>
+                                  createDialog1(context, myPpolygon.id),
                             ),
                             title: Row(
                               children: <Widget>[
@@ -101,12 +128,10 @@ class PPWS extends StatelessWidget {
             width: 60,
             height: 60,
             decoration: BoxDecoration(
-              color: Colors.orange[200],
               borderRadius: BorderRadius.circular(60 / 2),
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image: NetworkImage(
-                    "https://th.bing.com/th/id/Rcb24d21f9165aa63e07c15817d18d11c?rik=92vqNxm%2fjXeqhw&riu=http%3a%2f%2fmedia.beam.usnews.com%2f13%2f18%2fddbead684c69af9e437eded399dc%2f141105-farm-stock.jpg&ehk=L4WREhw8MW2MjlytQAmr9Sdorr9MpZMbFGPhCn%2f%2fbKk%3d&risl=&pid=ImgRaw"),
+                image: AssetImage('assets/images/pa.jpg'),
               ),
             ),
           );

@@ -6,9 +6,9 @@ import 'package:CTAMA/models/myMarker.dart';
 import 'package:CTAMA/models/mysinistre.dart';
 import 'package:CTAMA/models/parcelle_poly.dart';
 import 'package:CTAMA/models/user.dart';
-import 'package:CTAMA/screens/sinistre.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class DatabaseService {
@@ -85,6 +85,16 @@ class DatabaseService {
   Future<DocumentSnapshot> getUserFuture(String uid) async {
     return await profileList
         .doc(uid)
+        .get()
+        .then((value) => value)
+        .onError((error, stackTrace) => null);
+  }
+
+  Future<DocumentSnapshot> getparcelleFuture(String uid, String id) async {
+    return await profileList
+        .doc(uid)
+        .collection("Parcelles")
+        .doc(id)
         .get()
         .then((value) => value)
         .onError((error, stackTrace) => null);

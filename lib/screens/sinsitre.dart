@@ -3,6 +3,7 @@ import 'package:CTAMA/backend/database.dart';
 import 'package:CTAMA/models/mysinistre.dart';
 import 'package:CTAMA/models/parcelle_poly.dart';
 import 'package:CTAMA/widgets/background-image.dart';
+
 import 'package:CTAMA/widgets/text-field-input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,7 +14,7 @@ import 'package:firebase_storage/firebase_storage.dart' as storage;
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:permission_handler/permission_handler.dart' as perm;
-import 'package:provider/provider.dart';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -86,29 +87,28 @@ class _SinistreState extends State<Sinistre> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        BackgroundImage(image: 'assets/images/Incendie.jpg'),
+        BackgroundImage(image: "assets/images/login_bg.png"),
         Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.transparent,
+            title: Text("Sinistre"),
+            backgroundColor: Colors.orange[900],
           ),
-          backgroundColor: Colors.transparent,
           body: SingleChildScrollView(
               child: Column(
             children: [
               SizedBox(
-                height: 30,
+                height: 50,
               ),
               Stack(
                 children: [
-                  Center(
-                    child: Text(
-                      'Sinister',
-                      style: TextStyle(
-                          fontFamily: 'home',
-                          fontSize: 70,
-                          color: Colors.blue[800]),
+                  Container(
+                    height: 200,
+                    child: Image(
+                      image: AssetImage('assets/images/piw.png'),
+                      width: 500,
+                      height: 120,
                     ),
-                  ),
+                  )
                 ],
               ),
               SizedBox(
@@ -117,18 +117,21 @@ class _SinistreState extends State<Sinistre> {
               ),
               Column(
                 children: [
-                  TextInputField(
-                    initialValue: widget.name,
-                    readonly: true,
-                    icon: FontAwesomeIcons.user,
+                  Container(
+                    child: TextInputField(
+                      initialValue: widget.name,
+                      readonly: true,
+                      icon: FontAwesomeIcons.user,
+                    ),
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 30,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       FloatingActionButton.extended(
+                          backgroundColor: Colors.blue[900],
                           label: _paths != null
                               ? Row(
                                   children: [
@@ -151,6 +154,7 @@ class _SinistreState extends State<Sinistre> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: FloatingActionButton(
+                              backgroundColor: Colors.red[900],
                               child: Icon(Icons.upload_outlined),
                               onPressed: () async => openFileExplorer()),
                         )
@@ -158,17 +162,6 @@ class _SinistreState extends State<Sinistre> {
                   ),
                   SizedBox(
                     height: 30,
-                  ),
-                  Text(
-                    'Veuillez choisir le numero de votre parcelle ',
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.white,
-                      fontFamily: 'home',
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
                   ),
                   Center(
                     child: Container(
@@ -185,75 +178,75 @@ class _SinistreState extends State<Sinistre> {
                         },
                         child: ListTile(
                           trailing: Icon(Icons.arrow_upward_outlined,
-                              color: Colors.white),
+                              color: Colors.blue[900]),
                           title: myPpolygon != null
                               ? Text(
                                   "Parcelle N° ${myPpolygon.reference}",
-                                  style: TextStyle(color: Colors.white),
+                                  style: TextStyle(
+                                          color: Colors.blue[900], fontSize: 17)
+                                      .copyWith(fontWeight: FontWeight.bold),
                                 )
                               : Text(
                                   "Veuiller choisir la parcelle",
-                                  style: TextStyle(color: Colors.white),
+                                  style: TextStyle(color: Colors.blue[900])
+                                      .copyWith(fontWeight: FontWeight.bold),
                                 ),
                         ),
                       ),
                     ),
                   ),
                   SizedBox(
-                    height: 30,
+                    height: 50,
                   ),
                   RaisedButton(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 20.0, horizontal: 80.0),
-                      color: Colors.blue[800],
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0)),
-                      onPressed: () async {
-                        if (myPpolygon == null) {
-                          toast.Fluttertoast.showToast(
-                              msg: "choisir une parcelle premierement!",
-                              timeInSecForIosWeb: 3,
-                              backgroundColor: Colors.red.withOpacity(0.8),
-                              gravity: toast.ToastGravity.TOP);
-                        } else {
-                          Navigator.of(context)
-                              .push(MaterialPageRoute(
-                                  builder: (cntx) => LoadScreen(
-                                        nbsin: widget.nbsin,
-                                        map: _paths,
-                                        sinistre: Mysinistre(
-                                          agriId: widget.uid,
-                                          parcelleID: myPpolygon.id,
-                                          parcelleRef: myPpolygon.reference,
-                                        ),
-                                      )))
-                              .then((value) {
-                            if (value) {
-                              toast.Fluttertoast.showToast(
-                                  msg: "sinistre envoyé avec succes",
-                                  timeInSecForIosWeb: 3,
-                                  backgroundColor:
-                                      Colors.green.withOpacity(0.8),
-                                  gravity: toast.ToastGravity.TOP);
-                            } else {
-                              toast.Fluttertoast.showToast(
-                                  msg: "an error was occured!",
-                                  timeInSecForIosWeb: 3,
-                                  backgroundColor: Colors.red.withOpacity(0.8),
-                                  gravity: toast.ToastGravity.TOP);
-                            }
-                          });
-                        }
-                      },
-                      child: Text(
-                        'Envoyer',
+                    padding:
+                        EdgeInsets.symmetric(vertical: 20.0, horizontal: 80.0),
+                    color: Colors.blue[900],
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0)),
+                    onPressed: () async {
+                      if (myPpolygon == null) {
+                        toast.Fluttertoast.showToast(
+                            msg: "Choisir Une Parcelle Premierement!",
+                            timeInSecForIosWeb: 3,
+                            backgroundColor: Colors.red.withOpacity(0.8),
+                            gravity: toast.ToastGravity.TOP);
+                      } else {
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(
+                                builder: (cntx) => LoadScreen(
+                                      nbsin: widget.nbsin,
+                                      map: _paths,
+                                      sinistre: Mysinistre(
+                                        agriId: widget.uid,
+                                        parcelleID: myPpolygon.id,
+                                        parcelleRef: myPpolygon.reference,
+                                      ),
+                                    )))
+                            .then((value) {
+                          if (value) {
+                            toast.Fluttertoast.showToast(
+                                msg: "Sinistre envoyé avec succés",
+                                timeInSecForIosWeb: 3,
+                                backgroundColor: Colors.green.withOpacity(0.8),
+                                gravity: toast.ToastGravity.TOP);
+                          } else {
+                            toast.Fluttertoast.showToast(
+                                msg: "Une erreur s'est produite!",
+                                timeInSecForIosWeb: 3,
+                                backgroundColor: Colors.red.withOpacity(0.8),
+                                gravity: toast.ToastGravity.TOP);
+                          }
+                        });
+                      }
+                    },
+                    child: Text('Envoyer',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 15.1,
+                          fontSize: 17.1,
                           fontFamily: 'home',
-                        ),
-                      ),
-                      textColor: Colors.white),
+                        ).copyWith(fontWeight: FontWeight.bold)),
+                  ),
                 ],
               ),
             ],
@@ -278,7 +271,7 @@ class ParcelleSelector extends StatelessWidget {
           if (snapshot.hasData && snapshot.data != null) {
             if (snapshot.data.docs.isEmpty) {
               return Center(
-                child: Text("Aucune parcelles ajoutés.",
+                child: Text("Aucune parcelle ajouté.",
                     style: TextStyle(fontSize: 23)),
               );
             } else {
@@ -294,7 +287,7 @@ class ParcelleSelector extends StatelessWidget {
                           padding: const EdgeInsets.all(10.0),
                           child: ListTile(
                             leading: Text("Parcelle n° ${myPpolygon.reference}",
-                                style: TextStyle(fontSize: 29)),
+                                style: TextStyle(fontSize: 25)),
                           ),
                         ),
                       ));
@@ -303,7 +296,7 @@ class ParcelleSelector extends StatelessWidget {
             }
           }
           return Center(
-            child: CircularProgressIndicator(),
+            child: SizedBox(),
           );
         },
       ),
@@ -335,7 +328,10 @@ class LoadScreen extends StatelessWidget {
               }
             }
             return Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.orange[900]),
+                strokeWidth: 4,
+              ),
             );
           },
         ),

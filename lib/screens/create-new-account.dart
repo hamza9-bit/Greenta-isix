@@ -249,15 +249,10 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                           ),
                         ],
                       ),
-                      RaisedButton(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 20.0, horizontal: 40.0),
-                          color: Colors.lightBlue[800],
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0)),
-                          onPressed: () => validate1(context),
-                          child: Text("Creer un compte"),
-                          textColor: Colors.white),
+                      RoundedButton(
+                        buttonName: 'Creer un compte',
+                        ontap: () => validate1(context),
+                      ),
                       SizedBox(
                         height: 30,
                       ),

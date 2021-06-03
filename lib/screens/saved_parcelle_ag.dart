@@ -1,12 +1,12 @@
 import 'package:CTAMA/backend/database.dart';
-import 'package:CTAMA/models/myMarker.dart';
+
 import 'package:CTAMA/models/parcelle_poly.dart';
 import 'package:CTAMA/models/user.dart';
 import 'package:CTAMA/screens/SavedPar_View.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart' as toast;
-import 'package:CTAMA/screens/Agent/saved_agences_view.dart';
+
 import '../polymaker/polymaker.dart';
 
 class SavedParcelleag extends StatelessWidget {
@@ -102,24 +102,13 @@ class SavedParcelleag extends StatelessWidget {
             getLocation(context, enableDragMarker: true, myuser: null),
         child: Icon(Icons.add),
       ),
-      appBar: AppBar(
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-            colors: [Colors.orange[900], Colors.orange[200]],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          )),
-        ),
-        title: Text("SAVED PARCELLES"),
-      ),
       body: StreamBuilder(
         stream: databaseService.getSavedParcelles(uid),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasData && snapshot.data != null) {
             if (snapshot.data.docs.isEmpty) {
               return Center(
-                child: Text("Aucune parcelles ajoutés.",
+                child: Text("Aucune parcelle ajoutée.",
                     style: TextStyle(fontSize: 23)),
               );
             } else {
@@ -136,13 +125,10 @@ class SavedParcelleag extends StatelessWidget {
                               ))),
                       child: Card(
                         child: Padding(
-                          padding: const EdgeInsets.all(10.0),
+                          padding: const EdgeInsets.all(8.0),
                           child: ListTile(
-                              leading: Text(
-                                  myPpolygon.reference != null
-                                      ? "Parcelle n° ${myPpolygon.reference}"
-                                      : "Parcelle n° $index",
-                                  style: TextStyle(fontSize: 29)),
+                              leading: Text(getResponsefromParcelle(myPpolygon),
+                                  style: TextStyle(fontSize: 17)),
                               trailing: Container(
                                 width: 100,
                                 child: Row(
@@ -169,5 +155,13 @@ class SavedParcelleag extends StatelessWidget {
         },
       ),
     );
+  }
+}
+
+String getResponsefromParcelle(MyPpolygon myPpolygon) {
+  if (myPpolygon.reference == "null") {
+    return "Parcelle non affectée";
+  } else {
+    return "Parcelle n° ${myPpolygon.reference}";
   }
 }

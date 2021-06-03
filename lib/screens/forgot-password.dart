@@ -65,53 +65,58 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             ),
             centerTitle: true,
           ),
-          body: Form(
-            key: formkey,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            child: Column(
-              children: [
-                Center(
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: size.height * 0.1,
-                      ),
-                      Container(
-                        width: size.width * 0.8,
-                        child: Text(
-                          'Entrez votre Email et nous vous envoyons les instructions pour Réinitialiser votre Mot de Passe',
-                          style: TextStyle(
-                              fontSize: 22, color: Colors.white, height: 1.5),
+          body: SingleChildScrollView(
+            child: Form(
+              key: formkey,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              child: Column(
+                children: [
+                  Center(
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: size.height * 0.1,
                         ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      TextInputField(
-                        onSaved: (String myemail) => email = myemail,
-                        validator: MultiValidator([
-                          RequiredValidator(
-                              errorText: "Veuillez saisir une adresse mail"),
-                          EmailValidator(
-                              errorText:
-                                  "Veuillez saisir une adresse mail valid"),
-                        ]),
-                        icon: FontAwesomeIcons.envelope,
-                        hint: 'Email',
-                        inputType: TextInputType.emailAddress,
-                        inputAction: TextInputAction.done,
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      ElevatedButton(
-                        onPressed: () => validate2(context),
-                        child: Text('Envoyer'),
-                      )
-                    ],
-                  ),
-                )
-              ],
+                        Container(
+                          width: size.width * 0.8,
+                          child: Text(
+                            'Entrez votre Email et nous vous envoyons les instructions pour Réinitialiser votre Mot de Passe',
+                            style: TextStyle(
+                                fontSize: 22, color: Colors.white, height: 1.5),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        TextInputField(
+                          onSaved: (String myemail) => email = myemail,
+                          validator: MultiValidator([
+                            RequiredValidator(
+                                errorText: "Veuillez saisir une adresse mail"),
+                            EmailValidator(
+                                errorText:
+                                    "Veuillez saisir une adresse mail valid"),
+                          ]),
+                          icon: FontAwesomeIcons.envelope,
+                          hint: 'Email',
+                          inputType: TextInputType.emailAddress,
+                          inputAction: TextInputAction.done,
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          child: RoundedButton(
+                            buttonName: 'Envoyer',
+                            ontap: () => validate2(context),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),

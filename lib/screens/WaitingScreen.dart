@@ -9,66 +9,71 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'login-screen.dart';
 
 class WaitingS extends StatelessWidget {
-
   const WaitingS({Key key, this.uid}) : super(key: key);
 
-final String uid;
+  final String uid;
 
   @override
   Widget build(BuildContext context) {
-
-
     final DatabaseService databaseService = DatabaseService();
 
     return Material(
       child: StreamBuilder(
-        stream: databaseService.getUserStream(uid) ,
-        builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot){
-          if (snapshot.hasData&&snapshot.data!=null){
+        stream: databaseService.getUserStream(uid),
+        builder:
+            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          if (snapshot.hasData && snapshot.data != null) {
             final Myuser myuser = Myuser.fromMap(snapshot.data.data());
-            if (myuser.accepted){
+            if (myuser.accepted) {
               WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                 Navigator.pushAndRemoveUntil(
-                  context, 
-                  MaterialPageRoute(builder: (cntx)=>DashboardScreen(myuser: myuser,)),
-                  (dynamic route)=>false
-                  );
+                    context,
+                    MaterialPageRoute(
+                        builder: (cntx) => DashboardScreen(
+                              myuser: myuser,
+                            )),
+                    (dynamic route) => false);
               });
-              return Center(child: CircularProgressIndicator(),);
-            }else{
+              return SizedBox();
+            } else {
               return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-          "WAITING FOR ADMIN SCREEN",
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold
-          ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          MaterialButton(
-            color: Colors.black.withOpacity(0.7),
-            onPressed: ()async{
-              AuthenticationService().signOut().then((value){
-                  if (value){
-                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (cntx)=>LoginScreen()), (route) => false);
-                  }
-                });
-            },
-            child: Text("Log Out",style: TextStyle(color: Colors.white),),
-          )
-          ],
-        )
-      );
+                  child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Merci pour votre inscription.Veuillez attendre ",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "l'autorisation de l'administration",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  MaterialButton(
+                    color: Colors.black.withOpacity(0.7),
+                    onPressed: () async {
+                      AuthenticationService().signOut().then((value) {
+                        if (value) {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (cntx) => LoginScreen()),
+                              (route) => false);
+                        }
+                      });
+                    },
+                    child: Text(
+                      "Déconnexion",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  )
+                ],
+              ));
             }
           }
-          return Center(
-            child:CircularProgressIndicator()
-          );
+          return SizedBox();
         },
       ),
     );

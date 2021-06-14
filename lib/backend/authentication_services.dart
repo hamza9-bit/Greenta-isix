@@ -77,7 +77,8 @@ class AuthenticationService {
           }).onError((error, stackTrace) => false);
         } else {
           toast.Fluttertoast.showToast(
-              msg: "compte déja existant!",
+              msg:
+                  "une erreur est survenue.Un problème de connexion ou compte déja existant!",
               timeInSecForIosWeb: 3,
               backgroundColor: Colors.red.withOpacity(0.8),
               gravity: toast.ToastGravity.TOP);

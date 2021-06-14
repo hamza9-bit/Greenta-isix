@@ -105,7 +105,7 @@ class SinistreView extends StatelessWidget {
           if (snapshot.hasData && snapshot.data != null) {
             if (snapshot.data.docs.isEmpty) {
               return Center(
-                child: Text("NO SINISTRES ENCORE.",
+                child: Text("PAS ENCORE DU SINISTRE.",
                     style: TextStyle(fontSize: 23)),
               );
             } else {

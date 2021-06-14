@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:CTAMA/screens/WaitingScreen.dart';
 import 'package:CTAMA/screens/accueil.dart';
+import 'package:CTAMA/screens/tutorial.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';

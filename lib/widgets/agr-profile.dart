@@ -214,9 +214,8 @@ class _AgrProfileState extends State<AgrProfile> {
                   ),
                   padding: EdgeInsets.all(5.0),
                   decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.red,
-                  ),
+                      shape: BoxShape.circle,
+                      color: nbsin > 0 ? Colors.red : Colors.grey),
                 ),
               ),
             ),

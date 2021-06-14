@@ -349,36 +349,6 @@ class _MapScreenState extends State<MapScreen> {
                           )),
                     ),
                   )
-                  /*widget.targetCameraPosition == null && mapProv.isEditMode
-                      ? Align(
-                          alignment: Alignment.bottomLeft,
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.only(bottom: 30, left: 20),
-                            child: InkWell(
-                              onTap: () {
-                                mapProv.addGpsLocation(
-                                    mode: widget.trackingMode);
-                              },
-                              child: Container(
-                                width: 40,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                    color: isSatellite
-                                        ? Colors.white
-                                        : widget.toolColor,
-                                    borderRadius: BorderRadius.circular(50)),
-                                child: Icon(
-                                  widget.iconGPSPoint,
-                                  color: isSatellite
-                                      ? Colors.black87
-                                      : Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
-                      :SizedBox(height: 0, width: 0),*/
                 ],
               ),
             );

@@ -285,10 +285,19 @@ class _PageState extends State<Page> with SingleTickerProviderStateMixin {
                         child: TextFormField(
                           initialValue: answers[6],
                           validator: (string) {
-                            if (string.length <= 5) {
-                              return "Enter une valide reponse!";
+                            List<String> produits = [
+                              "pomme",
+                              "pomme de terre",
+                              "pastèque",
+                              "abricot",
+                              "pêche",
+                              "poire",
+                              "mangue"
+                            ];
+                            if (produits.contains(string)) {
+                              return null;
                             }
-                            return null;
+                            return "Enter une valide reponse!";
                           },
                           onChanged: (prod) {
                             answers[widget.number - 1] = prod;
@@ -339,8 +348,8 @@ class _PageState extends State<Page> with SingleTickerProviderStateMixin {
                           }
                         }
                       },
-                      child: Text("Continue"),
-                      color: Colors.red,
+                      child: Text("Continuer"),
+                      color: Colors.orange[900],
                     )
                   ],
                 )),

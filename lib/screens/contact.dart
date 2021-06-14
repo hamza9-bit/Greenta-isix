@@ -2,9 +2,9 @@ import 'package:CTAMA/backend/authentication_services.dart';
 import 'package:CTAMA/models/user.dart';
 import 'package:CTAMA/screens/Agriculteur-screen.dart';
 import 'package:CTAMA/screens/accueil.dart';
-import 'package:CTAMA/screens/aide.dart';
 
 import 'package:CTAMA/screens/login-screen.dart';
+import 'package:CTAMA/screens/tutorial.dart';
 import 'package:CTAMA/screens/viewagence.dart';
 import 'package:CTAMA/widgets/background-image.dart';
 import 'package:CTAMA/widgets/iconliste.dart';
@@ -164,7 +164,17 @@ class _ContactState extends State<Contact> {
             icon: Icons.person,
             text: 'MON PANNEAU',
             ontap: () => getlogfromuser(context, widget.id, widget.myuser),
-          )
+          ),
+          IconListTitle(
+              icon: Icons.help,
+              text: 'AIDE',
+              ontap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => IntroSliderPage(
+                            id: widget.id,
+                            myuser: widget.myuser,
+                          )))),
         ],
       )),
       body: GridView.count(

@@ -4,6 +4,7 @@ import 'package:CTAMA/screens/Agriculteur-screen.dart';
 import 'package:CTAMA/screens/aide.dart';
 import 'package:CTAMA/screens/contact.dart';
 import 'package:CTAMA/screens/login-screen.dart';
+import 'package:CTAMA/screens/tutorial.dart';
 import 'package:CTAMA/screens/viewagence.dart';
 import 'package:CTAMA/widgets/background-image.dart';
 import 'package:CTAMA/widgets/iconliste.dart';
@@ -154,7 +155,17 @@ class _AccueilState extends State<Accueil> {
               icon: Icons.person,
               text: 'MON PANNEAU',
               ontap: () => getlogfromuser(context, widget.id, widget.myuser),
-            )
+            ),
+            IconListTitle(
+                icon: Icons.help,
+                text: 'AIDE',
+                ontap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => IntroSliderPage(
+                              id: widget.id,
+                              myuser: widget.myuser,
+                            )))),
             /*IconListTitle(Icons.feedback,'A PROPOS' ,  ()=>Propos()),*/
           ],
         ),

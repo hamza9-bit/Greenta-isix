@@ -7,6 +7,7 @@ import 'package:CTAMA/screens/aide.dart';
 import 'package:CTAMA/screens/ajouter-agence.dart';
 import 'package:CTAMA/screens/contact.dart';
 import 'package:CTAMA/screens/saved_parcelle_ag.dart';
+import 'package:CTAMA/screens/tutorial.dart';
 
 import 'package:CTAMA/screens/viewagence.dart';
 import 'package:CTAMA/widgets/background-image.dart';
@@ -221,7 +222,17 @@ class _DashboardState extends State<Dashboard>
                 text: 'MON PANNEAU',
                 ontap: () =>
                     widget.getlogfromuser(context, widget.id, widget.myuser),
-              )
+              ),
+              IconListTitle(
+                  icon: Icons.help,
+                  text: 'AIDE',
+                  ontap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => IntroSliderPage(
+                                id: widget.id,
+                                myuser: widget.myuser,
+                              )))),
               /*IconListTitle(Icons.feedback,'A PROPOS' ,  ()=>Propos()),*/
             ],
           ),

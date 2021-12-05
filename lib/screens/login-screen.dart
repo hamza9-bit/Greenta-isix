@@ -2,9 +2,7 @@ import 'package:CTAMA/models/user.dart';
 import 'package:CTAMA/screens/Admin-Panel.dart';
 import 'package:CTAMA/screens/WaitingScreen.dart';
 import 'package:CTAMA/screens/accueil.dart';
-import 'package:CTAMA/screens/contact.dart';
-import 'package:CTAMA/screens/tutorial.dart';
-import 'package:CTAMA/screens/viewagence.dart';
+
 import 'package:CTAMA/widgets/iconliste.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart' as toast;
@@ -144,7 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
           appBar: AppBar(
             elevation: 0,
             backgroundColor: Colors.transparent,
-            iconTheme: IconThemeData(color: Colors.orange[900]),
+            iconTheme: IconThemeData(color: Colors.green[900]),
             actions: [
               IconButton(
                   padding: EdgeInsets.all(5.0),
@@ -162,8 +160,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 DrawerHeader(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(colors: <Color>[
-                      Colors.blue[600],
-                      Colors.blue[900],
+                      Colors.green[600],
+                      Colors.green[900],
                     ]),
                   ),
                   child: Container(
@@ -197,52 +195,19 @@ class _LoginScreenState extends State<LoginScreen> {
                                 )))),
 
                 /*IconListTitle(Icons.person,'MON COMPTE',   ()=>Profil()),*/
-                IconListTitle(
-                    icon: Icons.contacts,
-                    text: 'CONTACT',
-                    ontap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Contact(
-                                  id: widget.id,
-                                  myuser: widget.myuser,
-                                )))),
+
                 IconListTitle(
                     icon: geticonfromuser(),
                     text: "${getResponsefromuser()}",
                     ontap: () =>
                         getauthfromuser(context, widget.id, widget.myuser)),
                 IconListTitle(
-                    icon: Icons.location_pin,
-                    text: 'NOS AGENCES',
-                    ontap: () => Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Viewagence()))),
-                IconListTitle(
                   icon: Icons.person,
                   text: 'MON PANNEAU',
                   ontap: () =>
                       getlogfromuser(context, widget.id, widget.myuser),
                 ),
-                IconListTitle(
-                    icon: Icons.contacts,
-                    text: 'CONTACT',
-                    ontap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => IntroSliderPage(
-                                  id: widget.id,
-                                  myuser: widget.myuser,
-                                )))),
-                IconListTitle(
-                    icon: Icons.help,
-                    text: 'AIDE',
-                    ontap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => IntroSliderPage(
-                                  id: widget.id,
-                                  myuser: widget.myuser,
-                                )))),
+
                 /*IconListTitle(Icons.feedback,'A PROPOS' ,  ()=>Propos()),*/
               ],
             ),
@@ -259,7 +224,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Container(
                     alignment: Alignment.center,
                     child: Text(
-                      'CTAMA',
+                      'GREENTA',
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 50,

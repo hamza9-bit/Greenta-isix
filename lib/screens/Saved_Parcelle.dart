@@ -1,5 +1,5 @@
 import 'package:CTAMA/backend/database.dart';
-import 'package:CTAMA/models/myMarker.dart';
+
 import 'package:CTAMA/models/parcelle_poly.dart';
 import 'package:CTAMA/screens/SavedPar_View.dart';
 import 'package:flutter/material.dart';
@@ -13,67 +13,39 @@ class SavedParcelle extends StatelessWidget {
 
   SavedParcelle({Key key, this.uid, this.iamagri = false}) : super(key: key);
 
-  Future<bool> createDialog(
-    BuildContext context,
-    String id,
-  ) async {
-    final GlobalKey<FormState> globalKey = GlobalKey<FormState>();
-    final TextEditingController textEditingController = TextEditingController();
-
-    return await showDialog(
-      context: context,
-      builder: (cntx) {
-        return new AlertDialog(
-          actions: [
-            MaterialButton(
-              onPressed: () async {
-                try {
-                  final bool exist = await DatabaseService()
-                      .isrefAlreadyExist(textEditingController.text, uid);
-                  print(exist);
-                  if (exist != null) {
-                    if (!exist) {
-                      if (globalKey.currentState.validate()) {
-                        return await DatabaseService()
-                            .setRef(textEditingController.text, id, uid)
-                            .then((value) {
-                          Navigator.of(context).pop(value);
-                        });
-                      }
-                    } else {
-                      toast.Fluttertoast.showToast(
-                          msg: "Réference existe déja",
-                          timeInSecForIosWeb: 3,
-                          backgroundColor: Colors.red.withOpacity(0.8),
-                          gravity: toast.ToastGravity.TOP);
-                    }
-                  }
-                } catch (e) {
-                  print(e);
-                }
-              },
-              child: Text("Enregistrer"),
-            )
-          ],
-          content: Container(
-            child: Form(
-              key: globalKey,
-              child: TextFormField(
-                controller: textEditingController,
-                validator: (String str) {
-                  if (str.isEmpty) {
-                    return "Veuillez entrez une réference ";
-                  }
-                  return null;
+  Future<bool> createDialog2(BuildContext context, String uid, String id) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("êtes-vous sûr de vouloir envoyer une demande?"),
+            elevation: 10,
+            actions: [
+              MaterialButton(
+                onPressed: () {
+                  Navigator.of(context).pop(false);
                 },
-                decoration: InputDecoration(border: OutlineInputBorder()),
+                child: Text("Non"),
               ),
-            ),
-          ),
-          title: Text("Entrer Réference : "),
-        );
-      },
-    );
+              MaterialButton(
+                onPressed: () {
+                  toast.Fluttertoast.showToast(
+                      msg: "Demande envoyée avec succés",
+                      timeInSecForIosWeb: 3,
+                      backgroundColor: Colors.green.withOpacity(0.8),
+                      gravity: toast.ToastGravity.TOP);
+                  Navigator.of(context).pop(true);
+                },
+                child: Text(
+                  "Oui",
+                  style: TextStyle(
+                    color: Colors.red,
+                  ),
+                ),
+              )
+            ],
+          );
+        });
   }
 
   Future<bool> createDialog1(BuildContext context, String uid, String id) {
@@ -123,7 +95,7 @@ class SavedParcelle extends StatelessWidget {
             )
           : SizedBox(),
       appBar: AppBar(
-        backgroundColor: Colors.orange[900],
+        backgroundColor: Colors.green,
         title: Text(" PARCELLES"),
       ),
       body: StreamBuilder(
@@ -165,32 +137,11 @@ class SavedParcelle extends StatelessWidget {
                                           context, uid, myPpolygon.id),
                                     ),
                                     IconButton(
-                                      icon: Icon(Icons.edit_outlined),
+                                      icon: Icon(Icons.send),
                                       color: Colors.green,
                                       onPressed: () async {
-                                        createDialog(
-                                          context,
-                                          myPpolygon.id,
-                                        ).then((value) {
-                                          if (value) {
-                                            toast.Fluttertoast.showToast(
-                                                msg:
-                                                    "Réference ajoutée avec succés",
-                                                timeInSecForIosWeb: 3,
-                                                backgroundColor: Colors.green
-                                                    .withOpacity(0.8),
-                                                gravity:
-                                                    toast.ToastGravity.TOP);
-                                          } else {
-                                            toast.Fluttertoast.showToast(
-                                                msg: "echéc",
-                                                timeInSecForIosWeb: 3,
-                                                backgroundColor:
-                                                    Colors.red.withOpacity(0.8),
-                                                gravity:
-                                                    toast.ToastGravity.TOP);
-                                          }
-                                        });
+                                        createDialog2(
+                                            context, uid, myPpolygon.id);
                                       },
                                     ),
                                   ],
@@ -215,6 +166,6 @@ String getResponsefromParcelle(MyPpolygon myPpolygon) {
   if (myPpolygon.reference == "null") {
     return "Parcelle non affectée";
   } else {
-    return "Parcelle n° ${myPpolygon.reference}";
+    return "Parcelle affectée";
   }
 }

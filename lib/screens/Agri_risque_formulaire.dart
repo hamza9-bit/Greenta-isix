@@ -85,7 +85,8 @@ class _FlightsStepperState extends State<FlightsStepper> {
         Page(
           key: Key('page2'),
           onOptionSelected: () => goToNext(2),
-          question: 'Utilisez-vous des chiens pour vos activités de garde ?',
+          question:
+              ' avez-vous déja fait une actvite sur votre parcelle au cours des 5 dernières années ?',
           answers: <String>['Oui', 'Non'],
           number: 2,
         ),

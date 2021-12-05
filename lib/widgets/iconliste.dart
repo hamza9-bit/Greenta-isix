@@ -14,10 +14,10 @@ class IconListTitle extends StatelessWidget {
         decoration: BoxDecoration(
             border: Border(
                 bottom: BorderSide(
-          color: Colors.blue[100],
+          color: Colors.green[100],
         ))),
         child: InkWell(
-          splashColor: Colors.blue[400],
+          splashColor: Colors.green[400],
           onTap: ontap,
           child: Container(
             height: 40,
@@ -28,7 +28,7 @@ class IconListTitle extends StatelessWidget {
                   children: <Widget>[
                     Icon(
                       icon,
-                      color: Colors.blue[700],
+                      color: Colors.green[700],
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),

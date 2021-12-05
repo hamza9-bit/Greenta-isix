@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:CTAMA/screens/WaitingScreen.dart';
 import 'package:CTAMA/screens/accueil.dart';
-import 'package:CTAMA/screens/tutorial.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -66,7 +66,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue[900],
+      backgroundColor: Colors.green[200],
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -81,7 +81,7 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Text("Chargement de l'application CTAMA",
+              child: Text("Chargement de l'application GREENTA",
                   style: TextStyle(fontSize: 18, color: Colors.white)),
             ),
             Container(

@@ -2,14 +2,13 @@ import 'package:CTAMA/backend/authentication_services.dart';
 import 'package:CTAMA/models/user.dart';
 import 'package:CTAMA/screens/Agriculteur-screen.dart';
 import 'package:CTAMA/screens/aide.dart';
-import 'package:CTAMA/screens/contact.dart';
+
 import 'package:CTAMA/screens/login-screen.dart';
-import 'package:CTAMA/screens/tutorial.dart';
-import 'package:CTAMA/screens/viewagence.dart';
+
 import 'package:CTAMA/widgets/background-image.dart';
 import 'package:CTAMA/widgets/iconliste.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 
@@ -99,8 +98,8 @@ class _AccueilState extends State<Accueil> {
             DrawerHeader(
               decoration: BoxDecoration(
                 gradient: LinearGradient(colors: <Color>[
-                  Colors.blue[600],
-                  Colors.blue[900],
+                  Colors.green[600],
+                  Colors.green[900],
                 ]),
               ),
               child: Container(
@@ -129,43 +128,17 @@ class _AccueilState extends State<Accueil> {
                               id: widget.id,
                               myuser: widget.myuser,
                             )))),
-
-            /*IconListTitle(Icons.person,'MON COMPTE',   ()=>Profil()),*/
-            IconListTitle(
-                icon: Icons.contacts,
-                text: 'CONTACT',
-                ontap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => Contact(
-                              id: widget.id,
-                              myuser: widget.myuser,
-                            )))),
             IconListTitle(
                 icon: geticonfromuser(),
                 text: "${getResponsefromuser()}",
                 ontap: () =>
                     getauthfromuser(context, widget.id, widget.myuser)),
             IconListTitle(
-                icon: Icons.location_pin,
-                text: 'NOS AGENCES',
-                ontap: () => Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Viewagence()))),
-            IconListTitle(
               icon: Icons.person,
               text: 'MON PANNEAU',
               ontap: () => getlogfromuser(context, widget.id, widget.myuser),
             ),
-            IconListTitle(
-                icon: Icons.help,
-                text: 'AIDE',
-                ontap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => IntroSliderPage(
-                              id: widget.id,
-                              myuser: widget.myuser,
-                            )))),
+
             /*IconListTitle(Icons.feedback,'A PROPOS' ,  ()=>Propos()),*/
           ],
         ),
@@ -174,7 +147,7 @@ class _AccueilState extends State<Accueil> {
           child: CustomScrollView(
         slivers: [
           SliverAppBar(
-            backgroundColor: Colors.orange[800],
+            backgroundColor: Colors.orange[900],
             title: Text('Accueil'),
             centerTitle: false,
             floating: true,

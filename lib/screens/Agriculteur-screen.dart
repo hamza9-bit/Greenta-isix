@@ -1,15 +1,12 @@
 import 'dart:async';
 import 'package:CTAMA/models/user.dart';
-import 'package:CTAMA/screens/NosAgences.dart';
-import 'package:CTAMA/screens/accueil.dart';
-import 'package:CTAMA/screens/agr-sinsitres.dart';
-import 'package:CTAMA/screens/aide.dart';
-import 'package:CTAMA/screens/ajouter-agence.dart';
-import 'package:CTAMA/screens/contact.dart';
-import 'package:CTAMA/screens/saved_parcelle_ag.dart';
-import 'package:CTAMA/screens/tutorial.dart';
 
-import 'package:CTAMA/screens/viewagence.dart';
+import 'package:CTAMA/screens/accueil.dart';
+
+import 'package:CTAMA/screens/aide.dart';
+
+import 'package:CTAMA/screens/saved_parcelle_ag.dart';
+
 import 'package:CTAMA/widgets/background-image.dart';
 import 'package:CTAMA/widgets/iconliste.dart';
 import 'package:flutter/material.dart';
@@ -118,11 +115,11 @@ class _DashboardState extends State<Dashboard>
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 1,
       child: Scaffold(
         appBar: AppBar(
           elevation: 5,
-          backgroundColor: Colors.orange[800],
+          backgroundColor: Colors.green,
           title: Text(
             "Panneau d'agriculteur",
           ),
@@ -139,22 +136,15 @@ class _DashboardState extends State<Dashboard>
             indicatorColor: Theme.of(context).primaryColor,
             indicatorWeight: 3,
             labelPadding: EdgeInsets.only(bottom: 10),
-            unselectedLabelColor: Colors.blue[500],
+            unselectedLabelColor: Colors.green[500],
             tabs: [
               Text(
                 'Parcelles',
                 style: TextStyle(
                     fontSize: 19,
-                    color: Colors.blue[900],
+                    color: Colors.orange[200],
                     fontWeight: FontWeight.bold),
               ),
-              Text(
-                'Sinistres',
-                style: TextStyle(
-                    fontSize: 19,
-                    color: Colors.blue[900],
-                    fontWeight: FontWeight.bold),
-              )
             ],
           ),
         ),
@@ -165,8 +155,8 @@ class _DashboardState extends State<Dashboard>
               DrawerHeader(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(colors: <Color>[
-                    Colors.blue[600],
-                    Colors.blue[900],
+                    Colors.green[600],
+                    Colors.green[900],
                   ]),
                 ),
                 child: Container(
@@ -195,44 +185,18 @@ class _DashboardState extends State<Dashboard>
                                 id: widget.id,
                                 myuser: widget.myuser,
                               )))),
-
-              /*IconListTitle(Icons.person,'MON COMPTE',   ()=>Profil()),*/
-              IconListTitle(
-                  icon: Icons.contacts,
-                  text: 'CONTACT',
-                  ontap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Contact(
-                                id: widget.id,
-                                myuser: widget.myuser,
-                              )))),
               IconListTitle(
                   icon: widget.geticonfromuser(),
                   text: "${widget.getResponsefromuser()}",
                   ontap: () => widget.getauthfromuser(
                       context, widget.id, widget.myuser)),
               IconListTitle(
-                  icon: Icons.location_pin,
-                  text: 'NOS AGENCES',
-                  ontap: () => Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Viewagence()))),
-              IconListTitle(
                 icon: Icons.person,
                 text: 'MON PANNEAU',
                 ontap: () =>
                     widget.getlogfromuser(context, widget.id, widget.myuser),
               ),
-              IconListTitle(
-                  icon: Icons.help,
-                  text: 'AIDE',
-                  ontap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => IntroSliderPage(
-                                id: widget.id,
-                                myuser: widget.myuser,
-                              )))),
+
               /*IconListTitle(Icons.feedback,'A PROPOS' ,  ()=>Propos()),*/
             ],
           ),
@@ -242,13 +206,6 @@ class _DashboardState extends State<Dashboard>
             SavedParcelleag(
               uid: widget.myuser.id,
             ),
-            AgriSinistre(
-              cin: widget.myuser.cin,
-              iamAgri: true,
-              nbsin: widget.myuser.nbSinisitre,
-              readOnly: true,
-              uid: widget.myuser.id,
-            )
           ]),
         ),
       ),

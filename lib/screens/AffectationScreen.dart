@@ -5,6 +5,8 @@ import 'package:CTAMA/widgets/agr-profile.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'login-screen.dart';
+
 class Affectation extends StatelessWidget {
   Future<bool> createDialog1(BuildContext context, String id) {
     return showDialog(
@@ -42,8 +44,30 @@ class Affectation extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.orange[900],
-        title: Text("AFFECTATIONS"),
+        backgroundColor: Colors.green,
+        title: Text("PARCELLES"),
+        actions: <Widget>[
+          FlatButton.icon(
+            icon: Icon(
+              Icons.person,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (cntx) => LoginScreen()),
+                  (route) => false);
+              print("PERFORM ADMIN DECONNECTION");
+            },
+            label: Text(
+              'Déconnexion',
+              style: TextStyle(
+                  fontSize: 13,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
       ),
       body: StreamBuilder(
         stream: DatabaseService().getNoAffectedParcelle(),
@@ -85,7 +109,7 @@ class Affectation extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Text(
-                                      "Affectation n°$index",
+                                      "Parcelle n°$index",
                                       style: TextStyle(fontSize: 17),
                                     ),
                                     SizedBox(

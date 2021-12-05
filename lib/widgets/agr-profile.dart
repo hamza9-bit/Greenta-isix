@@ -1,10 +1,9 @@
 import 'package:CTAMA/backend/database.dart';
-import 'package:CTAMA/models/mysinistre.dart';
 import 'package:CTAMA/models/user.dart';
 import 'package:CTAMA/screens/Saved_Parcelle.dart';
-import 'package:CTAMA/screens/SinistreScreen.dart';
+
 import 'package:CTAMA/screens/agri-risques.dart';
-import 'package:CTAMA/screens/rapport-agri.dart';
+
 import 'package:CTAMA/screens/saved_parcelle_ag.dart';
 
 import 'package:flutter/material.dart';
@@ -13,13 +12,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class AgrProfile extends StatefulWidget {
   final Myuser myuser;
   final String uid;
-  final Mysinistre mysinis;
 
   const AgrProfile({
     Key key,
     this.myuser,
     this.uid,
-    this.mysinis,
   }) : super(key: key);
 
   @override
@@ -31,7 +28,7 @@ class _AgrProfileState extends State<AgrProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.orange[900],
+        backgroundColor: Colors.green,
         title: Text("Profil D'agriculteur"),
       ),
       body: SingleChildScrollView(
@@ -59,7 +56,7 @@ class _AgrProfileState extends State<AgrProfile> {
                     if (snapshot.hasData && snapshot.data != null) {
                       if (snapshot.data.data() == null) {
                         return Center(
-                          child: Text("ERROR"),
+                          child: Text("Aucun agriculteur"),
                         );
                       } else {
                         final Myuser myuser =
@@ -67,13 +64,13 @@ class _AgrProfileState extends State<AgrProfile> {
                         return Column(
                           children: [
                             _getHeader(myuser.imageUrl),
-                            SizedBox(height: 10),
+                            SizedBox(height: 30),
                             _profilename(myuser.name),
                             SizedBox(height: 30),
                             _heading("Informations personnelles"),
                             SizedBox(height: 6),
                             _detailsCard(myuser.email, myuser.name, myuser.cin),
-                            SizedBox(height: 10),
+                            SizedBox(height: 30),
                             _heading("Informations professionelles"),
                             _settingsCard(myuser.id, myuser.nbSinisitre),
                           ],
@@ -137,7 +134,7 @@ class _AgrProfileState extends State<AgrProfile> {
               color: Colors.black87,
             ),
             ListTile(
-              leading: Icon(Icons.perm_identity),
+              leading: Icon(Icons.call),
               title: Text(identity),
             )
           ],
@@ -179,11 +176,9 @@ class _AgrProfileState extends State<AgrProfile> {
                         )));
               },
               child: ListTile(
-                leading: Icon(
-                  Icons.dangerous,
-                ),
+                leading: Icon(Icons.format_list_bulleted),
                 title: Text(
-                  "Risques",
+                  "Details",
                 ),
               ),
             ),
@@ -191,47 +186,6 @@ class _AgrProfileState extends State<AgrProfile> {
               height: 6,
               color: Colors.black87,
             ),
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (cntx) => SinistreView(
-                          mysinistre: widget.mysinis,
-                          myuser: widget.myuser,
-                          uid: id,
-                          readOnly: true,
-                        )));
-              },
-              child: ListTile(
-                leading: Icon(Icons.dangerous,
-                    color: nbsin > 0 ? Colors.red : Colors.grey),
-                title: Text(
-                  "Sinistre",
-                ),
-                trailing: Container(
-                  child: Text(
-                    "$nbsin",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  padding: EdgeInsets.all(5.0),
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: nbsin > 0 ? Colors.red : Colors.grey),
-                ),
-              ),
-            ),
-            Divider(
-              height: 6,
-              color: Colors.black87,
-            ),
-            GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (cntx) => Rapportagri(uid: id)));
-                },
-                child: ListTile(
-                  leading: Icon(Icons.copy_outlined),
-                  title: Text("rapports"),
-                ))
           ],
         ),
       ),

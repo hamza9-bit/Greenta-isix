@@ -86,11 +86,6 @@ class _ViewagenceState extends State<Viewagence> {
                   color: Colors.white),
             ),
             SizedBox(height: 20),
-            Text(
-              'veuillez identifier et localiser vos agences',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16, color: Colors.white),
-            ),
           ],
         )),
       ),

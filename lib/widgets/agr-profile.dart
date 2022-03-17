@@ -59,7 +59,7 @@ class _AgrProfileState extends State<AgrProfile> {
                     if (snapshot.hasData && snapshot.data != null) {
                       if (snapshot.data.data() == null) {
                         return Center(
-                          child: Text("ERROR"),
+                          child: Text("Aucun agriculteur"),
                         );
                       } else {
                         final Myuser myuser =

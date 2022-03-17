@@ -239,7 +239,7 @@ class _AttachmentSheetState extends State<AttachmentSheet> {
                     duration: Duration(milliseconds: 200),
                     padding: EdgeInsets.all(10.0),
                     decoration: BoxDecoration(
-                        color: Colors.blue,
+                        color: Colors.blue[900],
                         borderRadius:
                             BorderRadius.circular(isDownload ? 25.0 : 25.0)),
                     child: Center(

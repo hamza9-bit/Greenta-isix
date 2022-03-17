@@ -125,73 +125,86 @@ class SinistreView extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: ListTile(
-                              leading: GestureDetector(
-                                onTap: () async {
-                                  showImagesModal(
-                                      context, mysinistre.imagesUrl);
-                                },
-                                child: Stack(
-                                  alignment: Alignment.bottomRight,
-                                  children: [
-                                    CircleAvatar(
-                                      radius: 30,
-                                      backgroundImage: Image.network((mysinistre
-                                                          .imagesUrl
-                                                      as List<dynamic>)
-                                                  .isNotEmpty
-                                              ? mysinistre.imagesUrl[0]
-                                                  .toString()
-                                              : "https://images.fosterwebmarketing.com/438/Fire_on_Farm_Land.jpeg")
-                                          .image,
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.all(2.0),
-                                      decoration: BoxDecoration(
-                                          color: Colors.grey,
-                                          shape: BoxShape.circle),
-                                      child: Text(
-                                          "+${mysinistre.imagesUrl.length}",
-                                          style:
-                                              TextStyle(color: Colors.white)),
-                                    )
-                                  ],
-                                ),
+                            leading: GestureDetector(
+                              onTap: () async {
+                                showImagesModal(context, mysinistre.imagesUrl);
+                              },
+                              child: Stack(
+                                alignment: Alignment.bottomRight,
+                                children: [
+                                  CircleAvatar(
+                                    radius: 30,
+                                    backgroundImage: Image.network((mysinistre
+                                                    .imagesUrl as List<dynamic>)
+                                                .isNotEmpty
+                                            ? mysinistre.imagesUrl[0].toString()
+                                            : "https://images.fosterwebmarketing.com/438/Fire_on_Farm_Land.jpeg")
+                                        .image,
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.all(2.0),
+                                    decoration: BoxDecoration(
+                                        color: Colors.grey,
+                                        shape: BoxShape.circle),
+                                    child: Text(
+                                        "+${mysinistre.imagesUrl.length}",
+                                        style: TextStyle(color: Colors.white)),
+                                  )
+                                ],
                               ),
-                              title: Text("${mysinistre.agriId}",
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold)),
-                              subtitle: Text(
-                                  "Parcelle N°${mysinistre.parcelleRef}",
-                                  style: TextStyle(fontSize: 18)),
-                              trailing: Container(
-                                width: 100,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    if (!iamAgri)
-                                      IconButton(
-                                        icon: Icon(Icons.send_outlined),
-                                        color: Colors.green,
-                                        onPressed: () async {
-                                          showParcellesModal(context)
-                                              .then((value) {
-                                            if (value != null) {
-                                              databaseService.makeExpertCansee(
-                                                  mysinistre.sinisteid, value);
-                                            }
-                                          });
-                                        },
-                                      ),
-                                    IconButton(
-                                      icon: Icon(Icons.delete_forever_outlined),
-                                      color: Colors.red,
-                                      onPressed: () => createDialog1(context,
-                                          myuser.nbSinisitre, mysinistre),
+                            ),
+                            title: Text("${mysinistre.agriId}",
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold)),
+                            subtitle: Text(
+                                "Parcelle N°${mysinistre.parcelleRef}",
+                                style: TextStyle(fontSize: 18)),
+                            trailing: uid != null
+                                ? Container(
+                                    width: 100,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        IconButton(
+                                          icon: Icon(Icons.send_outlined),
+                                          color: Colors.green,
+                                          onPressed: () async {
+                                            showParcellesModal(context)
+                                                .then((value) {
+                                              if (value != null) {
+                                                databaseService
+                                                    .makeExpertCansee(
+                                                        mysinistre.sinisteid,
+                                                        value);
+                                              }
+                                            });
+                                          },
+                                        ),
+                                        IconButton(
+                                          icon: Icon(
+                                              Icons.delete_forever_outlined),
+                                          color: Colors.red,
+                                          onPressed: () => createDialog1(
+                                              context,
+                                              myuser.nbSinisitre,
+                                              mysinistre),
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                              )),
+                                  )
+                                : IconButton(
+                                    icon: Icon(Icons.send_outlined),
+                                    color: Colors.green,
+                                    onPressed: () async {
+                                      showParcellesModal(context).then((value) {
+                                        if (value != null) {
+                                          databaseService.makeExpertCansee(
+                                              mysinistre.sinisteid, value);
+                                        }
+                                      });
+                                    },
+                                  ),
+                          ),
                         ),
                       ));
                 },
@@ -222,7 +235,7 @@ class ExpertSelector extends StatelessWidget {
           if (snapshot.hasData && snapshot.data != null) {
             if (snapshot.data.docs.isEmpty) {
               return Center(
-                child: Text("aucune expert encore.",
+                child: Text("Pas encore d'expert.",
                     style: TextStyle(fontSize: 23)),
               );
             } else {

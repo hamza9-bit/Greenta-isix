@@ -237,7 +237,7 @@ class LoadScreen extends StatelessWidget {
               }
             }
             return Center(
-              child: SizedBox(),
+              child: CircularProgressIndicator(),
             );
           },
         ),

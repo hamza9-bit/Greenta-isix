@@ -174,7 +174,7 @@ class _AccueilState extends State<Accueil> {
           child: CustomScrollView(
         slivers: [
           SliverAppBar(
-            backgroundColor: Colors.orange[800],
+            backgroundColor: Colors.orange[900],
             title: Text('Accueil'),
             centerTitle: false,
             floating: true,

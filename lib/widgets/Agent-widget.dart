@@ -1,12 +1,9 @@
-import 'package:CTAMA/models/mysinistre.dart';
 import 'package:CTAMA/models/user.dart';
 import 'package:CTAMA/screens/AffectationScreen.dart';
 import 'package:CTAMA/screens/Agent/Ag-accounts.dart';
-import 'package:CTAMA/screens/Agent/ag-experts.dart';
+
 import 'package:CTAMA/screens/Agri_risque_formulaire.dart';
-import 'package:CTAMA/screens/rapports.dart';
-import 'package:CTAMA/screens/SinistreScreen.dart';
-import 'package:CTAMA/screens/ajouter-agence.dart';
+
 import 'package:flutter/material.dart';
 
 class Agentpage1 extends StatefulWidget {
@@ -86,56 +83,12 @@ class _Agentpage1State extends State<Agentpage1> {
             GestureDetector(
               onTap: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => SinistreView()));
-              },
-              child: _buildsinglecontainer(
-                context: context,
-                icon: Icons.dangerous,
-                name: "Sinistres",
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(context,
                     MaterialPageRoute(builder: (context) => Affectation()));
               },
               child: _buildsinglecontainer(
                 context: context,
                 icon: Icons.landscape,
                 name: "Affectation",
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Ajoutagence()));
-              },
-              child: _buildsinglecontainer(
-                context: context,
-                icon: Icons.location_city_sharp,
-                name: "Nos agences",
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Rapports()));
-              },
-              child: _buildsinglecontainer(
-                context: context,
-                icon: Icons.file_copy,
-                name: "Rapports",
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Experts()));
-              },
-              child: _buildsinglecontainer(
-                context: context,
-                icon: Icons.person,
-                name: "Nos experts",
               ),
             ),
           ],

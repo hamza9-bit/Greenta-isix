@@ -70,8 +70,6 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
           break;
         case 1:
           break;
-        case 2:
-          break;
       }
     });
   }
@@ -161,8 +159,8 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                                     "Veuillez saisir une adresse mail valid"),
                           ])),
                       TextInputField(
-                          icon: FontAwesomeIcons.envelope,
-                          hint: 'Cin',
+                          icon: Icons.call,
+                          hint: 'Numero Tel',
                           inputType: TextInputType.number,
                           inputAction: TextInputAction.next,
                           onSaved: (String mycin) => cin = mycin,
@@ -229,19 +227,7 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                             onChanged: handleRadioValueChange,
                           ),
                           Text(
-                            'Agent',
-                            style: TextStyle(
-                                fontSize: 13.0,
-                                color: Colors.white,
-                                fontFamily: 'home'),
-                          ),
-                          Radio(
-                            value: 2,
-                            groupValue: _radioValue,
-                            onChanged: handleRadioValueChange,
-                          ),
-                          Text(
-                            'Expert',
+                            'Investisseur',
                             style: TextStyle(
                                 fontSize: 13.0,
                                 color: Colors.white,
@@ -275,10 +261,10 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                               'Se connecter',
                               style: TextStyle(
                                       fontSize: 22,
-                                      color: Colors.white,
+                                      color: Colors.green[800],
                                       height: 1.5)
                                   .copyWith(
-                                      color: Color(0xff5663ff),
+                                      color: Colors.green[900],
                                       fontWeight: FontWeight.bold),
                             ),
                           ),

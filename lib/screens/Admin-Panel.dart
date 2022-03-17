@@ -87,7 +87,7 @@ class _AdminState extends State<Admin> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.orange[900],
+        backgroundColor: Colors.green[800],
         title: Text("Panneau d'admin"),
         actions: <Widget>[
           FlatButton.icon(
@@ -330,10 +330,8 @@ class _AdminState extends State<Admin> {
                     child: Image(
                       image: AssetImage(
                         myuser.role == 1
-                            ? "assets/images/agent.png"
-                            : myuser.role == 2
-                                ? "assets/images/exp.png"
-                                : "assets/images/agri.png",
+                            ? "assets/images/exp.png"
+                            : "assets/images/agri.png",
                       ),
                     )),
               ),

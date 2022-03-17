@@ -1,9 +1,10 @@
 import 'package:CTAMA/backend/authentication_services.dart';
 import 'package:CTAMA/models/user.dart';
-import 'package:CTAMA/screens/Agent/Agent-panel.dart';
+
 import 'package:CTAMA/screens/Agriculteur-screen.dart';
-import 'package:CTAMA/screens/expert/expert-screen.dart';
+
 import 'package:flutter/material.dart';
+import 'AffectationScreen.dart';
 import 'Agri_risque_formulaire.dart';
 import 'login-screen.dart';
 
@@ -22,15 +23,11 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return myuser.role == 1
-        ? Agent()
-        : myuser.role == 0
-            ? myuser.risque
-                ? Dashboard(
-                    myuser: myuser,
-                  )
-                : FlightsStepper(user: myuser)
-            : Expertscreen(
+        ? Affectation()
+        : myuser.risque
+            ? Dashboard(
                 myuser: myuser,
-              );
+              )
+            : FlightsStepper(user: myuser);
   }
 }

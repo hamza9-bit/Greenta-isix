@@ -25,15 +25,7 @@ class SavedParcelleag extends StatelessWidget {
         return new AlertDialog(
           actions: [
             MaterialButton(
-              onPressed: () async {
-                if (globalKey.currentState.validate()) {
-                  return await DatabaseService()
-                      .setRef(textEditingController.text, id, uid)
-                      .then((value) {
-                    Navigator.of(context).pop(value);
-                  });
-                }
-              },
+              onPressed: () async {},
               child: Text("Enregistrer"),
             )
           ],
@@ -98,6 +90,7 @@ class SavedParcelleag extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.green,
         onPressed: () =>
             getLocation(context, enableDragMarker: true, myuser: null),
         child: Icon(Icons.add),
@@ -124,10 +117,11 @@ class SavedParcelleag extends StatelessWidget {
                                 myPpolygon: myPpolygon,
                               ))),
                       child: Card(
+                        color: Colors.grey[200],
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ListTile(
-                              leading: Text(getResponsefromParcelle(myPpolygon),
+                              leading: Text("Parcelle n°$index",
                                   style: TextStyle(fontSize: 17)),
                               trailing: Container(
                                 width: 100,
@@ -149,6 +143,7 @@ class SavedParcelleag extends StatelessWidget {
               );
             }
           }
+
           return Center(
             child: CircularProgressIndicator(),
           );

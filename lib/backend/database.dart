@@ -2,8 +2,7 @@ import 'dart:io';
 
 import 'package:CTAMA/backend/authentication_services.dart';
 import 'package:CTAMA/models/Risque.dart';
-import 'package:CTAMA/models/myMarker.dart';
-import 'package:CTAMA/models/mysinistre.dart';
+
 import 'package:CTAMA/models/parcelle_poly.dart';
 import 'package:CTAMA/models/user.dart';
 
@@ -64,13 +63,6 @@ class DatabaseService {
     return profileList
         .where("accepted", isEqualTo: true)
         .where("role", isEqualTo: 0)
-        .snapshots();
-  }
-
-  Stream<QuerySnapshot> getExperts() {
-    return profileList
-        .where("accepted", isEqualTo: true)
-        .where("role", isEqualTo: 2)
         .snapshots();
   }
 
@@ -143,20 +135,6 @@ class DatabaseService {
     }
   }
 
-  Future<bool> addMarkersToDb(Mymarker mymarker) async {
-    try {
-      await savesCollection.doc("markers").set(mymarker.toMap(mymarker));
-      return true;
-    } catch (e) {
-      print(e);
-      return false;
-    }
-  }
-
-  Future<DocumentSnapshot> getSavedMarkers() async {
-    return await savesCollection.doc("markers").get();
-  }
-
   Future<bool> addParcelleToDB(MyPpolygon myPpolygon) async {
     try {
       final DocumentReference documentReference = profileList
@@ -179,67 +157,12 @@ class DatabaseService {
     }
   }
 
-  Future<bool> setRef(String refName, String id, String uid) async {
-    try {
-      await profileList
-          .doc(uid)
-          .collection("Parcelles")
-          .doc(id)
-          .update({"ref": refName});
-
-      await parcelleCollection.doc(id).delete();
-
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
   Stream<QuerySnapshot> getSavedParcelles(String uid) {
     return profileList.doc(uid).collection("Parcelles").snapshots();
   }
 
-  Future<bool> makeExpertCansee(String id, String uid) async {
-    return await sinistresCollec
-        .doc(id)
-        .update({"whocansee": uid})
-        .then((value) => true)
-        .onError((error, stackTrace) => false);
-  }
-
   Future<DocumentSnapshot> getRisqueByuid(String uid) async {
     return await profileList.doc(uid).collection("Risque").doc("infos").get();
-  }
-
-  Stream<QuerySnapshot> getSinistres() {
-    return sinistresCollec.snapshots();
-  }
-
-  Stream<QuerySnapshot> getSinistresWFilters(String uid) {
-    return sinistresCollec.where("agriID", isEqualTo: uid).snapshots();
-  }
-
-  Stream<QuerySnapshot> getSinistresWFiltersForExpert(String uid) {
-    return sinistresCollec.where("whocansee", isEqualTo: uid).snapshots();
-  }
-
-  Stream<QuerySnapshot> getrapports() {
-    return sinistresCollec.where("check", isEqualTo: true).snapshots();
-  }
-
-  Stream<QuerySnapshot> getrapports1(String uid) {
-    return sinistresCollec
-        .where("check", isEqualTo: true)
-        .where("agriID", isEqualTo: uid)
-        .snapshots();
-  }
-
-  Future<bool> deleteSinistre(String id) async {
-    return await sinistresCollec
-        .doc(id)
-        .delete()
-        .then((value) => true)
-        .onError((error, stackTrace) => false);
   }
 
   Stream<QuerySnapshot> getAffectedParcelle(String uid) {
@@ -262,108 +185,14 @@ class DatabaseService {
     }).onError((error, stackTrace) => false);
   }
 
-  Future<List<String>> uploadImageToDB(Map<String, String> map) async {
-    final List<String> myList = <String>[];
-
-    print(map);
-
-    await Future.forEach(map.keys, (element) async {
-      firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance
-          .ref()
-          .child('Images')
-          .child(element + element.hashCode.toString());
-
-      await ref.putFile(File(map[element])).then((tasksnAP) async {
-        myList.add(await tasksnAP.ref.getDownloadURL());
-      });
-    });
-
-    if (map.length != myList.length) {
-      return null;
-    }
-
-    return myList;
-  }
-
-  Future<String> uploadFileToDb(String path) async {
-    final String filename = path.split("/").last;
-
-    firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance
-        .ref()
-        .child('Files')
-        .child(filename + filename.hashCode.toString());
-
-    return await ref.putFile(File(path)).then((tasksnAP) async {
-      return (await tasksnAP.ref.getDownloadURL());
-    }).onError((error, stackTrace) => null);
-  }
-
-  Future<bool> sendRapport(String sinID, String date, String path) async {
-    return await uploadFileToDb(path).then((value) async {
-      if (value != null) {
-        final String filePath =
-            value + "@${path.split("/").last.split(".")[1]}";
-        try {
-          await sinistresCollec
-              .doc(sinID)
-              .update({"check": true, "date": date, "filePath": filePath});
-          return true;
-        } catch (e) {
-          return false;
-        }
-      }
-      return false;
-    }).onError((error, stackTrace) {
-      return false;
-    });
-  }
-
   Future<bool> isUserAlreadyExist(String cin) async {
     return (await profileList
-                .where("cin", isEqualTo: cin)
+                .where("Tel", isEqualTo: cin)
                 .get()
                 .onError((error, stackTrace) => null))
             .docs
             .length ==
         1;
-  }
-
-  Future<bool> isrefAlreadyExist(String ref, String uid) async {
-    return (await profileList
-                .doc(uid)
-                .collection("Parcelles")
-                .where("ref", isEqualTo: ref)
-                .get()
-                .onError((error, stackTrace) => null))
-            .docs
-            .length ==
-        1;
-  }
-
-  Future<bool> addSinistreToDb(
-      Mysinistre sinistre, Map<String, String> map, int oldsin) async {
-    return await uploadImageToDB(map).then((value) async {
-      if (value != null) {
-        sinistre.imagesUrl = value;
-      } else {
-        return false;
-      }
-      final ref = sinistresCollec.doc();
-      sinistre.sinisteid = ref.id;
-      await ref.set(sinistre.toMap(sinistre));
-      await profileList
-          .doc(sinistre.agriId)
-          .update(({"nbSinistre": oldsin + 1}));
-      return true;
-    }).onError((error, stackTrace) => false);
-  }
-
-  Future<bool> reductionSinistre(Mysinistre sinistre, int oldsin) async {
-    return await profileList
-        .doc(sinistre.agriId)
-        .update(({"nbSinistre": oldsin - 1}))
-        .then((value) => true)
-        .onError((error, stackTrace) => false);
   }
 
   Stream<QuerySnapshot> getNoAffectedParcelle() {

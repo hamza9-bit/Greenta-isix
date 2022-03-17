@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 #Thu Jun 17 18:27:45 CEST 2021
+=======
+#Sun Dec 05 11:01:41 CET 2021
+>>>>>>> 29b9f3386cbfabf2c16fc62bd9789b10a3dd1d82
 base.2=C\:\\PFE\\CTAMA\\build\\app\\intermediates\\dex\\debug\\mergeExtDexDebug\\out\\classes2.dex
 base.1=C\:\\PFE\\CTAMA\\build\\app\\intermediates\\dex\\debug\\mergeProjectDexDebug\\out\\classes.dex
 base.0=C\:\\PFE\\CTAMA\\build\\app\\intermediates\\dex\\debug\\mergeExtDexDebug\\out\\classes.dex

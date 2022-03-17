@@ -22,7 +22,7 @@ class AgriRisquesState extends State<AgriRisques> {
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.orange[900],
+        backgroundColor: Colors.green[800],
         title: Text("Risques"),
       ),
       body: FutureBuilder(
@@ -69,7 +69,7 @@ class AgriRisquesState extends State<AgriRisques> {
                         cells: [
                           DataCell(
                             Text(
-                                "Utilisez-vous des chiens pour vos activités de garde ? "),
+                                "avez-vous déja fait une actvite sur  votre parcelle au cours des 5 dernières années ? "),
                             showEditIcon: false,
                             placeholder: false,
                           ),
